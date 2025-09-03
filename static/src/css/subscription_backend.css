@@ -1,0 +1,140 @@
+/* Backend Subscription Styles */
+
+.o_form_view .oe_title h1 {
+    color: #2c3e50;
+}
+
+.o_form_view .oe_title h3 {
+    color: #7f8c8d;
+    font-weight: 400;
+}
+
+/* Plan Type Badges */
+.o_field_widget[name="plan_type"] .o_field_selection {
+    font-weight: 600;
+}
+
+.o_field_widget[name="plan_type"] .o_field_selection[data-value="try_out"] {
+    color: #6c757d;
+}
+
+.o_field_widget[name="plan_type"] .o_field_selection[data-value="free"] {
+    color: #28a745;
+}
+
+.o_field_widget[name="plan_type"] .o_field_selection[data-value="premium"] {
+    color: #ffc107;
+}
+
+/* Status Badges */
+.o_field_widget[name="state"] .o_status {
+    font-weight: 600;
+    border-radius: 15px;
+    padding: 0.3rem 0.8rem;
+}
+
+.o_field_widget[name="state"] .o_status[data-value="active"] {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.o_field_widget[name="state"] .o_status[data-value="expired"] {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Color Field Preview */
+.o_field_widget[name="color"] {
+    position: relative;
+}
+
+.o_field_widget[name="color"]::after {
+    content: '';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    background-color: var(--field-color, #fff);
+}
+
+/* Feature List Styling */
+.o_field_one2many[name="feature_ids"] .o_list_view {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.o_field_one2many[name="feature_ids"] .o_list_view th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+/* Icon Preview */
+.o_field_widget[name="icon"] {
+    position: relative;
+}
+
+.o_field_widget[name="icon"]::before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-right: 8px;
+    color: #6c757d;
+}
+
+/* Monetary Fields */
+.o_field_monetary {
+    font-weight: 600;
+    font-size: 1.1em;
+}
+
+/* Boolean Toggle Styling */
+.o_field_boolean_toggle {
+    position: relative;
+}
+
+/* Statistics Cards */
+.subscription_stats_card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.subscription_stats_card h3 {
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.subscription_stats_card .stats_number {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+/* List View Enhancements */
+.o_list_view .o_data_row:hover {
+    background-color: #f8f9fa;
+}
+
+.o_list_view .o_field_monetary {
+    text-align: right;
+}
+
+/* Form View Enhancements */
+.o_form_view .o_group {
+    margin-bottom: 1.5rem;
+}
+
+.o_form_view .o_notebook_headers .nav-link {
+    font-weight: 600;
+    border-radius: 20px 20px 0 0;
+}
+
+.o_form_view .o_notebook_headers .nav-link.active {
+    background-color: #667eea;
+    border-color: #667eea;
+    color: white;
+} 

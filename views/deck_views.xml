@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Enhanced Deck Form View -->
+    <record id="view_deck_form_subscription" model="ir.ui.view">
+        <field name="name">carddecks.deck.form.subscription</field>
+        <field name="model">carddecks.deck</field>
+        <field name="inherit_id" ref="carddecks.view_form_deck"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='description']" position="after">
+                <group string="Subscription Settings" name="subscription_group">
+                    <field name="deck_type"/>
+                </group>
+                
+                <group string="Creation Info" name="creation_group">
+                    <field name="creator_user_id"/>
+                    <field name="is_user_created"/>
+                    <field name="creation_date"/>
+                </group>
+                
+                <group string="Approval &amp; Status" name="approval_group">
+                    <field name="approval_status"/>
+                    <field name="play_count" readonly="1"/>
+                    <field name="last_played_date" readonly="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+    
+    <!-- Enhanced Deck Tree View -->
+    <record id="view_deck_tree_subscription" model="ir.ui.view">
+        <field name="name">carddecks.deck.tree.subscription</field>
+        <field name="model">carddecks.deck</field>
+        <field name="inherit_id" ref="carddecks.view_tree_deck"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='category']" position="after">
+                <field name="deck_type"/>
+                <field name="approval_status"/>
+                <field name="play_count"/>
+                <field name="creator_user_id"/>
+            </xpath>
+        </field>
+    </record>
+    
+    <!-- Deck Search View -->
+    <record id="view_deck_search_subscription" model="ir.ui.view">
+        <field name="name">carddecks.deck.search.subscription</field>
+        <field name="model">carddecks.deck</field>
+        <field name="arch" type="xml">
+            <search string="Decks">
+                <field name="name"/>
+                <field name="description"/>
+                <field name="category"/>
+                <field name="deck_type"/>
+                <field name="creator_user_id"/>
+                <field name="approval_status"/>
+                <separator/>
+                <filter name="try_out_decks" string="Try Out Decks" domain="[('deck_type', '=', 'try_out')]"/>
+                <filter name="free_decks" string="Free Decks" domain="[('deck_type', '=', 'free')]"/>
+                <filter name="premium_decks" string="Premium Decks" domain="[('deck_type', '=', 'premium')]"/>
+                <separator/>
+                <filter name="approved_decks" string="Approved" domain="[('approval_status', '=', 'approved')]"/>
+                <filter name="my_decks" string="My Decks" domain="[('creator_user_id', '=', uid)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_by_deck_type" string="Deck Type" domain="[]" context="{'group_by': 'deck_type'}"/>
+                    <filter name="group_by_approval_status" string="Approval Status" domain="[]" context="{'group_by': 'approval_status'}"/>
+                    <filter name="group_by_creator" string="Creator" domain="[]" context="{'group_by': 'creator_user_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    
+</odoo>

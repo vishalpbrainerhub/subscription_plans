@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.subscription.plans</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Subscription Plans" string="Subscription Plans" data-key="subscription_plans">
+                        <h2>reCAPTCHA v2 Configuration</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="recaptcha_v2_site_key" class="o_form_label">reCAPTCHA v2 Site Key</label>
+                                    <div class="text-muted">
+                                        Enter your reCAPTCHA v2 site key from the Google reCAPTCHA admin console
+                                    </div>
+                                    <field name="recaptcha_v2_site_key" placeholder="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"/>
+                                </div>
+                            </div>
+                            
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="recaptcha_v2_secret_key" class="o_form_label">reCAPTCHA v2 Secret Key</label>
+                                    <div class="text-muted">
+                                        Enter your reCAPTCHA v2 secret key from the Google reCAPTCHA admin console
+                                    </div>
+                                    <field name="recaptcha_v2_secret_key" placeholder="6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe" password="True"/>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt16">
+                            <div class="col-12">
+                                <div class="alert alert-info">
+                                    <h4><i class="fa fa-info-circle"></i> Setup Instructions</h4>
+                                    <p>To use reCAPTCHA v2 with your subscription signup form:</p>
+                                    <ol>
+                                        <li>Go to <a href="https://www.google.com/recaptcha/admin" target="_blank">Google reCAPTCHA Admin Console</a></li>
+                                        <li>Create a new site with reCAPTCHA v2 "I'm not a robot" Checkbox</li>
+                                        <li>Add your domain to the list of authorized domains</li>
+                                        <li>Copy the Site Key and Secret Key to the fields above</li>
+                                        <li>Save the configuration</li>
+                                    </ol>
+                                    <p><strong>Note:</strong> For testing, you can use Google's test keys (already filled in placeholders).</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h2>Stripe Payment Configuration</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="stripe_test_mode"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="stripe_test_mode" class="o_form_label">Test Mode</label>
+                                    <div class="text-muted">
+                                        Enable test mode to use Stripe test API keys and test cards
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="stripe_publishable_key" class="o_form_label">Stripe Publishable Key</label>
+                                    <div class="text-muted">
+                                        Your Stripe publishable key (pk_test_... or pk_live_...)
+                                    </div>
+                                    <field name="stripe_publishable_key" placeholder="pk_test_..."/>
+                                </div>
+                            </div>
+                            
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="stripe_secret_key" class="o_form_label">Stripe Secret Key</label>
+                                    <div class="text-muted">
+                                        Your Stripe secret key (sk_test_... or sk_live_...)
+                                    </div>
+                                    <field name="stripe_secret_key" placeholder="sk_test_..." password="True"/>
+                                </div>
+                            </div>
+                            
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="stripe_webhook_secret" class="o_form_label">Stripe Webhook Secret</label>
+                                    <div class="text-muted">
+                                        Webhook endpoint secret for payment confirmations
+                                    </div>
+                                    <field name="stripe_webhook_secret" placeholder="whsec_..." password="True"/>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt16">
+                            <div class="col-12">
+                                <div class="alert alert-warning">
+                                    <h4><i class="fa fa-credit-card"></i> Stripe Setup Instructions</h4>
+                                    <p>To set up Stripe payments for premium subscriptions:</p>
+                                    <ol>
+                                        <li>Go to <a href="https://dashboard.stripe.com" target="_blank">Stripe Dashboard</a></li>
+                                        <li>Navigate to Developers → API keys</li>
+                                        <li>Copy your Publishable key and Secret key</li>
+                                        <li>Set up webhooks at Developers → Webhooks for payment confirmations</li>
+                                        <li>Add webhook endpoint: <code>/subscription/stripe/webhook</code></li>
+                                        <li>Select events: <code>payment_intent.succeeded</code>, <code>payment_intent.payment_failed</code></li>
+                                        <li>Copy the webhook signing secret</li>
+                                        <li>Fill in the keys above and save configuration</li>
+                                    </ol>
+                                    <p><strong>Test Mode:</strong> Use test keys (pk_test_..., sk_test_...) for development.</p>
+                                    <p><strong>Live Mode:</strong> Use live keys (pk_live_..., sk_live_...) for production.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

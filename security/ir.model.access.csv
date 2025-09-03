@@ -1,0 +1,17 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_subscription_plan_public,subscription.plan public,model_subscription_plan,,1,0,0,0
+access_subscription_plan_user,subscription.plan user,model_subscription_plan,base.group_user,1,0,0,0
+access_subscription_plan_portal,subscription.plan portal,model_subscription_plan,base.group_portal,1,0,0,0
+access_subscription_plan_manager,subscription.plan manager,model_subscription_plan,base.group_system,1,1,1,1
+access_subscription_plan_feature_public,subscription.plan.feature public,model_subscription_plan_feature,,1,0,0,0
+access_subscription_plan_feature_user,subscription.plan.feature user,model_subscription_plan_feature,base.group_user,1,0,0,0
+access_subscription_plan_feature_portal,subscription.plan.feature portal,model_subscription_plan_feature,base.group_portal,1,0,0,0
+access_subscription_plan_feature_manager,subscription.plan.feature manager,model_subscription_plan_feature,base.group_system,1,1,1,1
+access_user_subscription_public,user.subscription public,model_user_subscription,,1,0,0,0
+access_user_subscription_own,user.subscription own,model_user_subscription,base.group_user,1,1,1,0
+access_user_subscription_portal,user.subscription portal,model_user_subscription,base.group_portal,1,1,1,0
+access_user_subscription_manager,user.subscription manager,model_user_subscription,base.group_system,1,1,1,1
+access_stripe_payment_user,stripe.payment user,model_stripe_payment,base.group_user,1,1,1,0
+access_stripe_payment_portal,stripe.payment portal,model_stripe_payment,base.group_portal,1,1,1,0
+access_stripe_payment_manager,stripe.payment manager,model_stripe_payment,base.group_system,1,1,1,1
+

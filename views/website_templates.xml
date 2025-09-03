@@ -1,0 +1,1195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="subscription_page_new" name="Subscription Plans">
+            <t t-call="website.layout">
+                <div id="wrap">
+                    <div class="container mt-5 mb-5">
+                        <!-- Header Section -->
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h1>Subscription Plans</h1>
+                                <p class="lead">Choose the perfect plan for your needs</p>
+                            </div>
+                        </div>
+
+                        <!-- Current Subscription Section (Only for authenticated users) -->
+                        <t t-if="current_subscription">
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <div class="alert alert-info current-subscription-alert">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-8">
+                                                <h5 class="mb-2">
+                                                    <i class="fa fa-check-circle text-success me-2"></i>
+                                                    Your Current Plan: <strong t-field="current_subscription.plan_id.name"/>
+                                                </h5>
+                                                <p class="mb-0">
+                                                    <t t-if="current_subscription.plan_type == 'premium'">
+                                                        <span class="badge bg-success me-2">Premium Active</span>
+                                                        You have access to all premium features!
+                                                    </t>
+                                                    <t t-elif="current_subscription.plan_type == 'free'">
+                                                        <span class="badge bg-primary me-2">Free Plan</span>
+                                                        Upgrade to premium for unlimited access!
+                                                    </t>
+                                                    <t t-elif="current_subscription.plan_type == 'try_out'">
+                                                        <span class="badge bg-warning me-2">Trial</span>
+                                                        Try out our features - upgrade for full access!
+                                                    </t>
+                                                </p>
+                                                <small class="text-muted">
+                                                    Active since: <span t-field="current_subscription.start_date" t-options="{'widget': 'date'}"/>
+                                                    <t t-if="current_subscription.end_date">
+                                                        | Expires: <span t-field="current_subscription.end_date" t-options="{'widget': 'date'}"/>
+                                                    </t>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-4 text-md-end">
+                                                <div class="d-flex flex-column flex-md-row gap-2 justify-content-md-end align-items-md-center">
+                                                    <a href="/my/subscription" class="btn btn-outline-secondary btn-sm">
+                                                        <i class="fa fa-history me-1"></i>View History
+                                                    </a>
+                                                    <t t-if="current_subscription.plan_type == 'premium'">
+                                                        <span class="premium-user-badge">
+                                                            <i class="fa fa-star me-1"></i>
+                                                            Premium User
+                                                        </span>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <a href="#subscription-plans" class="btn btn-success">
+                                                            <i class="fa fa-arrow-up"></i> Upgrade Plan
+                                                        </a>
+                                                    </t>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+
+                        <!-- Subscription Plans Section -->
+                        <div class="row mt-5" id="subscription-plans">
+                            <div class="col-12">
+                                <div class="row">
+                                    <t t-foreach="plans" t-as="plan">
+                                        <div class="col-md-4 mb-4">
+                                            <div t-att-class="'card h-100 subscription-card ' + ('plan-card-current' if current_subscription and current_subscription.plan_id.id == plan.id else '') + (' plan-card-disabled' if current_subscription and current_subscription.plan_type == 'premium' and current_subscription.plan_id.id != plan.id else '')">
+                                                <!-- Current Plan Badge -->
+                                                <t t-if="current_subscription and current_subscription.plan_id.id == plan.id">
+                                                    <div class="card-header bg-success text-white text-center">
+                                                        <small><i class="fa fa-check"></i> Your Current Plan</small>
+                                                    </div>
+                                                </t>
+                                                
+                                                <div class="card-body text-center d-flex flex-column">
+                                                    <h5 class="card-title" t-field="plan.name" />
+                                                    <p class="card-text" t-field="plan.short_description" />
+                                                    <div class="h3 text-primary">
+                                                        <t t-if="plan.price > 0"> $<span t-esc="plan.price" />
+                                                            <small class="text-muted">/month</small>
+                                                        </t>
+                                                        <t t-else="">
+                                                            Free
+                                                        </t>
+                                                    </div>
+                                                    
+                                                    <!-- Features List -->
+                                                    <ul class="list-unstyled mt-3 mb-4 flex-grow-1 features-list-enhanced">
+                                                        <t t-foreach="plan.feature_ids" t-as="feature">
+                                                            <li class="mb-1">
+                                                                <i class="fa fa-check text-success me-2 feature-icon"></i>
+                                                                <span t-field="feature.name"/>
+                                                            </li>
+                                                        </t>
+                                                        <t t-if="not plan.feature_ids">
+                                                            <li class="mb-1">
+                                                                <i class="fa fa-check text-success me-2 feature-icon"></i>
+                                                                <t t-if="plan.max_private_decks > 0">
+                                                                    Up to <span t-esc="plan.max_private_decks"/> private decks
+                                                                </t>
+                                                                <t t-else="">
+                                                                    Unlimited private decks
+                                                                </t>
+                                                            </li>
+                                                            <li class="mb-1">
+                                                                <i class="fa fa-check text-success me-2 feature-icon"></i>
+                                                                <t t-if="plan.max_cards_per_deck > 0">
+                                                                    Up to <span t-esc="plan.max_cards_per_deck"/> cards per deck
+                                                                </t>
+                                                                <t t-else="">
+                                                                    Unlimited cards per deck
+                                                                </t>
+                                                            </li>
+                                                            <li class="mb-1" t-if="plan.can_access_premium_content">
+                                                                <i class="fa fa-star text-warning me-2 feature-icon"></i>
+                                                                Premium content access
+                                                            </li>
+                                                            <li class="mb-1" t-if="plan.can_use_ai_generation">
+                                                                <i class="fa fa-robot text-info me-2 feature-icon"></i>
+                                                                AI content generation
+                                                            </li>
+                                                        </t>
+                                                    </ul>
+                                                    
+                                                    <!-- Action Button -->
+                                                    <div class="mt-auto">
+                                                        <t t-if="current_subscription and current_subscription.plan_id.id == plan.id">
+                                                            <t t-if="current_subscription.plan_type == 'premium'">
+                                                                <button class="btn btn-success" disabled="">
+                                                                    <i class="fa fa-star me-2"></i>Active Premium Plan
+                                                                </button>
+                                                            </t>
+                                                            <t t-else="">
+                                                                <button class="btn btn-outline-success" disabled="">
+                                                                    <i class="fa fa-check me-2"></i>Current Plan
+                                                                </button>
+                                                            </t>
+                                                        </t>
+                                                        <t t-elif="current_subscription and current_subscription.plan_type == 'premium'">
+                                                            <div class="premium-user-message">
+                                                                <small>
+                                                                    <i class="fa fa-star me-1"></i>
+                                                                    You already have premium features
+                                                                </small>
+                                                            </div>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <a t-attf-href="/subscription/select/#{plan.id}" class="btn btn-primary subscription-button">
+                                                                <t t-if="plan.price > 0">
+                                                                    <i class="fa fa-credit-card me-2"></i>Select Plan
+                                                                </t>
+                                                                <t t-else="">
+                                                                    <i class="fa fa-check me-2"></i>Select Plan
+                                                                </t>
+                                                            </a>
+                                                        </t>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="subscription_plans_page" name="Subscription Plans List">
+            <t t-call="website.layout">
+                <div id="wrap">
+                    <div class="container mt-5 mb-5">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h1>All Subscription Plans</h1>
+                                <p class="lead">Compare and choose your plan</p>
+                            </div>
+                        </div>
+
+                        <div class="row mt-5">
+                            <t t-foreach="plans" t-as="plan">
+                                <div class="col-md-4 mb-4">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title" t-field="plan.name" />
+                                            <p class="card-text" t-field="plan.short_description" />
+                                            <div class="h3 text-primary">
+                                                <t t-if="plan.price > 0"> $<span t-esc="plan.price" />
+                                                </t>
+                                                <t t-else="">
+                                                    Free
+                                                </t>
+                                            </div>
+                                            <a t-attf-href="/subscription/select/#{plan.id}"
+                                                class="btn btn-primary">Select Plan</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="subscription_success_page" name="Subscription Success">
+            <t t-call="website.layout">
+                <div id="wrap">
+                    <div class="container mt-5 mb-5 text-center">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6">
+                                <div class="mb-4">
+                                    <i class="fas fa-check-circle fa-5x text-success"></i>
+                                </div>
+                                <h1 class="text-success">Success!</h1>
+                                <t t-if="plan_type == 'premium'">
+                                    <p class="lead">Your Premium subscription has been activated
+                                        successfully!</p>
+                                </t>
+                                <t t-else="">
+                                    <p class="lead">Your Free subscription has been activated
+                                        successfully!</p>
+                                </t>
+
+                                <div class="mt-4">
+                                    <a href="/decks" class="btn btn-primary btn-lg me-3">Start Using</a>
+                                    <a href="/subscription/my"
+                                        class="btn btn-outline-primary btn-lg">My Subscription</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="payment_page" name="Payment">
+            <t t-call="website.layout">
+                <div id="wrap">
+                    <div class="container mt-5 mb-5">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-header text-center bg-primary text-white">
+                                        <h3>Complete Your Subscription</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-4 p-3 bg-light rounded">
+                                            <h5>Selected Plan: <span t-field="plan.name"
+                                                    class="text-primary" /></h5>
+                                            <p t-field="plan.short_description" />
+                                            <div class="price">
+                                                <span class="h4 text-success">$<span
+                                                        t-esc="plan.price" /></span>
+                                                <span class="text-muted">/month</span>
+                                            </div>
+                                        </div>
+
+                                        <form action="/subscription/payment/process" method="post">
+                                            <input type="hidden" name="csrf_token"
+                                                t-att-value="request.csrf_token()" />
+                                            <input type="hidden" name="plan_id"
+                                                t-att-value="plan.id" />
+
+                                            <div class="alert alert-info">
+                                                <strong>Demo Mode:</strong> This is a simulation.
+                                                Click "Complete Payment" to activate your
+                                                subscription. </div>
+
+                                            <button type="submit"
+                                                class="btn btn-success btn-lg w-100">
+                                                Complete Payment
+                                            </button>
+                                        </form>
+
+                                        <div class="text-center mt-3">
+                                            <a href="/subscription" class="btn btn-link">← Back to
+                                                Plans</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <!-- Portal Subscription History -->
+        <template id="portal_my_subscription" name="My Subscription History">
+            <t t-call="portal.portal_layout">
+                <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+                <t t-call="portal.portal_searchbar">
+                    <t t-set="title">Subscription History</t>
+                </t>
+                
+                <t t-if="not subscriptions">
+                    <div class="alert alert-warning mt-3" role="alert">
+                        <strong>No subscriptions found!</strong>
+                        <p class="mb-0">It seems you don't have any subscription history yet. <a href="/subscription">Browse our plans</a> to get started.</p>
+                    </div>
+                </t>
+                <t t-else="" t-call="portal.portal_table">
+                    <thead>
+                        <tr class="active">
+                            <th>Subscription</th>
+                            <th>Plan</th>
+                            <th>Status</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Amount Paid</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="subscriptions" t-as="subscription">
+                            <tr>
+                                <td>
+                                    <a t-attf-href="/my/subscription/#{subscription.id}" t-field="subscription.name"/>
+                                </td>
+                                <td>
+                                    <span t-field="subscription.plan_id.name"/>
+                                    <t t-if="subscription.plan_type == 'premium'">
+                                        <span class="badge bg-success ms-1">Premium</span>
+                                    </t>
+                                    <t t-elif="subscription.plan_type == 'free'">
+                                        <span class="badge bg-primary ms-1">Free</span>
+                                    </t>
+                                    <t t-elif="subscription.plan_type == 'try_out'">
+                                        <span class="badge bg-warning ms-1">Trial</span>
+                                    </t>
+                                </td>
+                                <td>
+                                    <span t-att-class="'badge ' + ('bg-success' if subscription.state == 'active' else 'bg-secondary')" t-field="subscription.state"/>
+                                </td>
+                                <td>
+                                    <span t-field="subscription.start_date" t-options="{'widget': 'date'}"/>
+                                </td>
+                                <td>
+                                    <span t-field="subscription.end_date" t-options="{'widget': 'date'}"/>
+                                </td>
+                                <td>
+                                    <span t-field="subscription.amount_paid" t-options="{'widget': 'monetary', 'display_currency': subscription.currency_id}"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </t>
+            </t>
+        </template>
+
+        <!-- Stripe Payment Page -->
+        <template id="stripe_payment_page" name="Stripe Payment">
+            <t t-call="website.layout">
+                <div id="wrap">
+                    <div class="container-fluid mt-5 mb-5">
+                        <!-- Header -->
+                        <div class="row justify-content-center mb-4">
+                            <div class="col-12 text-center">
+                                <h2 class="text-primary">Complete Your Purchase</h2>
+                            </div>
+                        </div>
+
+                        <!-- Main Content Flex Container -->
+                        <div class="row justify-content-center">
+                            <div class="col-lg-10">
+                                <div class="d-flex flex-column flex-lg-row gap-4">
+
+                                    <!-- Left Side - Subscription Details -->
+                                    <div class="flex-fill p-4">
+                                        <div class="card shadow" style="height: 600px; margin:auto;">
+                                            <div class="card-header bg-info text-white">
+                                                <h4 class="mb-0">Subscription Details</h4>
+                                            </div>
+                                            <div class="card-body p-4">
+                                                <div class="mb-4">
+                                                    <h5 class="text-primary" t-field="plan.name" />
+                                                    <p class="text-muted"
+                                                        t-field="plan.short_description" />
+                                                </div>
+
+                                                <div class="row mb-4">
+                                                    <div class="col-6">
+                                                        <div class="text-center">
+                                                            <h3 class="text-success">$<span
+                                                                    t-esc="plan.price" /></h3>
+                                                            <small class="text-muted">per month</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="text-center">
+                                                            <h6 class="mb-1">Billing</h6>
+                                                            <small class="text-muted">Monthly</small>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mb-2 mt-2">
+                                                        <h6 class="mb-2">What's Included:</h6>
+                                                        <ul class="list-unstyled">
+                                                            <li class="mb-1"><i
+                                                                    class="fa fa-check text-success me-2"></i>Full
+                                                                access to all features</li>
+                                                            <li class="mb-1"><i
+                                                                    class="fa fa-check text-success me-2"></i>Priority
+                                                                customer support</li>
+                                                            <li class="mb-1"><i
+                                                                    class="fa fa-check text-success me-2"></i>Regular
+                                                                updates and improvements</li>
+                                
+                                                        </ul>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="border-top pt-3">
+                                                    <div class="d-flex justify-content-between">
+                                                        <span>Subtotal:</span>
+                                                        <span>$<span t-esc="plan.price" /></span>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between">
+                                                        <span>Tax:</span>
+                                                        <span>$0.00</span>
+                                                    </div>
+                                                    <hr />
+                                                    <div class="d-flex justify-content-between">
+                                                        <strong>Total:</strong>
+                                                        <strong class="text-success">$<span
+                                                                t-esc="plan.price" /></strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Right Side - Payment Form -->
+                                    <div class="flex-fill p-4">
+                                        <div class="card shadow" style="height: 600px;  margin:auto;">
+                                            <div class="card-header bg-primary text-white mb-0">
+                                                <h4 class="mb-0">Payment Information</h4>
+                                            </div>
+
+                                            <div class="card-body p-4">
+                                                <!-- Payment Status -->
+                                                <div id="payment-status" class="alert"
+                                                    style="display: none;"></div>
+
+                                                <!-- Payment Form -->
+                                                <form id="payment-form" class="p-3" onsubmit="return false;">
+
+                                                    <!-- Cardholder Name -->
+                                                    <div class="mb-2">
+                                                        <label for="cardholder-name"
+                                                            class="form-label">Cardholder Name *</label>
+                                                        <input type="text" class="form-control"
+                                                            id="cardholder-name"
+                                                            name="cardholder-name" required="" />
+                                                    </div>
+
+                                                    <!-- Card Number -->
+                                                    <div class="mb-2">
+                                                        <label for="card-number" class="form-label">Card
+                                                            Number *</label>
+                                                        <div id="card-number"
+                                                            class="p-1 border rounded"
+                                                            style="min-height: 40px; background-color: #fff;">
+                                                            <!-- Stripe Elements will create card
+                                                            number field here -->
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Expiry and CVV Row -->
+                                                    <div class="row mb-2">
+                                                        <div class="col-md-6">
+                                                            <label for="card-expiry"
+                                                                class="form-label">Expiry Date *</label>
+                                                            <div id="card-expiry"
+                                                                class="p-3 border rounded"
+                                                                style="min-height: 50px; background-color: #fff;">
+                                                                <!-- Stripe Elements will create
+                                                                expiry field here -->
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="card-cvc" class="form-label">CVV
+                                                                *</label>
+                                                            <div id="card-cvc"
+                                                                class="p-3 border rounded"
+                                                                style="min-height: 50px; background-color: #fff;">
+                                                                <!-- Stripe Elements will create CVC
+                                                                field here -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Card Errors -->
+                                                    <div id="card-errors" class="text-danger mb-3"></div>
+
+                                                    <!-- Terms -->
+                                                    <div class="mb-4">
+                                                        <div class="form-check">
+                                                            <input type="checkbox"
+                                                                class="form-check-input" id="terms"
+                                                                required="" />
+                                                            <label class="form-check-label"
+                                                                for="terms"> I agree to the <a
+                                                                    href="#">Terms of Service</a>
+                                                                and <a href="#">Privacy Policy</a> * </label>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Submit Button -->
+                                                    <div class="d-grid gap-2 ">
+                                                        <button type="submit"
+                                                            id="submit-payment"
+                                                            class="btn btn-success btn-lg">
+                                                            <span id="button-text">
+                                                                <i class="fa fa-lock"></i> Pay $<span
+                                                                    t-esc="plan.price" /> Securely </span>
+                                                            <span id="spinner"
+                                                                class="spinner-border spinner-border-sm ms-2"
+                                                                style="display: none;"></span>
+                                                        </button>
+                                                    </div>
+
+
+                                                </form>
+
+                                                <!-- Back Link -->
+                                                <!-- <div class="text-center mt-4 pt-3 border-top">
+                                                    <a href="/subscription" class="btn btn-outline-secondary">
+                                                        <i class="fa fa-arrow-left me-2"></i>Back to Plans
+                                                    </a>
+                                                </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hidden inputs for JavaScript -->
+                <input type="hidden" id="stripe-publishable-key"
+                    t-att-value="stripe_publishable_key" />
+                <input type="hidden" id="plan-id" t-att-value="plan.id" />
+
+                <!-- Stripe JS Library -->
+                <script src="https://js.stripe.com/v3/"></script>
+                <!-- Custom Stripe Payment Script -->
+                <script type="text/javascript"
+                    src="/subscription_plans/static/src/js/stripe_payment.js"></script>
+            </t>
+        </template>
+
+        <!-- Stripe Configuration Error Page -->
+        <template id="stripe_config_error" name="Stripe Configuration Error">
+            <t t-call="website.layout">
+                <div id="wrap">
+                    <div class="container mt-5 mb-5">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6">
+                                <div class="alert alert-danger">
+                                    <h4><i class="fa fa-exclamation-triangle"></i> Payment System
+                                        Not Configured</h4>
+                                    <p t-esc="error_message" />
+                                    <p>Please contact the administrator to configure Stripe payment
+                                        integration.</p>
+                                    <hr />
+                                    <p class="mb-0">
+                                        <strong>Selected Plan:</strong> <span t-field="plan.name" />
+                                        - $<span t-esc="plan.price" />
+                                    </p>
+                                    <div class="mt-3">
+                                        <a href="/subscription" class="btn btn-primary">
+                                            <i class="fa fa-arrow-left"></i> Back to Plans </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="my_subscription_page" name="My Subscription">
+            <t t-call="website.layout">
+                <div id="wrap">
+                    <div class="container mt-5 mb-5">
+                        <h1>My Subscription</h1>
+
+                        <t t-if="subscription">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Current Plan</h5>
+                                </div>
+                                <div class="card-body">
+                                    <h4 t-field="subscription.plan_id.name" />
+                                    <p t-field="subscription.plan_id.short_description" />
+                                    <p>
+                                        <strong>Started:</strong>
+                                        <span t-field="subscription.start_date" />
+                                    </p>
+                                    <p>
+                                        <strong>Status:</strong>
+                                        <span t-field="subscription.state"
+                                            class="badge badge-success" />
+                                    </p>
+                                </div>
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <div class="alert alert-info">
+                                <h5>No Active Subscription</h5>
+                                <p>You don't have an active subscription. Choose a plan to get
+                                    started!</p>
+                                <a href="/subscription" class="btn btn-primary">View Plans</a>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="activation_message" name="Activation Message">
+            <t t-call="website.layout">
+                <div id="wrap">
+                    <div class="container mt-5 mb-5 text-center">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6">
+                                <div class="alert alert-info">
+                                    <h4>Welcome!</h4>
+                                    <p t-esc="message" />
+                                    <a t-att-href="redirect_url" class="btn btn-primary">Continue</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <!-- Deck List Page Template -->
+        <template id="deck_list_page" name="Deck List">
+            <t t-call="website.layout">
+                <div id="wrap" class="deck-list-page">
+                    <div class="container mt-4">
+                        <!-- Header -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h1 class="text-center">Card Decks</h1>
+                                <p class="text-center text-muted">
+                                    <t t-if="user._is_public()"> Browse our collection of card
+                                        decks. <a href="/web/signup">Sign up</a> for free to access
+                                        more decks! </t>
+                                    <t t-else=""> Welcome back, <span t-esc="user.name" />! Your
+                                        access: <strong t-esc="plan_type.title()" /> User </t>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- User Action Bar -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <t t-if="user._is_public()">
+                                            <a href="/web/signup" class="btn btn-primary">
+                                                <i class="fa fa-user-plus"></i> Sign Up Free </a>
+                                            <a href="/web/login"
+                                                class="btn btn-outline-primary ml-2">
+                                                <i class="fa fa-sign-in-alt"></i> Login </a>
+                                        </t>
+                                        <t t-else="">
+                                            <a href="/subscription" class="btn btn-warning">
+                                                <i class="fa fa-upgrade"></i> View Subscription
+                                                Plans </a>
+                                        </t>
+                                    </div>
+                                    <div>
+                                        <t t-if="not user._is_public()">
+                                            <div class="text-right">
+                                                <span class="badge"
+                                                    t-attf-class="badge-#{plan_type == 'premium' and 'warning' or (plan_type == 'free' and 'success' or 'info')}">
+                                                    <i class="fa fa-user"></i> <span
+                                                        t-esc="plan_type.title()" /> User </span>
+                                            </div>
+                                        </t>
+                                        <t t-else="">
+                                            <span class="badge badge-secondary">
+                                                <i class="fa fa-eye"></i> Try Out Mode </span>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Statistics Summary -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <div class="row text-center">
+                                            <div class="col-md-3">
+                                                <h4 class="text-primary" t-esc="total_accessible" />
+                                                <small class="text-muted">Accessible Decks</small>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <h4 class="text-success" t-esc="len(try_out_decks)" />
+                                                <small class="text-muted">Try Out Decks</small>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <h4 class="text-info" t-esc="len(free_decks)" />
+                                                <small class="text-muted">Free Decks</small>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <h4 class="text-warning" t-esc="len(premium_decks)" />
+                                                <small class="text-muted">Premium Decks</small>
+                                            </div>
+                                        </div>
+                                        <t t-if="not user._is_public()">
+                                            <hr />
+                                            <div class="row text-center">
+                                                <div class="col-md-12">
+                                                    <h5 class="text-primary" t-esc="len(user_decks)" />
+                                                    <small class="text-muted">My Created Decks</small>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Try Out Decks -->
+                        <div class="row mb-5" t-if="try_out_decks">
+                            <div class="col-12">
+                                <h2 class="mb-4">
+                                    <i class="fa fa-eye text-info"></i> Try Out Decks <small
+                                        class="text-muted">(No registration required)</small>
+                                </h2>
+                                <div class="row">
+                                    <t t-foreach="try_out_decks" t-as="deck">
+                                        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                                            <t t-call="subscription_plans.deck_card" />
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- User's Decks -->
+                        <div class="row mb-5" t-if="user_decks and not user._is_public()">
+                            <div class="col-12">
+                                <h2 class="mb-4">
+                                    <i class="fa fa-user text-primary"></i> My Decks </h2>
+                                <div class="row">
+                                    <t t-foreach="user_decks" t-as="deck">
+                                        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                                            <t t-call="subscription_plans.deck_card">
+                                                <t t-set="owner" t-value="True" />
+                                            </t>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Free Decks -->
+                        <div class="row mb-5" t-if="free_decks">
+                            <div class="col-12">
+                                <h2 class="mb-4">
+                                    <i class="fa fa-unlock text-success"></i> Free Decks </h2>
+                                <div class="row">
+                                    <t t-foreach="free_decks" t-as="deck">
+                                        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                                            <t t-call="subscription_plans.deck_card" />
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Premium Decks -->
+                        <div class="row mb-5" t-if="premium_decks">
+                            <div class="col-12">
+                                <h2 class="mb-4">
+                                    <i class="fa fa-crown text-warning"></i> Premium Decks </h2>
+                                <div class="row">
+                                    <t t-foreach="premium_decks" t-as="deck">
+                                        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                                            <t t-call="subscription_plans.deck_card" />
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Empty State -->
+                        <div class="row"
+                            t-if="not try_out_decks and not free_decks and not premium_decks and not user_decks">
+                            <div class="col-12 text-center">
+                                <div class="alert alert-info">
+                                    <h4>No decks available</h4>
+                                    <t t-if="user._is_public()">
+                                        <p>There are no try-out decks available at the moment.</p>
+                                        <p><strong>Sign up for free</strong> to access more decks!</p>
+                                        <a href="/web/signup" class="btn btn-primary">Sign Up Free</a>
+                                    </t>
+                                    <t t-else="">
+                                        <p>There are no decks available for your subscription level.</p>
+                                        <p>Upgrade your subscription to access more decks.</p>
+                                        <a href="/subscription" class="btn btn-warning">View
+                                            Subscription Plans</a>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <!-- Deck Card Component -->
+        <template id="deck_card" name="Deck Card">
+            <div class="card deck-card h-100 shadow-sm">
+                <t t-if="deck.deck_type == 'premium'" t-set="card_class" t-value="'border-warning'" />
+                <t t-elif="deck.deck_type == 'try_out'" t-set="card_class" t-value="'border-info'" />
+                <t t-else="" t-set="card_class" t-value="'border-success'" />
+
+                <div t-attf-class="card #{card_class}">
+                    <div class="card-header py-2 px-3">
+                        <small class="text-muted fw-bold">
+                            <t t-if="deck.deck_type == 'premium'">
+                                <i class="fa fa-crown text-warning"></i> Premium </t>
+                            <t t-elif="deck.deck_type == 'try_out'">
+                                <i class="fa fa-eye text-info"></i> Try Out </t>
+                            <t t-else="">
+                                <i class="fa fa-unlock text-success"></i> Free </t>
+                        </small>
+                    </div>
+
+                    <div class="card-body d-flex flex-column p-3">
+                        <h5 class="card-title mb-2" t-esc="deck.name" />
+                        <p class="card-text text-muted small flex-grow-1 mb-3"
+                            t-esc="deck.description" />
+
+                        <div class="mt-auto">
+                            <div class="row text-center mb-3">
+                                <div class="col-4">
+                                    <small class="text-muted d-block">
+                                        <i class="fa fa-layer-group text-primary"></i>
+                                    </small>
+                                    <small class="fw-bold"><span t-esc="deck.total_cards" /> cards</small>
+                                </div>
+                                <div class="col-4">
+                                    <small class="text-muted d-block">
+                                        <i class="fa fa-play text-success"></i>
+                                    </small>
+                                    <small class="fw-bold"><span t-esc="deck.play_count" /> plays</small>
+                                </div>
+                                <div class="col-4">
+                                    <small class="text-muted d-block">
+                                        <i class="fa fa-tag text-info"></i>
+                                    </small>
+                                    <small class="fw-bold" t-esc="deck.deck_type.title()" />
+                                </div>
+                            </div>
+
+                            <div class="d-grid">
+                                <t t-if="deck.can_user_play(user)">
+                                    <a t-attf-href="/deck/#{deck.id}/play" class="btn btn-success">
+                                        <i class="fa fa-play"></i> Play Now </a>
+                                </t>
+                                <t t-else="">
+                                    <t t-if="user._is_public()">
+                                        <a href="/web/signup" class="btn btn-warning">
+                                            <i class="fa fa-user-plus"></i> Sign Up to Play </a>
+                                    </t>
+                                    <t t-else="">
+                                        <a href="/subscription" class="btn btn-warning">
+                                            <i class="fa fa-upgrade"></i> Upgrade to Play </a>
+                                    </t>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Deck Detail Page -->
+        <template id="deck_detail_page" name="Deck Detail">
+            <t t-call="website.layout">
+                <div id="wrap" class="deck-detail-page">
+                    <div class="container mt-4">
+                        <div class="row">
+                            <!-- Main Content -->
+                            <div class="col-lg-8">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h1 class="mb-0" t-esc="deck.name" />
+                                        <div class="mt-2">
+                                            <t t-if="deck.deck_type == 'try_out'">
+                                                <span class="badge badge-info">
+                                                    <i class="fa fa-eye"></i> Try Out </span>
+                                            </t>
+                                            <t t-elif="deck.deck_type == 'premium'">
+                                                <span class="badge badge-warning">
+                                                    <i class="fa fa-crown"></i> Premium </span>
+                                            </t>
+                                            <t t-else="">
+                                                <span class="badge badge-success">
+                                                    <i class="fa fa-unlock"></i> Free </span>
+                                            </t>
+                                            <t t-if="deck.category">
+                                                <span class="badge badge-secondary"
+                                                    t-esc="deck.category.name" />
+                                            </t>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <p class="lead" t-esc="deck.description" />
+
+                                        <div class="row mt-4">
+                                            <div class="col-md-6">
+                                                <h5>Deck Statistics</h5>
+                                                <ul class="list-unstyled">
+                                                    <li><i class="fa fa-layer-group text-primary"></i> 
+                                                        <strong
+                                                            t-esc="deck.total_cards" /> cards</li>
+                                                    <li><i class="fa fa-play text-success"></i> 
+                                                        <strong
+                                                            t-esc="deck.play_count" /> plays</li>
+                                                    <li><i class="fa fa-tag text-info"></i> 
+                                                        <strong
+                                                            t-esc="deck.deck_type.title()" /> deck</li>
+                                                    <li><i class="fa fa-user text-info"></i> Created
+                                                        by <strong t-esc="deck.creator_user_id.name" /></li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <h5>Access Information</h5>
+                                                <t t-if="can_access">
+                                                    <div class="alert alert-success">
+                                                        <i class="fa fa-check"></i> You have access
+                                                        to this deck </div>
+                                                </t>
+                                                <t t-else="">
+                                                    <div class="alert alert-warning">
+                                                        <i class="fa fa-lock"></i>
+                                                        <t t-if="user._is_public()">
+                                                            Please register to access this deck
+                                                        </t>
+                                                        <t t-else="">
+                                                            Upgrade your subscription to access this
+                                                            deck
+                                                        </t>
+                                                    </div>
+                                                </t>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-footer">
+                                        <div
+                                            class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <t t-if="can_play">
+                                                    <a t-attf-href="/deck/#{deck.id}/play"
+                                                        class="btn btn-success btn-lg">
+                                                        <i class="fa fa-play"></i> Play Deck </a>
+                                                </t>
+                                                <t t-else="">
+                                                    <t t-if="user._is_public()">
+                                                        <a href="/web/signup"
+                                                            class="btn btn-warning btn-lg">
+                                                            <i class="fa fa-user-plus"></i> Register
+                                                            to Play </a>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <a href="/subscription"
+                                                            class="btn btn-warning btn-lg">
+                                                            <i class="fa fa-upgrade"></i> Upgrade to
+                                                            Play </a>
+                                                    </t>
+                                                </t>
+                                            </div>
+
+                                            <div>
+                                                <a href="/decks" class="btn btn-outline-secondary">
+                                                    <i class="fa fa-arrow-left"></i> Back to Decks </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sidebar -->
+                            <div class="col-lg-4">
+                                <!-- Subscription Info -->
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Your Subscription</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <t t-if="subscription">
+                                            <h6>Access Level: <span t-esc="plan_type.title()" /></h6>
+                                            <p class="text-muted small">You can access decks based
+                                                on your subscription level.</p>
+                                            <a href="/subscription"
+                                                class="btn btn-outline-primary btn-sm">
+                                                View Plans
+                                            </a>
+                                        </t>
+                                        <t t-else="">
+                                            <p>Sign up for free to access more decks!</p>
+                                            <a href="/web/signup" class="btn btn-primary btn-sm">
+                                                Sign Up Free
+                                            </a>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </t>
+        </template>
+
+        <!-- Deck Create Page -->
+        <template id="deck_create_page" name="Create Deck">
+            <t t-call="website.layout">
+                <div id="wrap" class="deck-create-page">
+                    <div class="container mt-4">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h1 class="mb-0">Create New Deck</h1>
+                                        <p class="text-muted mb-0"> Your plan: <strong
+                                                t-esc="subscription.plan_id.name" />
+                                            <t
+                                                t-if="max_cards > 0"> (Max <span t-esc="max_cards" />
+                                            cards per deck) </t>
+                                        </p>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <form action="/deck/create" method="post">
+                                            <input type="hidden" name="csrf_token"
+                                                t-att-value="request.csrf_token()" />
+
+                                            <div class="form-group">
+                                                <label for="name">Deck Name *</label>
+                                                <input type="text" class="form-control" name="name"
+                                                    id="name" required="" />
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="description">Description</label>
+                                                <textarea class="form-control" name="description"
+                                                    id="description" rows="3"></textarea>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="category_id">Category</label>
+                                                <select class="form-control" name="category_id"
+                                                    id="category_id">
+                                                    <option value="">Select a category</option>
+                                                    <t
+                                                        t-foreach="request.env['carddecks.category'].search([])"
+                                                        t-as="category">
+                                                        <option t-att-value="category.id"
+                                                            t-esc="category.name" />
+                                                    </t>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input"
+                                                    name="is_public" id="is_public" />
+                                                <label class="form-check-label" for="is_public">
+                                                    Make this deck public (requires approval)
+                                                </label>
+                                            </div>
+
+                                            <div class="mt-4">
+                                                <button type="submit" class="btn btn-success">
+                                                    <i class="fa fa-plus"></i> Create Deck </button>
+                                                <a href="/decks" class="btn btn-secondary">Cancel</a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <!-- Upgrade Pending Page -->
+        <template id="upgrade_pending" name="Upgrade Pending">
+            <t t-call="website.layout">
+                <div id="wrap">
+                    <div class="container mt-5">
+                        <div class="row justify-content-center">
+                            <div class="col-md-6 text-center">
+                                <div class="alert alert-warning">
+                                    <h3><i class="fa fa-clock"></i> Payment Integration Pending</h3>
+                                    <p t-esc="message" />
+                                    <p>Plan: <strong t-esc="plan.name" /> - $<span
+                                            t-esc="plan.price" /></p>
+                                    <a href="/subscription" class="btn btn-primary">Back to Plans</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <!-- Extended Signup Template with reCAPTCHA v2 -->
+        <template id="signup_with_recaptcha" name="Sign up with reCAPTCHA"
+            inherit_id="auth_signup.signup">
+            <xpath expr="//div[@class='text-center oe_login_buttons d-grid pt-3']" position="before">
+                <!-- Full-screen reCAPTCHA overlay popup -->
+                <div id="captcha-overlay">
+                    <div class="captcha-popup">
+                        <h5 class="mb-3">Please verify you're human</h5>
+                        <div class="g-recaptcha" t-att-data-sitekey="'6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'" data-callback="hideCaptchaPopup"/>
+                    </div>
+                </div>
+            </xpath>
+            <xpath expr="//form[@class='oe_signup_form']" position="after">
+                <!-- Load reCAPTCHA -->
+                <script src="https://www.google.com/recaptcha/api.js" async="true" defer="true"></script>
+                <script>
+                    function hideCaptchaPopup() {
+                        var overlay = document.getElementById('captcha-overlay');
+                        if (overlay) {
+                            overlay.style.display = 'none';
+                            document.body.classList.remove('captcha-locked');
+                        }
+                    }
+                    document.addEventListener('DOMContentLoaded', function () {
+                        document.body.classList.add('captcha-locked');
+                    });
+                </script>
+            </xpath>
+        </template>
+
+        <!-- Test reCAPTCHA Page -->
+        <template id="test_recaptcha_page" name="Test reCAPTCHA">
+            <t t-call="website.layout">
+                <div id="wrap">
+                    <div class="container mt-5">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6">
+                                <h2>reCAPTCHA Test</h2>
+                                <form class="oe_signup_form">
+                                    <div class="text-center mb-3">
+                                        <div id="recaptcha-container"
+                                            data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI">
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Test Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+    </data>
+</odoo> 

@@ -1,0 +1,277 @@
+/* Deck List Page Styles */
+.deck-list-page .deck-card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.deck-list-page .deck-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.deck-card .card-body {
+    min-height: 220px;
+    padding: 1.25rem !important;
+}
+
+.deck-card .card-title {
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+}
+
+.deck-card .card-header {
+    background: rgba(248, 249, 250, 0.8);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.deck-card .shadow-sm {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Improved deck type borders */
+.deck-card .border-warning {
+    border-color: #ffc107 !important;
+    border-width: 2px !important;
+}
+
+.deck-card .border-info {
+    border-color: #17a2b8 !important;
+    border-width: 2px !important;
+}
+
+.deck-card .border-success {
+    border-color: #28a745 !important;
+    border-width: 2px !important;
+}
+
+/* Statistics grid styling */
+.deck-card .row .col-4 {
+    padding: 0.5rem 0.25rem;
+}
+
+.deck-card .fw-bold {
+    font-weight: 600 !important;
+    font-size: 0.85rem;
+}
+
+/* Button improvements */
+.deck-card .btn {
+    border-radius: 8px;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+.deck-card .d-grid .btn {
+    width: 100%;
+}
+
+.deck-card .btn-group-sm .btn {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem;
+}
+
+/* Badge Styles */
+.badge-info {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.badge-warning {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.badge-success {
+    background-color: #28a745;
+    color: white;
+}
+
+/* Sponsored Deck Styles */
+.border-warning {
+    border-color: #ffc107 !important;
+    border-width: 2px !important;
+}
+
+/* Rating Stars */
+.text-warning {
+    color: #ffc107 !important;
+}
+
+/* Deck Detail Page */
+.deck-detail-page .card-header h1 {
+    color: #2c3e50;
+    font-weight: 700;
+}
+
+.deck-detail-page .list-unstyled li {
+    margin-bottom: 0.5rem;
+}
+
+.deck-detail-page .list-unstyled li i {
+    width: 20px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+/* Rating Slider */
+#rating-form .form-control-range {
+    width: 100%;
+}
+
+#rating-value {
+    font-weight: bold;
+}
+
+/* Create Deck Form */
+.deck-create-page .card {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.deck-create-page .form-group label {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .deck-card .btn-group {
+        flex-direction: column;
+    }
+    
+    .deck-card .btn-group .btn {
+        margin-bottom: 0.25rem;
+        border-radius: 0.25rem !important;
+    }
+    
+    .deck-detail-page .btn-lg {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* Loading and Animation States */
+.deck-card.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Subscription Status Indicators */
+.subscription-status {
+    border-left: 4px solid #28a745;
+    padding-left: 15px;
+}
+
+.subscription-status.premium {
+    border-left-color: #ffc107;
+}
+
+.subscription-status.try-out {
+    border-left-color: #17a2b8;
+}
+
+/* Action Buttons */
+.btn-upgrade {
+    background: linear-gradient(45deg, #ffc107, #ff8c00);
+    border: none;
+    color: white;
+    font-weight: 600;
+}
+
+.btn-upgrade:hover {
+    background: linear-gradient(45deg, #ff8c00, #ffc107);
+    color: white;
+}
+
+/* Empty State */
+.empty-state {
+    padding: 3rem 1rem;
+    text-align: center;
+    color: #6c757d;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+/* Premium Features Highlight */
+.premium-feature {
+    position: relative;
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.1), rgba(255, 193, 7, 0.05));
+    border-left: 3px solid #ffc107;
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+}
+
+.premium-feature::before {
+    content: '\f521';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    color: #ffc107;
+    opacity: 0.7;
+}
+
+/* Deck Statistics */
+.deck-stats {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+}
+
+.deck-stats .stat-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.deck-stats .stat-item:last-child {
+    margin-bottom: 0;
+}
+
+.deck-stats .stat-icon {
+    width: 30px;
+    text-align: center;
+    margin-right: 10px;
+    color: #007bff;
+}
+
+/* Progress Indicators */
+.deck-limit-progress {
+    background: #e9ecef;
+    border-radius: 10px;
+    height: 8px;
+    overflow: hidden;
+    margin: 0.5rem 0;
+}
+
+.deck-limit-progress .progress-bar {
+    background: linear-gradient(90deg, #28a745, #20c997);
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+.deck-limit-progress.warning .progress-bar {
+    background: linear-gradient(90deg, #ffc107, #fd7e14);
+}
+
+.deck-limit-progress.danger .progress-bar {
+    background: linear-gradient(90deg, #dc3545, #e74c3c);
+}

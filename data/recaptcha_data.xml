@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Default reCAPTCHA v2 test keys (Google's test keys for development) -->
+        <record id="recaptcha_v2_site_key_param" model="ir.config_parameter">
+            <field name="key">subscription_plans.recaptcha_v2_site_key</field>
+            <field name="value">6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI</field>
+        </record>
+        
+        <record id="recaptcha_v2_secret_key_param" model="ir.config_parameter">
+            <field name="key">subscription_plans.recaptcha_v2_secret_key</field>
+            <field name="value">6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe</field>
+        </record>
+    </data>
+</odoo>

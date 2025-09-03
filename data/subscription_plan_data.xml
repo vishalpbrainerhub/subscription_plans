@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Try Out Plan -->
+        <record id="plan_try_out" model="subscription.plan">
+            <field name="name">Try Out</field>
+            <field name="code">try_out</field>
+            <field name="sequence">10</field>
+            <field name="plan_type">try_out</field>
+            <field name="short_description">Test our platform without registration</field>
+            <field name="description">Perfect for exploring our platform and seeing what we offer. No commitment required!</field>
+            <field name="price">0.0</field>
+            <field name="max_private_decks">0</field>
+            <field name="max_cards_per_deck">0</field>
+            <field name="can_create_decks">False</field>
+            <field name="can_access_public_decks">True</field>
+            <field name="can_access_premium_content">False</field>
+            <field name="can_use_ai_generation">False</field>
+            <field name="requires_registration">False</field>
+            <field name="is_active">True</field>
+            <field name="is_popular">False</field>
+            <field name="color">#6c757d</field>
+            <field name="icon">fa-eye</field>
+        </record>
+        
+        <!-- Try Out Plan Features -->
+        <record id="feature_try_out_1" model="subscription.plan.feature">
+            <field name="name">Browse public decks</field>
+            <field name="description">View all publicly available card decks</field>
+            <field name="sequence">10</field>
+            <field name="icon">fa-search</field>
+            <field name="plan_id" ref="plan_try_out"/>
+        </record>
+        
+        <record id="feature_try_out_2" model="subscription.plan.feature">
+            <field name="name">Play try-out decks</field>
+            <field name="description">Play specially marked trial decks</field>
+            <field name="sequence">20</field>
+            <field name="icon">fa-play</field>
+            <field name="is_highlighted">True</field>
+            <field name="plan_id" ref="plan_try_out"/>
+        </record>
+        
+        <record id="feature_try_out_3" model="subscription.plan.feature">
+            <field name="name">No registration required</field>
+            <field name="description">Start playing immediately</field>
+            <field name="sequence">30</field>
+            <field name="icon">fa-rocket</field>
+            <field name="plan_id" ref="plan_try_out"/>
+        </record>
+        
+        <!-- Free Plan -->
+        <record id="plan_free" model="subscription.plan">
+            <field name="name">Free</field>
+            <field name="code">free</field>
+            <field name="sequence">20</field>
+            <field name="plan_type">free</field>
+            <field name="short_description">Full access with registration</field>
+            <field name="description">Get the full experience with your free account. Create decks, play games, and join our community!</field>
+            <field name="price">0.0</field>
+            <field name="max_private_decks">3</field>
+            <field name="max_cards_per_deck">54</field>
+            <field name="can_create_decks">True</field>
+            <field name="can_access_public_decks">True</field>
+            <field name="can_access_premium_content">False</field>
+            <field name="can_use_ai_generation">False</field>
+            <field name="requires_registration">True</field>
+            <field name="is_active">True</field>
+            <field name="is_popular">True</field>
+            <field name="color">#28a745</field>
+            <field name="icon">fa-user</field>
+        </record>
+        
+        <!-- Free Plan Features -->
+        <record id="feature_free_1" model="subscription.plan.feature">
+            <field name="name">Access all free public decks</field>
+            <field name="description">Play unlimited free public card decks</field>
+            <field name="sequence">10</field>
+            <field name="icon">fa-unlock</field>
+            <field name="is_highlighted">True</field>
+            <field name="plan_id" ref="plan_free"/>
+        </record>
+        
+        <record id="feature_free_2" model="subscription.plan.feature">
+            <field name="name">Create up to 3 private decks</field>
+            <field name="description">Build your own custom card decks</field>
+            <field name="sequence">20</field>
+            <field name="icon">fa-plus-circle</field>
+            <field name="is_highlighted">True</field>
+            <field name="plan_id" ref="plan_free"/>
+        </record>
+        
+        <record id="feature_free_3" model="subscription.plan.feature">
+            <field name="name">54 cards per deck maximum</field>
+            <field name="description">Generous card limit for your creations</field>
+            <field name="sequence">30</field>
+            <field name="icon">fa-layer-group</field>
+            <field name="plan_id" ref="plan_free"/>
+        </record>
+        
+        <record id="feature_free_4" model="subscription.plan.feature">
+            <field name="name">Submit decks for approval</field>
+            <field name="description">Share your creations with the community</field>
+            <field name="sequence">40</field>
+            <field name="icon">fa-share</field>
+            <field name="plan_id" ref="plan_free"/>
+        </record>
+        
+        <record id="feature_free_5" model="subscription.plan.feature">
+            <field name="name">View paid deck previews</field>
+            <field name="description">See what premium content is available</field>
+            <field name="sequence">50</field>
+            <field name="icon">fa-eye</field>
+            <field name="plan_id" ref="plan_free"/>
+        </record>
+        
+        <!-- Premium Plan -->
+        <record id="plan_premium" model="subscription.plan">
+            <field name="name">Premium</field>
+            <field name="code">premium</field>
+            <field name="sequence">30</field>
+            <field name="plan_type">premium</field>
+            <field name="short_description">Unlimited access + AI features</field>
+            <field name="description">Unlock the full potential with unlimited decks, AI-generated content, and exclusive premium features!</field>
+            <field name="price">29.99</field>
+            <field name="max_private_decks">0</field>
+            <field name="max_cards_per_deck">0</field>
+            <field name="can_create_decks">True</field>
+            <field name="can_access_public_decks">True</field>
+            <field name="can_access_premium_content">True</field>
+            <field name="can_use_ai_generation">True</field>
+            <field name="requires_registration">True</field>
+            <field name="is_active">True</field>
+            <field name="is_popular">False</field>
+            <field name="color">#ffc107</field>
+            <field name="icon">fa-crown</field>
+        </record>
+        
+        <!-- Premium Plan Features -->
+        <record id="feature_premium_1" model="subscription.plan.feature">
+            <field name="name">Everything in Free plan</field>
+            <field name="description">All free features included</field>
+            <field name="sequence">10</field>
+            <field name="icon">fa-check</field>
+            <field name="plan_id" ref="plan_premium"/>
+        </record>
+        
+        <record id="feature_premium_2" model="subscription.plan.feature">
+            <field name="name">Unlimited private decks</field>
+            <field name="description">Create as many decks as you want</field>
+            <field name="sequence">20</field>
+            <field name="icon">fa-infinity</field>
+            <field name="is_highlighted">True</field>
+            <field name="plan_id" ref="plan_premium"/>
+        </record>
+        
+        <record id="feature_premium_3" model="subscription.plan.feature">
+            <field name="name">Unlimited cards per deck</field>
+            <field name="description">No limits on deck size</field>
+            <field name="sequence">30</field>
+            <field name="icon">fa-expand</field>
+            <field name="is_highlighted">True</field>
+            <field name="plan_id" ref="plan_premium"/>
+        </record>
+        
+        <record id="feature_premium_4" model="subscription.plan.feature">
+            <field name="name">AI-powered card generation</field>
+            <field name="description">Generate cards and decks using AI prompts</field>
+            <field name="sequence">40</field>
+            <field name="icon">fa-robot</field>
+            <field name="is_highlighted">True</field>
+            <field name="plan_id" ref="plan_premium"/>
+        </record>
+        
+        <record id="feature_premium_5" model="subscription.plan.feature">
+            <field name="name">Access all premium content</field>
+            <field name="description">Play exclusive premium decks</field>
+            <field name="sequence">50</field>
+            <field name="icon">fa-gem</field>
+            <field name="is_highlighted">True</field>
+            <field name="plan_id" ref="plan_premium"/>
+        </record>
+        
+        <record id="feature_premium_6" model="subscription.plan.feature">
+            <field name="name">Priority support</field>
+            <field name="description">Get help when you need it most</field>
+            <field name="sequence">60</field>
+            <field name="icon">fa-headset</field>
+            <field name="plan_id" ref="plan_premium"/>
+        </record>
+        
+        <record id="feature_premium_7" model="subscription.plan.feature">
+            <field name="name">Smart card reuse</field>
+            <field name="description">Reuse existing cards when prompts match</field>
+            <field name="sequence">70</field>
+            <field name="icon">fa-recycle</field>
+            <field name="plan_id" ref="plan_premium"/>
+        </record>
+        
+    </data>
+</odoo>

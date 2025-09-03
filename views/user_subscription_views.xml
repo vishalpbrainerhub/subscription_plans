@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- User Subscription Tree View -->
+    <record id="user_subscription_tree_view" model="ir.ui.view">
+        <field name="name">user.subscription.tree</field>
+        <field name="model">user.subscription</field>
+        <field name="arch" type="xml">
+            <tree string="User Subscriptions">
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="plan_id"/>
+                <field name="plan_type"/>
+                <field name="state" decoration-success="state == 'active'" decoration-muted="state == 'expired'"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="payment_status" decoration-success="payment_status == 'paid'"/>
+                <field name="amount_paid" widget="monetary"/>
+                <field name="currency_id" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+    
+    <!-- User Subscription Form View -->
+    <record id="user_subscription_form_view" model="ir.ui.view">
+        <field name="name">user.subscription.form</field>
+        <field name="model">user.subscription</field>
+        <field name="arch" type="xml">
+            <form string="User Subscription">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,active,expired"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group name="subscription_info">
+                            <field name="user_id"/>
+                            <field name="plan_id"/>
+                            <field name="plan_type"/>
+                            <field name="is_trial"/>
+                        </group>
+                        <group name="dates">
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="last_activity_date"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Payment Information">
+                        <group>
+                            <field name="payment_status"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="amount_paid" widget="monetary"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Usage Statistics">
+                        <group>
+                            <field name="private_decks_count"/>
+                            <field name="max_private_decks"/>
+                            <field name="max_cards_per_deck"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <!-- User Subscription Search View -->
+    <record id="user_subscription_search_view" model="ir.ui.view">
+        <field name="name">user.subscription.search</field>
+        <field name="model">user.subscription</field>
+        <field name="arch" type="xml">
+            <search string="User Subscriptions">
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="plan_id"/>
+                <separator/>
+                <filter string="Active" name="active" domain="[('state', '=', 'active')]"/>
+                <filter string="Expired" name="expired" domain="[('state', '=', 'expired')]"/>
+                <filter string="Premium" name="premium" domain="[('plan_type', '=', 'premium')]"/>
+                <filter string="Free" name="free" domain="[('plan_type', '=', 'free')]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Plan" name="group_plan" context="{'group_by': 'plan_id'}"/>
+                    <filter string="Plan Type" name="group_plan_type" context="{'group_by': 'plan_type'}"/>
+                    <filter string="State" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Payment Status" name="group_payment" context="{'group_by': 'payment_status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    
+    <!-- User Subscription Action -->
+    <record id="user_subscription_action" model="ir.actions.act_window">
+        <field name="name">User Subscriptions</field>
+        <field name="res_model">user.subscription</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="user_subscription_search_view"/>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No user subscriptions found!
+            </p>
+            <p>
+                User subscriptions will appear here when users sign up for plans.
+            </p>
+        </field>
+    </record>
+
+</odoo>

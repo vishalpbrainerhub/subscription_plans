@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Website Menu for Subscription Page -->
+    <record id="subscription_website_menu" model="website.menu">
+        <field name="name">Get Subscription</field>
+        <field name="url">/subscription</field>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence">15</field>
+        <field name="website_id" ref="website.default_website"/>
+    </record>
+    
+    <!-- Website Menu for Decks Page -->
+    <record id="decks_website_menu" model="website.menu">
+        <field name="name">Check Decks</field>
+        <field name="url">/decks</field>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence">16</field>
+        <field name="website_id" ref="website.default_website"/>
+    </record>
+    
+    <!-- Main Menu -->
+    <menuitem id="subscription_main_menu"
+              name="Subscriptions"
+              sequence="50"
+              web_icon="subscription_plans,static/description/icon.png"/>
+    
+    <!-- Configuration Menu -->
+    <menuitem id="subscription_config_menu"
+              name="Configuration"
+              parent="subscription_main_menu"
+              sequence="100"/>
+    
+    <!-- Subscription Plans Menu -->
+    <menuitem id="subscription_plan_menu"
+              name="Subscription Plans"
+              parent="subscription_config_menu"
+              action="subscription_plan_action"
+              sequence="10"/>
+    
+    <!-- User Subscriptions Menu -->
+    <menuitem id="user_subscription_menu"
+              name="User Subscriptions"
+              parent="subscription_main_menu"
+              action="user_subscription_action"
+              sequence="10"/>
+
+</odoo> 
