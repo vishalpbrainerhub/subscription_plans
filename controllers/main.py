@@ -47,7 +47,7 @@ class SubscriptionController(http.Controller):
             'page_name': 'subscription',
         }
         
-        return request.render('subscription_plans.subscription_page_new', values)
+        return request.render('subscription_module.subscription_page_new', values)
 
     @http.route('/subscription/plans', type='http', auth='public', website=True)
     def subscription_plans(self, **kwargs):
