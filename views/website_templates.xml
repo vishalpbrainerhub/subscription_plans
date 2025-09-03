@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <template id="subscription_page_new" name="Subscription Plans">
+        <template id="subscription_page_new" name="Subscription Plans" key="subscription_plans.subscription_page_new">
             <t t-call="website.layout">
                 <div id="wrap">
                     <div class="container mt-5 mb-5">
@@ -1139,7 +1139,7 @@
         </template>
 
         <!-- Extended Signup Template with reCAPTCHA v2 -->
-        <template id="signup_with_recaptcha" name="Sign up with reCAPTCHA"
+        <template id="signup_with_recaptcha" name="Sign up with reCAPTCHA" key="subscription_plans.signup_with_recaptcha"
             inherit_id="auth_signup.signup">
             <xpath expr="//div[@class='text-center oe_login_buttons d-grid pt-3']" position="before">
                 <!-- Full-screen reCAPTCHA overlay popup -->

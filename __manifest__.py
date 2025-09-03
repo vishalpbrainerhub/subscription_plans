@@ -80,10 +80,6 @@
         'web.assets_backend': [
             'subscription_plans/static/src/css/subscription_backend.css',
         ],
-        'subscription_plans.stripe_payment_assets': [
-            'https://js.stripe.com/v3/',
-            'subscription_plans/static/src/js/stripe_payment.js',
-        ],
     },
     
     'installable': True,
