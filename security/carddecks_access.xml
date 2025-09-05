@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Additional access rules for carddecks models to allow subscription_plans to access them -->
+        
+        <!-- Public access to carddecks.deck -->
+        <record id="access_carddecks_deck_subscription_public" model="ir.model.access">
+            <field name="name">carddecks.deck subscription public</field>
+            <field name="model_id" ref="carddecks.model_carddecks_deck"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        
+        <!-- User access to carddecks.deck -->
+        <record id="access_carddecks_deck_subscription_user" model="ir.model.access">
+            <field name="name">carddecks.deck subscription user</field>
+            <field name="model_id" ref="carddecks.model_carddecks_deck"/>
+            <field name="group_id" ref="base.group_user"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        
+        <!-- Portal access to carddecks.deck -->
+        <record id="access_carddecks_deck_subscription_portal" model="ir.model.access">
+            <field name="name">carddecks.deck subscription portal</field>
+            <field name="model_id" ref="carddecks.model_carddecks_deck"/>
+            <field name="group_id" ref="base.group_portal"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        
+        <!-- Public access to carddecks.card -->
+        <record id="access_carddecks_card_subscription_public" model="ir.model.access">
+            <field name="name">carddecks.card subscription public</field>
+            <field name="model_id" ref="carddecks.model_carddecks_card"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        
+        <!-- User access to carddecks.card -->
+        <record id="access_carddecks_card_subscription_user" model="ir.model.access">
+            <field name="name">carddecks.card subscription user</field>
+            <field name="model_id" ref="carddecks.model_carddecks_card"/>
+            <field name="group_id" ref="base.group_user"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        
+        <!-- Portal access to carddecks.card -->
+        <record id="access_carddecks_card_subscription_portal" model="ir.model.access">
+            <field name="name">carddecks.card subscription portal</field>
+            <field name="model_id" ref="carddecks.model_carddecks_card"/>
+            <field name="group_id" ref="base.group_portal"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        
+        <!-- Public access to carddecks.category -->
+        <record id="access_carddecks_category_subscription_public" model="ir.model.access">
+            <field name="name">carddecks.category subscription public</field>
+            <field name="model_id" ref="carddecks.model_carddecks_category"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        
+        <!-- User access to carddecks.category -->
+        <record id="access_carddecks_category_subscription_user" model="ir.model.access">
+            <field name="name">carddecks.category subscription user</field>
+            <field name="model_id" ref="carddecks.model_carddecks_category"/>
+            <field name="group_id" ref="base.group_user"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        
+        <!-- Portal access to carddecks.category -->
+        <record id="access_carddecks_category_subscription_portal" model="ir.model.access">
+            <field name="name">carddecks.category subscription portal</field>
+            <field name="model_id" ref="carddecks.model_carddecks_category"/>
+            <field name="group_id" ref="base.group_portal"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        
+    </data>
+</odoo>
