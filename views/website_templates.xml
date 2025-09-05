@@ -655,184 +655,67 @@
 
         <!-- Deck List Page Template -->
         <template id="deck_list_page" name="Deck List">
-            <t t-call="website.layout">
-                <div id="wrap" class="deck-list-page">
-                    <div class="container mt-4">
-                        <!-- Header -->
-                        <div class="row mb-4">
-                            <div class="col-12">
-                                <h1 class="text-center">Card Decks</h1>
-                                <p class="text-center text-muted">
-                                    <t t-if="user._is_public()"> Browse our collection of card
-                                        decks. <a href="/web/signup">Sign up</a> for free to access
-                                        more decks! </t>
-                                    <t t-else=""> Welcome back, <span t-esc="user.name" />! Your
-                                        access: <strong t-esc="plan_type.title()" /> User </t>
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- User Action Bar -->
-                        <div class="row mb-4">
-                            <div class="col-12">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <t t-if="user._is_public()">
-                                            <a href="/web/signup" class="btn btn-primary">
-                                                <i class="fa fa-user-plus"></i> Sign Up Free </a>
-                                            <a href="/web/login"
-                                                class="btn btn-outline-primary ml-2">
-                                                <i class="fa fa-sign-in-alt"></i> Login </a>
-                                        </t>
-                                        <t t-else="">
-                                            <a href="/subscription" class="btn btn-warning">
-                                                <i class="fa fa-upgrade"></i> View Subscription
-                                                Plans </a>
-                                        </t>
-                                    </div>
-                                    <div>
-                                        <t t-if="not user._is_public()">
-                                            <div class="text-right">
-                                                <span class="badge"
-                                                    t-attf-class="badge-#{plan_type == 'premium' and 'warning' or (plan_type == 'free' and 'success' or 'info')}">
-                                                    <i class="fa fa-user"></i> <span
-                                                        t-esc="plan_type.title()" /> User </span>
-                                            </div>
-                                        </t>
-                                        <t t-else="">
-                                            <span class="badge badge-secondary">
-                                                <i class="fa fa-eye"></i> Try Out Mode </span>
-                                        </t>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Statistics Summary -->
-                        <div class="row mb-4">
-                            <div class="col-12">
-                                <div class="card bg-light">
-                                    <div class="card-body">
-                                        <div class="row text-center">
-                                            <div class="col-md-3">
-                                                <h4 class="text-primary" t-esc="total_accessible" />
-                                                <small class="text-muted">Accessible Decks</small>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <h4 class="text-success" t-esc="len(try_out_decks)" />
-                                                <small class="text-muted">Try Out Decks</small>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <h4 class="text-info" t-esc="len(free_decks)" />
-                                                <small class="text-muted">Free Decks</small>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <h4 class="text-warning" t-esc="len(premium_decks)" />
-                                                <small class="text-muted">Premium Decks</small>
-                                            </div>
-                                        </div>
-                                        <t t-if="not user._is_public()">
-                                            <hr />
-                                            <div class="row text-center">
-                                                <div class="col-md-12">
-                                                    <h5 class="text-primary" t-esc="len(user_decks)" />
-                                                    <small class="text-muted">My Created Decks</small>
-                                                </div>
-                                            </div>
-                                        </t>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <!-- Try Out Decks -->
-                        <div class="row mb-5" t-if="try_out_decks">
-                            <div class="col-12">
-                                <h2 class="mb-4">
-                                    <i class="fa fa-eye text-info"></i> Try Out Decks <small
-                                        class="text-muted">(No registration required)</small>
-                                </h2>
-                                <div class="row">
-                                    <t t-foreach="try_out_decks" t-as="deck">
-                                        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-                                            <t t-call="subscription_plans.deck_card" />
-                                        </div>
-                                    </t>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- User's Decks -->
-                        <div class="row mb-5" t-if="user_decks and not user._is_public()">
-                            <div class="col-12">
-                                <h2 class="mb-4">
-                                    <i class="fa fa-user text-primary"></i> My Decks </h2>
-                                <div class="row">
-                                    <t t-foreach="user_decks" t-as="deck">
-                                        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-                                            <t t-call="subscription_plans.deck_card">
-                                                <t t-set="owner" t-value="True" />
-                                            </t>
-                                        </div>
-                                    </t>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Free Decks -->
-                        <div class="row mb-5" t-if="free_decks">
-                            <div class="col-12">
-                                <h2 class="mb-4">
-                                    <i class="fa fa-unlock text-success"></i> Free Decks </h2>
-                                <div class="row">
-                                    <t t-foreach="free_decks" t-as="deck">
-                                        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-                                            <t t-call="subscription_plans.deck_card" />
-                                        </div>
-                                    </t>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Premium Decks -->
-                        <div class="row mb-5" t-if="premium_decks">
-                            <div class="col-12">
-                                <h2 class="mb-4">
-                                    <i class="fa fa-crown text-warning"></i> Premium Decks </h2>
-                                <div class="row">
-                                    <t t-foreach="premium_decks" t-as="deck">
-                                        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-                                            <t t-call="subscription_plans.deck_card" />
-                                        </div>
-                                    </t>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Empty State -->
-                        <div class="row"
-                            t-if="not try_out_decks and not free_decks and not premium_decks and not user_decks">
-                            <div class="col-12 text-center">
-                                <div class="alert alert-info">
-                                    <h4>No decks available</h4>
-                                    <t t-if="user._is_public()">
-                                        <p>There are no try-out decks available at the moment.</p>
-                                        <p><strong>Sign up for free</strong> to access more decks!</p>
-                                        <a href="/web/signup" class="btn btn-primary">Sign Up Free</a>
-                                    </t>
-                                    <t t-else="">
-                                        <p>There are no decks available for your subscription level.</p>
-                                        <p>Upgrade your subscription to access more decks.</p>
-                                        <a href="/subscription" class="btn btn-warning">View
-                                            Subscription Plans</a>
-                                    </t>
-                                </div>
-                            </div>
-                        </div>
+            <!-- Simple Header matching the image -->
+            <div class="container mt-4 mb-4">
+                <div class="row">
+                    <div class="col-12">
+                        <h1 class="mb-1">
+                            <t t-if="user._is_public()">
+                                Welcome to Card Decks
+                            </t>
+                            <t t-else="">
+                                Welcome back, <span t-esc="user_name"/>!
+                            </t>
+                        </h1>
+                        <p class="mb-0">
+                            <t t-if="user._is_public()">
+                                Browse our collection of card decks. <a href="/web/signup">Sign up</a> for free to access more decks!
+                            </t>
+                            <t t-else="">
+                                Your subscription: <span t-esc="subscription_status"/> | Access Level: <span t-esc="plan_type.title()"/>
+                            </t>
+                        </p>
                     </div>
                 </div>
-            </t>
+            </div>
+            
+            <!-- Use Original Card Deck Game Styling -->
+            <link rel='stylesheet' href='/carddecks_game/static/src/css/styles.css'/>
+            <script type="module" src="/carddecks_game/static/src/js/index.js"></script>
+            
+            <div class="card-grid">
+                <!-- Combine all accessible decks for display -->
+                <t t-set="all_decks" t-value="try_out_decks + free_decks + premium_decks"/>
+                <t t-foreach="all_decks" t-as="deck">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title"><t t-esc="deck.name"/></span>
+                            <span class="card-counter"><t t-esc="deck.total_cards"/></span>
+                        </div>
+                        <div class="card-description">
+                            <t t-esc="deck.description"/>
+                        </div>
+                        <div class="card-footer">
+                            <a class="play-button" t-att-href="'/game/new?deck_id=%s' % deck.id"> Play </a>
+                        </div>
+                    </div>
+                </t>
+                
+                <!-- Show message if no decks available -->
+                <t t-if="not all_decks">
+                    <div style="text-align: center; padding: 50px;">
+                        <h3>No decks available</h3>
+                        <t t-if="user._is_public()">
+                            <p>Sign up for free to access more decks!</p>
+                            <a href="/web/signup" style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px;">Sign Up Free</a>
+                        </t>
+                        <t t-else="">
+                            <p>Upgrade your subscription to access more decks.</p>
+                            <a href="/subscription" style="background: #ffc107; color: black; padding: 10px 20px; text-decoration: none; border-radius: 4px;">View Plans</a>
+                        </t>
+                    </div>
+                </t>
+            </div>
         </template>
 
         <!-- Deck Card Component -->

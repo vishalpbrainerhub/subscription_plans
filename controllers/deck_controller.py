@@ -10,30 +10,39 @@ class DeckController(http.Controller):
 
     @http.route(['/decks'], type='http', auth='public', website=True)
     def deck_list(self, **kwargs):
-        """Display deck list page based on user subscription"""
+        """Display deck list page based on user subscription with header information"""
         user = request.env.user
         
-        # Get user's subscription info
+        # Get user's subscription info and header details
         if user._is_public():
             subscription = None
             plan_type = 'try_out'
             can_create = False
             max_private_decks = 0
             max_cards_per_deck = 0
+            user_name = 'Guest User'
+            subscription_status = 'No Subscription'
         else:
             subscription = request.env['user.subscription'].sudo().get_user_subscription(user.id)
             plan_type = subscription.plan_type if subscription else 'free'
             can_create = subscription.plan_id.can_create_decks if subscription else False
             max_private_decks = subscription.max_private_decks if subscription else 0
             max_cards_per_deck = subscription.max_cards_per_deck if subscription else 0
+            user_name = user.name or user.login
+            subscription_status = subscription.plan_id.name if subscription else 'Free Plan'
         
-        # Get all accessible decks without filtering by type initially
+        # Get all accessible decks using original carddecks filtering with subscription overlay
         all_accessible_decks = request.env['carddecks.deck'].get_accessible_decks(user=user, limit=100)
         
         # Separate decks by type for display
-        try_out_decks = all_accessible_decks.filtered(lambda d: d.deck_type == 'try_out')
-        free_decks = all_accessible_decks.filtered(lambda d: d.deck_type == 'free')
-        premium_decks = all_accessible_decks.filtered(lambda d: d.deck_type == 'premium')
+        try_out_decks = all_accessible_decks.filtered(lambda d: hasattr(d, 'deck_type') and d.deck_type == 'try_out')
+        free_decks = all_accessible_decks.filtered(lambda d: hasattr(d, 'deck_type') and d.deck_type == 'free')
+        premium_decks = all_accessible_decks.filtered(lambda d: hasattr(d, 'deck_type') and d.deck_type == 'premium')
+        
+        # For decks without deck_type (original carddecks), treat them as free decks if they're public
+        original_decks = all_accessible_decks.filtered(lambda d: not hasattr(d, 'deck_type') or not d.deck_type)
+        if original_decks and not user._is_public():
+            free_decks = free_decks + original_decks
         
         # Get user's own decks if logged in
         user_decks = request.env['carddecks.deck'].browse()
@@ -48,7 +57,12 @@ class DeckController(http.Controller):
             'subscription': subscription,
             'plan_type': plan_type,
             'user': user,
+            'user_name': user_name,
+            'subscription_status': subscription_status,
             'total_accessible': len(all_accessible_decks),
+            'can_create': can_create,
+            'max_private_decks': max_private_decks,
+            'max_cards_per_deck': max_cards_per_deck,
         }
         
         return request.render('subscription_plans.deck_list_page', values)

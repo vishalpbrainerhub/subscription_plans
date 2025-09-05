@@ -63,7 +63,7 @@ class AuthSignupRecaptcha(AuthSignupHome):
             if user:
                 return request.redirect('/web/login?%s' % url_encode({'login': user.login, 'redirect': '/web'}))
 
-        response = request.render('subscription_module.signup_with_recaptcha', qcontext)
+        response = request.render('subscription_plan.signup_with_recaptcha', qcontext)
         response.headers['X-Frame-Options'] = 'SAMEORIGIN'
         response.headers['Content-Security-Policy'] = "frame-ancestors 'self'"
         return response

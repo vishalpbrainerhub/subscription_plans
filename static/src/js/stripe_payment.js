@@ -174,6 +174,7 @@ function initializeStripePayment() {
         
         // Update completion state for this element
         window[elementName + 'Complete'] = event.complete;
+        displayError.textContent = ""
         
         if (event.error) {
             displayError.textContent = event.error.message;

@@ -54,7 +54,6 @@
     'data': [
         'security/ir.model.access.csv',
         'data/subscription_plan_data.xml',
-        'data/demo_decks_data.xml',
         'data/recaptcha_data.xml',
         'data/cron_jobs.xml',
         'views/subscription_plan_views.xml',

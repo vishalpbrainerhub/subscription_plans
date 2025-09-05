@@ -73,10 +73,9 @@ class DeckInherit(models.Model):
         if not user:
             user = self.env.user
         
-        # Base domain for approved decks, ignore is_public field completely
+        # Base domain for public decks (using original carddecks is_public field)
         domain = [
-            ('approval_status', '=', 'approved'),
-            ('is_user_created', '=', False)  # Only show system/demo decks
+            ('is_public', '=', True),  # Use original carddecks public filtering
         ]
         
         if user._is_public():
