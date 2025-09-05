@@ -14,4 +14,13 @@ access_user_subscription_manager,user.subscription manager,model_user_subscripti
 access_stripe_payment_user,stripe.payment user,model_stripe_payment,base.group_user,1,1,1,0
 access_stripe_payment_portal,stripe.payment portal,model_stripe_payment,base.group_portal,1,1,1,0
 access_stripe_payment_manager,stripe.payment manager,model_stripe_payment,base.group_system,1,1,1,1
+access_carddecks_deck_public,carddecks.deck public,model_carddecks_deck,,1,0,0,0
+access_carddecks_deck_user,carddecks.deck user,model_carddecks_deck,base.group_user,1,0,0,0
+access_carddecks_deck_portal,carddecks.deck portal,model_carddecks_deck,base.group_portal,1,0,0,0
+access_carddecks_card_public,carddecks.card public,model_carddecks_card,,1,0,0,0
+access_carddecks_card_user,carddecks.card user,model_carddecks_card,base.group_user,1,0,0,0
+access_carddecks_card_portal,carddecks.card portal,model_carddecks_card,base.group_portal,1,0,0,0
+access_carddecks_category_public,carddecks.category public,model_carddecks_category,,1,0,0,0
+access_carddecks_category_user,carddecks.category user,model_carddecks_category,base.group_user,1,0,0,0
+access_carddecks_category_portal,carddecks.category portal,model_carddecks_category,base.group_portal,1,0,0,0
 
