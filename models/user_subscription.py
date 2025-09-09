@@ -23,6 +23,7 @@ class UserSubscription(models.Model):
     
     start_date = fields.Datetime(string='Start Date', default=fields.Datetime.now)
     end_date = fields.Datetime(string='End Date')
+    duration_months = fields.Integer(string='Duration (Months)', default=1, help='Subscription duration in months')
     is_trial = fields.Boolean(string='Is Trial', default=False)
     
     # Payment Information (for future integration)
@@ -81,7 +82,31 @@ class UserSubscription(models.Model):
     @api.model
     def create_subscription(self, user_id, plan_id, payment_success=False):
         """Create a new subscription for a user"""
-        # Deactivate existing subscriptions
+        plan = self.env['subscription.plan'].browse(plan_id)
+        
+        # Check for existing active subscription with the same plan
+        existing_same_plan = self.search([
+            ('user_id', '=', user_id),
+            ('plan_id', '=', plan_id),
+            ('state', '=', 'active')
+        ], limit=1)
+        
+        # If user already has the same plan active, return existing subscription
+        if existing_same_plan:
+            return existing_same_plan
+        
+        # Check for existing active subscription with the same plan type (prevent duplicates)
+        existing_same_type = self.search([
+            ('user_id', '=', user_id),
+            ('state', '=', 'active'),
+            ('plan_id.plan_type', '=', plan.plan_type)
+        ], limit=1)
+        
+        # If user already has an active subscription of the same type, return existing
+        if existing_same_type:
+            return existing_same_type
+        
+        # Deactivate existing subscriptions of different types
         existing_subscriptions = self.search([
             ('user_id', '=', user_id),
             ('state', '=', 'active')
@@ -97,13 +122,16 @@ class UserSubscription(models.Model):
         }
         
         # Set payment status based on plan type
-        plan = self.env['subscription.plan'].browse(plan_id)
         if plan.plan_type == 'premium':
             vals['payment_status'] = 'paid' if payment_success else 'pending'
             vals['amount_paid'] = plan.price if payment_success else 0
+            vals['duration_months'] = 1  # Default to 1 month
+            # Set end date for premium plans (1 month from now)
+            vals['end_date'] = fields.Datetime.now() + timedelta(days=30)
         else:
             vals['payment_status'] = 'paid'  # Free plans are always "paid"
             vals['amount_paid'] = 0
+            vals['duration_months'] = 0  # Free plans don't expire
         
         return self.create(vals)
     
@@ -113,9 +141,11 @@ class UserSubscription(models.Model):
         self.state = 'active'
         self.start_date = fields.Datetime.now()
         
-        # Set end date for premium plans (1 year from now)
+        # Set end date based on duration for premium plans
         if self.plan_id.plan_type == 'premium':
-            self.end_date = fields.Datetime.now() + timedelta(days=365)
+            # Calculate end date based on duration_months (default 1 month = 30 days)
+            days_to_add = self.duration_months * 30
+            self.end_date = fields.Datetime.now() + timedelta(days=days_to_add)
     
     def can_create_private_deck(self):
         """Check if user can create another private deck"""
@@ -129,6 +159,22 @@ class UserSubscription(models.Model):
         self.ensure_one()
         self.private_decks_count += 1
         self.last_activity_date = fields.Datetime.now()
+    
+    def renew_subscription(self, months=1):
+        """Renew subscription for additional months"""
+        self.ensure_one()
+        if self.state != 'active':
+            return False
+        
+        if self.plan_id.plan_type == 'premium':
+            # Extend end date by specified months
+            current_end = self.end_date or fields.Datetime.now()
+            additional_days = months * 30
+            self.end_date = current_end + timedelta(days=additional_days)
+            self.duration_months += months
+            self.last_activity_date = fields.Datetime.now()
+            return True
+        return False
     
     @api.model
     def check_expired_subscriptions(self):

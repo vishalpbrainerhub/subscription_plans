@@ -22,7 +22,14 @@ class SubscriptionPlan(models.Model):
     ], string='Plan Type', required=True, default='free')
     
     # Pricing
-    price = fields.Float(string='Price', digits='Product Price')
+    price = fields.Float(string='Monthly Price', digits='Product Price', 
+                        help='Monthly subscription price')
+    yearly_price = fields.Float(string='Yearly Price', digits='Product Price', 
+                               help='Yearly subscription price (for reference only)')
+    billing_period = fields.Selection([
+        ('monthly', 'Monthly'),
+        ('yearly', 'Yearly')
+    ], string='Billing Period', default='monthly', help='Default billing period for this plan')
     currency_id = fields.Many2one('res.currency', string='Currency', 
                                   default=lambda self: self.env.company.currency_id)
     

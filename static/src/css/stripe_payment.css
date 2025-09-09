@@ -1,58 +1,140 @@
-/* Simple Stripe Payment Styles */
+/* Professional Stripe Payment Styles */
 
-/* Basic card element styling */
-#card-element {
-    border: 1px solid #ced4da;
-    border-radius: 6px;
-    padding: 15px;
-    background: white;
-    font-size: 16px;
-    min-height: 50px;
-    width: 100%;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+/* CRITICAL: Force Stripe Elements to show text properly */
+.StripeElement,
+.StripeElement * {
+    color: #000000 !important;
+    background-color: transparent !important;
+    font-size: 16px !important;
+    line-height: 1.4 !important;
 }
 
-/* Ensure Stripe Elements are properly styled */
+/* Enhanced Stripe Elements styling that works with our new template */
 .StripeElement {
-    height: 40px;
-    padding: 10px 12px;
-    color: #495057;
-    background-color: white;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    box-shadow: 0 1px 3px 0 #e6ebf1;
-    transition: box-shadow 150ms ease;
+    height: 50px;
+    padding: 12px 16px;
+    color: #000000 !important;
+    background-color: white !important;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    box-shadow: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-size: 16px !important;
+    line-height: 1.4;
 }
 
-/* Force card element to be interactive */
-#card-element .StripeElement {
+/* FORCE Stripe input elements to be visible */
+.StripeElement input,
+.StripeElement iframe,
+.StripeElement div {
+    color: #000000 !important;
+    font-size: 16px !important;
+    font-family: inherit !important;
+    background: transparent !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    display: block !important;
+}
+
+/* FORCE placeholder visibility with maximum specificity */
+.StripeElement input::placeholder,
+.StripeElement ::placeholder {
+    color: #000000 !important;
+    opacity: 1 !important;
+    font-size: 16px !important;
+    visibility: visible !important;
+    display: block !important;
+}
+
+.StripeElement--focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    outline: none;
+}
+
+.StripeElement--invalid {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.StripeElement--webkit-autofill {
+    background-color: white !important;
+}
+
+/* Card element containers - ensure they show properly */
+#card-number .StripeElement,
+#card-expiry .StripeElement,
+#card-cvc .StripeElement {
     border: none !important;
     box-shadow: none !important;
     background: transparent !important;
     padding: 0 !important;
     height: auto !important;
+    font-size: 16px !important;
+    color: #000000 !important;
+    min-height: 20px;
+    display: block;
+    width: 100%;
 }
 
-/* Ensure all card fields are visible */
-#card-element .__PrivateStripeElement {
-    display: block !important;
+/* Ensure Stripe elements inherit styling from parent containers */
+.stripe-element .StripeElement {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    height: auto !important;
     width: 100% !important;
-    visibility: visible !important;
-    opacity: 1 !important;
+    font-size: 16px !important;
+    color: #000000 !important;
+    font-weight: normal !important;
 }
 
-#card-element.StripeElement--focus {
-    border-color: #007bff;
-    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+/* Force black text color for all Stripe inputs */
+.stripe-element .StripeElement,
+.stripe-element .StripeElement input,
+.stripe-element .StripeElement iframe,
+#card-number .StripeElement,
+#card-expiry .StripeElement,
+#card-cvc .StripeElement {
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
 }
 
-#card-element.StripeElement--invalid {
-    border-color: #dc3545;
+/* Ensure placeholders are visible in black */
+.stripe-element .StripeElement input::placeholder,
+#card-number .StripeElement input::placeholder,
+#card-expiry .StripeElement input::placeholder,
+#card-cvc .StripeElement input::placeholder {
+    color: #000000 !important;
+    opacity: 0.7 !important;
+    -webkit-text-fill-color: #000000 !important;
+}
+
+/* Additional styling for Stripe element containers */
+.stripe-element {
+    position: relative;
+    background: white;
+}
+
+.stripe-element iframe {
+    background: white !important;
+}
+
+/* Focus states for parent containers */
+.stripe-element.focused,
+.stripe-element:focus-within {
+    border-color: #007bff !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
+}
+
+.stripe-element.invalid {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
 }
 
 /* Error styling */
+.card-errors,
 #card-errors {
     color: #dc3545;
     margin-top: 8px;
@@ -61,6 +143,115 @@
     display: block;
     clear: both;
     padding: 5px 0;
+    font-weight: 500;
+}
+
+/* MAXIMUM OVERRIDE: Target all possible Stripe element classes */
+.__PrivateStripeElement,
+.__PrivateStripeElement *,
+.InputElement,
+.InputElement *,
+div[data-elements-stable-field-name],
+div[data-elements-stable-field-name] *,
+iframe[name^="__privateStripeFrame"],
+iframe[title*="Secure"] {
+    color: #000000 !important;
+    background: transparent !important;
+    font-size: 16px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    display: block !important;
+    -webkit-text-fill-color: #000000 !important;
+}
+
+.__PrivateStripeElement input,
+.InputElement input {
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+    font-size: 16px !important;
+    background: transparent !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.__PrivateStripeElement input::placeholder,
+.InputElement input::placeholder,
+.__PrivateStripeElement ::placeholder,
+.InputElement ::placeholder {
+    color: #000000 !important;
+    opacity: 1 !important;
+    -webkit-text-fill-color: #000000 !important;
+    font-size: 16px !important;
+    visibility: visible !important;
+}
+
+/* Ensure placeholder text is visible across all browsers */
+.StripeElement::placeholder,
+.StripeElement input::placeholder,
+.StripeElement input::-webkit-input-placeholder,
+.StripeElement input::-moz-placeholder,
+.StripeElement input:-ms-input-placeholder {
+    color: #000000 !important;
+    opacity: 0.7 !important;
+    -webkit-text-fill-color: #000000 !important;
+}
+
+/* Additional cross-browser placeholder support */
+#card-number input::placeholder,
+#card-expiry input::placeholder,
+#card-cvc input::placeholder,
+#card-number input::-webkit-input-placeholder,
+#card-expiry input::-webkit-input-placeholder,
+#card-cvc input::-webkit-input-placeholder,
+#card-number input::-moz-placeholder,
+#card-expiry input::-moz-placeholder,
+#card-cvc input::-moz-placeholder,
+#card-number input:-ms-input-placeholder,
+#card-expiry input:-ms-input-placeholder,
+#card-cvc input:-ms-input-placeholder {
+    color: #000000 !important;
+    opacity: 1 !important;
+    -webkit-text-fill-color: #000000 !important;
+}
+
+/* CRITICAL: Force our specific container elements to show content */
+#card-number,
+#card-expiry,
+#card-cvc {
+    background: white !important;
+    color: #000000 !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+#card-number *,
+#card-expiry *,
+#card-cvc * {
+    color: #000000 !important;
+    background: transparent !important;
+    font-size: 16px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    -webkit-text-fill-color: #000000 !important;
+}
+
+/* Force all possible Stripe elements inside our containers */
+#card-number .StripeElement,
+#card-expiry .StripeElement,
+#card-cvc .StripeElement,
+#card-number .__PrivateStripeElement,
+#card-expiry .__PrivateStripeElement,
+#card-cvc .__PrivateStripeElement {
+    color: #000000 !important;
+    background: transparent !important;
+    font-size: 16px !important;
+    min-height: 20px !important;
+    line-height: 20px !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
 }
 
 /* Payment button */

@@ -10,7 +10,8 @@
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
                 <field name="plan_type"/>
-                <field name="price" widget="monetary"/>
+                <field name="price" widget="monetary" string="Monthly Price"/>
+                <field name="billing_period"/>
                 <field name="currency_id" invisible="1"/>
                 <field name="max_private_decks"/>
                 <field name="max_cards_per_deck"/>
@@ -52,11 +53,15 @@
                             <field name="sequence"/>
                             <field name="is_popular"/>
                         </group>
+                        <group name="pricing">
+                            <field name="currency_id" invisible="1"/>
+                            <field name="price" widget="monetary" string="Monthly Price"/>
+                            <field name="yearly_price" widget="monetary"/>
+                            <field name="billing_period"/>
+                        </group>
                         <group name="display">
                             <field name="color" widget="color"/>
                             <field name="icon"/>
-                            <field name="currency_id" invisible="1"/>
-                            <field name="price" widget="monetary"/>
                         </group>
                     </group>
                     

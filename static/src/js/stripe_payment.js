@@ -100,22 +100,40 @@ function initializeStripePayment() {
     // Create separate Stripe Elements for better UX
     const elementStyle = {
         base: {
-            fontSize: '14px',
-            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-            color: '#495057',
+            fontSize: '16px',
+            color: '#000000',
             fontWeight: '400',
+            lineHeight: '24px',
             '::placeholder': {
-                color: '#6c757d',
+                color: '#000000'
             },
-            iconColor: '#0d6efd',
+            '::-webkit-input-placeholder': {
+                color: '#000000'
+            },
+            '::-moz-placeholder': {
+                color: '#000000'
+            },
+            ':-ms-input-placeholder': {
+                color: '#000000'
+            },
+            ':-webkit-autofill': {
+                color: '#000000'
+            },
+            iconColor: '#000000',
         },
         invalid: {
             color: '#dc3545',
             iconColor: '#dc3545',
         },
         complete: {
-            color: '#198754',
-            iconColor: '#198754',
+            color: '#000000',
+            iconColor: '#000000',
+        },
+        empty: {
+            color: '#000000',
+            '::placeholder': {
+                color: '#000000'
+            }
         }
     };
     
@@ -176,15 +194,31 @@ function initializeStripePayment() {
         window[elementName + 'Complete'] = event.complete;
         displayError.textContent = ""
         
+        // Get the element container for styling
+        let elementId = '';
+        if (elementName === 'cardNumber') elementId = 'card-number';
+        else if (elementName === 'cardExpiry') elementId = 'card-expiry';
+        else if (elementName === 'cardCvc') elementId = 'card-cvc';
+        
+        const elementContainer = document.getElementById(elementId);
+        
         if (event.error) {
             displayError.textContent = event.error.message;
             displayError.style.display = 'block';
+            // Add invalid styling to container
+            if (elementContainer) {
+                elementContainer.classList.add('invalid');
+            }
             updateSubmitButtonState(false);
         } else {
             // Clear errors if no current error
             if (!displayError.textContent || displayError.textContent === event.error?.message) {
                 displayError.textContent = '';
                 displayError.style.display = 'none';
+            }
+            // Remove invalid styling from container
+            if (elementContainer) {
+                elementContainer.classList.remove('invalid');
             }
             
             // Update button state based on form validity and all card elements completeness
@@ -198,12 +232,36 @@ function initializeStripePayment() {
         handleCardChange(event, 'cardNumber');
     });
     
+    cardNumberElement.on('focus', function() {
+        document.getElementById('card-number').classList.add('focused');
+    });
+    
+    cardNumberElement.on('blur', function() {
+        document.getElementById('card-number').classList.remove('focused');
+    });
+    
     cardExpiryElement.on('change', function(event) {
         handleCardChange(event, 'cardExpiry');
     });
     
+    cardExpiryElement.on('focus', function() {
+        document.getElementById('card-expiry').classList.add('focused');
+    });
+    
+    cardExpiryElement.on('blur', function() {
+        document.getElementById('card-expiry').classList.remove('focused');
+    });
+    
     cardCvcElement.on('change', function(event) {
         handleCardChange(event, 'cardCvc');
+    });
+    
+    cardCvcElement.on('focus', function() {
+        document.getElementById('card-cvc').classList.add('focused');
+    });
+    
+    cardCvcElement.on('blur', function() {
+        document.getElementById('card-cvc').classList.remove('focused');
     });
     
     // Add form validation

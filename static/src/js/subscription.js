@@ -3,6 +3,119 @@
 import publicWidget from 'web.public.widget';
 import 'web.dom_ready';
 
+// Enhanced portal counter widget with null checks and debugging
+publicWidget.registry.PortalHomeCounters.include({
+    
+    /**
+     * Override the _updateCounters method to add null checks and debugging
+     */
+    async _updateCounters(elem) {
+        console.log('SubscriptionPlans: Portal counters update started');
+        
+        try {
+            const numberRpc = 3;
+            const counterElements = this.el.querySelectorAll('[data-placeholder_count]');
+            console.log('SubscriptionPlans: Found counter elements:', counterElements.length);
+            
+            if (counterElements.length === 0) {
+                console.log('SubscriptionPlans: No counter elements found, skipping counter update');
+                return;
+            }
+            
+            const needed = Array.from(counterElements).map(documentsCounterEl => {
+                const placeholderCount = documentsCounterEl.dataset['placeholder_count'];
+                console.log('SubscriptionPlans: Processing counter element for:', placeholderCount);
+                return placeholderCount;
+            });
+            
+            const counterByRpc = Math.ceil(needed.length / numberRpc);
+            const countersAlwaysDisplayed = this._getCountersAlwaysDisplayed();
+            
+            const proms = [...Array(Math.min(numberRpc, needed.length)).keys()].map(async i => {
+                try {
+                    console.log('SubscriptionPlans: Making RPC call for counters:', needed.slice(i * counterByRpc, (i + 1) * counterByRpc));
+                    
+                    const documentsCountersData = await this._rpc({
+                        route: "/my/counters",
+                        params: {
+                            counters: needed.slice(i * counterByRpc, (i + 1) * counterByRpc)
+                        },
+                    });
+                    
+                    console.log('SubscriptionPlans: Received counter data:', documentsCountersData);
+                    
+                    Object.keys(documentsCountersData).forEach(counterName => {
+                        console.log('SubscriptionPlans: Updating counter:', counterName, 'with value:', documentsCountersData[counterName]);
+                        
+                        const documentsCounterEl = this.el.querySelector(`[data-placeholder_count='${counterName}']`);
+                        
+                        if (!documentsCounterEl) {
+                            console.warn('SubscriptionPlans: Counter element not found for:', counterName);
+                            return;
+                        }
+                        
+                        console.log('SubscriptionPlans: Setting textContent for:', counterName);
+                        
+                        // Add null check before setting textContent
+                        if (documentsCounterEl && typeof documentsCounterEl.textContent !== 'undefined') {
+                            documentsCounterEl.textContent = documentsCountersData[counterName];
+                            
+                            if (documentsCountersData[counterName] !== 0 || countersAlwaysDisplayed.includes(counterName)) {
+                                if (documentsCounterEl.parentElement) {
+                                    documentsCounterEl.parentElement.classList.remove('d-none');
+                                }
+                            }
+                        } else {
+                            console.error('SubscriptionPlans: Element is null or textContent property not available for:', counterName);
+                        }
+                    });
+                    
+                    return documentsCountersData;
+                } catch (error) {
+                    console.error('SubscriptionPlans: Error in RPC call:', error);
+                    return {};
+                }
+            });
+            
+            return Promise.all(proms).then((results) => {
+                console.log('SubscriptionPlans: All counter RPC calls completed');
+                
+                const counters = results.reduce((prev, current) => Object.assign({
+                    ...prev,
+                    ...current
+                }), {});
+                
+                console.log('SubscriptionPlans: Final counter values:', counters);
+                
+                // Add null check for spinner element
+                const spinnerElement = this.el.querySelector('.o_portal_doc_spinner');
+                if (spinnerElement) {
+                    spinnerElement.remove();
+                    console.log('SubscriptionPlans: Removed spinner element');
+                } else {
+                    console.log('SubscriptionPlans: Spinner element not found, skipping removal');
+                }
+                
+                if (!countersAlwaysDisplayed.length && !Object.values(counters).filter((val) => val > 0).length) {
+                    const noDocElement = this.el.querySelector('.o_portal_no_doc_message');
+                    if (noDocElement) {
+                        noDocElement.classList.remove('d-none');
+                        console.log('SubscriptionPlans: Showed no documents message');
+                    } else {
+                        console.log('SubscriptionPlans: No documents message element not found');
+                    }
+                }
+                
+                console.log('SubscriptionPlans: Portal counters update completed successfully');
+            });
+            
+        } catch (error) {
+            console.error('SubscriptionPlans: Error in _updateCounters:', error);
+            // Don't throw the error, just log it to prevent breaking the page
+        }
+    },
+});
+
 // Enhanced Subscription Page Widget
 publicWidget.registry.SubscriptionPage = publicWidget.Widget.extend({
     selector: '.subscription_page_wrap',

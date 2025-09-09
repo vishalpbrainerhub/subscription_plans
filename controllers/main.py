@@ -94,9 +94,22 @@ class SubscriptionController(http.Controller):
             subscription = request.env['user.subscription'].sudo().create_subscription(
                 user.id, plan.id, payment_success=True
             )
-            subscription.activate_subscription()
             
-            return request.redirect('/subscription/success?plan=free')
+            # Check if this is an existing subscription (duplicate prevention)
+            if subscription:
+                subscription.activate_subscription()
+                # Add a parameter to indicate if it's a new or existing subscription
+                existing = request.env['user.subscription'].sudo().search_count([
+                    ('user_id', '=', user.id),
+                    ('plan_id', '=', plan.id),
+                    ('state', '=', 'active')
+                ]) > 0
+                redirect_url = '/subscription/success?plan=free'
+                if existing:
+                    redirect_url += '&existing=true'
+                return request.redirect(redirect_url)
+            
+            return request.redirect('/subscription/error?plan=free')
             
         elif plan.plan_type == 'premium':
             # Redirect to payment page (simulate payment for now)
@@ -231,13 +244,27 @@ class SubscriptionController(http.Controller):
     def subscription_success(self, **kwargs):
         """Display subscription success page"""
         plan_type = kwargs.get('plan', 'free')
+        existing = kwargs.get('existing', 'false') == 'true'
         
         values = {
             'plan_type': plan_type,
+            'existing_subscription': existing,
             'page_name': 'success',
         }
         
         return request.render('subscription_plans.subscription_success_page', values)
+    
+    @http.route('/subscription/error', type='http', auth='user', website=True)
+    def subscription_error(self, **kwargs):
+        """Display subscription error page"""
+        plan_type = kwargs.get('plan', 'unknown')
+        
+        values = {
+            'plan_type': plan_type,
+            'page_name': 'error',
+        }
+        
+        return request.render('subscription_plans.subscription_error_page', values)
 
     @http.route('/subscription/my', type='http', auth='user', website=True)
     def my_subscription(self, **kwargs):

@@ -2,65 +2,56 @@
 
 /* Hero Section */
 .subscription_hero_section {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: black;
     color: white;
 }
 
 .subscription_hero_section h1 {
     color: white !important;
-    font-weight: 700;
+    font-weight: 600;
 }
 
 /* Plan Navigation Buttons */
 .plan_navigation .btn {
-    border-radius: 25px;
+    border-radius: 8px;
     padding: 0.75rem 2rem;
-    font-weight: 600;
+    font-weight: 500;
     transition: all 0.3s ease;
     margin: 0.25rem;
+    background: black;
+    border: 1px solid black;
+    color: white;
 }
 
 .plan_navigation .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    background: #8a1620;
+    border-color: #8a1620;
+    color: white;
 }
 
 /* New Subscription Page Header */
 .subscription_page_header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    position: relative;
-    overflow: hidden;
-}
-
-.subscription_page_header::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-    opacity: 0.3;
+    background: black;
+    color: white;
 }
 
 .subscription_stats .stat_item {
     padding: 1rem;
-    border-radius: 10px;
+    border-radius: 8px;
     background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .subscription_stats .stat_item:hover {
-    transform: translateY(-5px);
     background: rgba(255, 255, 255, 0.15);
 }
 
 .subscription_stats h3 {
-    color: #ffd700;
-    font-size: 2rem;
+    color: white;
+    font-size: 1.8rem;
     margin-bottom: 0.5rem;
+    font-weight: 600;
 }
 
 /* Quick Navigation */
@@ -69,19 +60,18 @@
 }
 
 .quick_nav .nav-link {
-    border-radius: 20px;
-    font-weight: 600;
+    border-radius: 8px;
+    font-weight: 500;
     transition: all 0.3s ease;
     margin: 0 0.25rem;
 }
 
 .quick_nav .nav-link:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    background: #f8f9fa;
 }
 
 .quick_nav .nav-link.active {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: black;
     color: white;
 }
 
@@ -205,15 +195,19 @@
 
 /* Subscription Buttons */
 .subscription_btn {
-    font-weight: 600;
-    border-radius: 25px;
+    font-weight: 500;
+    border-radius: 8px;
     padding: 0.75rem 2rem;
     transition: all 0.3s ease;
+    background: black;
+    border: 1px solid black;
+    color: white;
 }
 
 .subscription_btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    background: #8a1620;
+    border-color: #8a1620;
+    color: white;
 }
 
 /* Comparison Table Styles */
@@ -232,7 +226,8 @@
 }
 
 .comparison_table thead th {
-    background: linear-gradient(135deg, #343a40 0%, #495057 100%);
+    background: black;
+    color: white;
     border: none;
     padding: 1.5rem 1rem;
     vertical-align: middle;
@@ -263,7 +258,7 @@
 }
 
 .comparison_row:hover {
-    background-color: rgba(102, 126, 234, 0.05);
+    background-color: rgba(160, 29, 36, 0.05);
 }
 
 .feature_name {
@@ -299,7 +294,7 @@
 }
 
 .action_row {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    background: black !important;
     color: white;
 }
 
@@ -350,10 +345,13 @@
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     overflow: hidden;
+    border: none;
 }
 
 .payment_card .card-header {
     border-radius: 15px 15px 0 0 !important;
+    border-bottom: none;
+    font-weight: 600;
 }
 
 .plan_summary {
@@ -364,27 +362,592 @@
     font-weight: 600;
 }
 
-/* Success Page */
-.success_section {
-    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+/* Professional Checkout Page Styles */
+.checkout-container {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    padding: 2rem 0;
+}
+
+.checkout-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.checkout-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.checkout-header h2 {
+    color: #2c3e50;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.checkout-header p {
+    color: #6c757d;
+    font-size: 1.1rem;
+}
+
+/* Subscription Details Card */
+.subscription-details-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    border: none;
+    height: 100%;
+    overflow: hidden;
+}
+
+.subscription-details-card .card-header {
+    background: black;
     color: white;
-    min-height: 60vh;
+    padding: 1.5rem;
+    border: none;
+    border-radius: 20px 20px 0 0;
+}
+
+.subscription-details-card .card-header h4 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.subscription-details-card .card-body {
+    padding: 1.5rem;
+}
+
+.plan-name {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.plan-description {
+    color: #6c757d;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.4;
+}
+
+.pricing-section {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.price-display {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #28a745;
+    margin-bottom: 0.3rem;
+    line-height: 1;
+}
+
+.price-display .currency {
+    font-size: 1.25rem;
+    vertical-align: top;
+}
+
+.price-period {
+    color: #6c757d;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.billing-type {
+    text-align: center;
+    color: #495057;
+    font-weight: 500;
+    margin-top: 0.3rem;
+    font-size: 0.9rem;
+}
+
+.features-section {
+    margin-bottom: 1.5rem;
+}
+
+.features-section h6 {
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+}
+
+.features-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.features-list li {
+    display: flex;
+    align-items: flex-start;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f1f3f4;
+    font-size: 0.9rem;
+    color: #495057;
+}
+
+.features-list li:last-child {
+    border-bottom: none;
+}
+
+.features-list li i {
+    color: #28a745;
+    margin-right: 0.6rem;
+    margin-top: 0.1rem;
+    font-size: 0.9rem;
+    width: 14px;
+    flex-shrink: 0;
+}
+
+.price-breakdown {
+    border-top: 2px solid #e9ecef;
+    padding-top: 1.25rem;
+    margin-top: 1.25rem;
+}
+
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.3rem 0;
+    font-size: 0.9rem;
+    color: #495057;
+}
+
+.price-row.total {
+    border-top: 1px solid #dee2e6;
+    padding-top: 1rem;
+    margin-top: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.price-row.total .amount {
+    color: #28a745;
+    font-size: 1.25rem;
+}
+
+/* Payment Information Card */
+.payment-info-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    border: none;
+    height: 100%;
+    overflow: hidden;
+}
+
+.payment-info-card .card-header {
+    background: black;
+    color: white;
+    padding: 1.5rem;
+    border: none;
+    border-radius: 20px 20px 0 0;
+}
+
+.payment-info-card .card-header h4 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.payment-info-card .card-body {
+    padding: 1.5rem;
+}
+
+/* Form Styling */
+.payment-form {
+    padding: 0;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-label {
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    font-size: 0.9rem;
+}
+
+.form-control {
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 0.65rem 0.9rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: #fff;
+    color: #000000;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    background-color: #fff;
+}
+
+/* Stripe Elements Styling */
+.stripe-element {
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 0.75rem;
+    background-color: white !important;
+    min-height: 45px;
     display: flex;
     align-items: center;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    position: relative;
+    z-index: 1;
 }
 
-.success_icon {
-    animation: bounceIn 1s ease-out;
+/* Ensure Stripe elements inside our containers are properly styled */
+.stripe-element .StripeElement,
+.stripe-element .__PrivateStripeElement,
+#card-number .StripeElement,
+#card-expiry .StripeElement,
+#card-cvc .StripeElement {
+    color: #000000 !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 16px !important;
+    font-family: inherit !important;
+    min-height: 20px !important;
+    width: 100% !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
-@keyframes bounceIn {
+/* Force text color on all nested elements */
+.stripe-element .StripeElement *,
+.stripe-element .__PrivateStripeElement *,
+#card-number *,
+#card-expiry *,
+#card-cvc * {
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+    font-size: 16px !important;
+    background: transparent !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.stripe-element.focused {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.stripe-element.invalid {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+/* Card Error Messages */
+.card-errors {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    font-weight: 500;
+    min-height: 20px;
+}
+
+/* Terms and Conditions */
+.terms-section {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1.25rem 0;
+    border: 1px solid #e9ecef;
+}
+
+.form-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.form-check-input {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin: 0;
+    flex-shrink: 0;
+    border: 2px solid #dee2e6;
+    border-radius: 4px;
+}
+
+.form-check-input:checked {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.form-check-label {
+    color: #495057;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.form-check-label a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.form-check-label a:hover {
+    text-decoration: underline;
+}
+
+/* Submit Button */
+.submit-payment-btn {
+    background: black;
+    border: 1px solid black;
+    border-radius: 8px;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding: 1rem 2rem;
+    width: 100%;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.submit-payment-btn:hover:not(:disabled) {
+    background: #8a1620;
+    border-color: #8a1620;
+    color: white;
+}
+
+.submit-payment-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: #6c757d;
+    border-color: #6c757d;
+}
+
+.submit-payment-btn .spinner-border {
+    width: 1.25rem;
+    height: 1.25rem;
+    border-width: 2px;
+}
+
+/* Security Notice */
+.security-notice {
+    text-align: center;
+    color: #6c757d;
+    font-size: 0.85rem;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.security-notice i {
+    color: #28a745;
+    margin-right: 0.5rem;
+}
+
+/* Payment Status */
+.payment-status {
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+.payment-status.alert-success {
+    background-color: #d1edff;
+    border: 1px solid #b8daff;
+    color: #004085;
+}
+
+.payment-status.alert-danger {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+    .checkout-wrapper {
+        padding: 0 1rem;
+    }
+    
+    .subscription-details-card .card-body,
+    .payment-info-card .card-body {
+        padding: 1.5rem;
+    }
+    
+    .price-display {
+        font-size: 2.5rem;
+    }
+    
+    .checkout-header {
+        margin-bottom: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .checkout-container {
+        padding: 1rem 0;
+    }
+    
+    .subscription-details-card,
+    .payment-info-card {
+        margin-bottom: 2rem;
+        border-radius: 15px;
+    }
+    
+    .subscription-details-card .card-header,
+    .payment-info-card .card-header {
+        padding: 1.25rem;
+        border-radius: 15px 15px 0 0;
+    }
+    
+    .subscription-details-card .card-body,
+    .payment-info-card .card-body {
+        padding: 1.25rem;
+    }
+    
+    .price-display {
+        font-size: 2.25rem;
+    }
+    
+    .features-list li {
+        padding: 0.5rem 0;
+    }
+    
+    .submit-payment-btn {
+        font-size: 1rem;
+        padding: 0.875rem 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .checkout-header h2 {
+        font-size: 1.75rem;
+    }
+    
+    .checkout-header p {
+        font-size: 1rem;
+    }
+    
+    .plan-name {
+        font-size: 1.5rem;
+    }
+    
+    .price-display {
+        font-size: 2rem;
+    }
+    
+    .pricing-section {
+        padding: 1.25rem;
+    }
+}
+
+/* Success Page */
+.success-page-container {
+    background-color: #f8f9fa;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    padding: 2rem 0;
+}
+
+.success-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    padding: 3rem 2rem;
+    text-align: center;
+    border: none;
+}
+
+.success-icon-container {
+    margin-bottom: 1.5rem;
+}
+
+.success-icon {
+    font-size: 4rem;
+    color: #28a745;
+    animation: successPulse 1.5s ease-out;
+}
+
+.success-title {
+    color: #2c3e50;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-size: 1.75rem;
+}
+
+.success-message {
+    color: #6c757d;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    margin-bottom: 2rem;
+}
+
+.success-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.success-btn-primary {
+    background: black;
+    border: 1px solid black;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    padding: 0.75rem 2rem;
+    transition: all 0.3s ease;
+}
+
+.success-btn-primary:hover {
+    background: #8a1620;
+    border-color: #8a1620;
+    color: white;
+}
+
+.success-btn-secondary {
+    border: 2px solid #6c757d;
+    border-radius: 8px;
+    color: #6c757d;
+    font-weight: 500;
+    padding: 0.75rem 2rem;
+    transition: all 0.3s ease;
+    background: transparent;
+}
+
+.success-btn-secondary:hover {
+    background: #6c757d;
+    color: white;
+}
+
+@keyframes successPulse {
     0% {
         transform: scale(0);
         opacity: 0;
     }
     50% {
         transform: scale(1.1);
-        opacity: 1;
+        opacity: 0.8;
     }
     100% {
         transform: scale(1);
@@ -392,11 +955,47 @@
     }
 }
 
+/* Responsive Success Page */
+@media (max-width: 768px) {
+    .success-card {
+        padding: 2rem 1.5rem;
+        margin: 1rem;
+    }
+    
+    .success-icon {
+        font-size: 3rem;
+    }
+    
+    .success-title {
+        font-size: 1.5rem;
+    }
+    
+    .success-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .success-btn-primary,
+    .success-btn-secondary {
+        width: 100%;
+        max-width: 250px;
+    }
+}
+
 .action_buttons .btn {
     margin: 0.5rem;
-    border-radius: 25px;
+    border-radius: 8px;
     padding: 0.75rem 2rem;
-    font-weight: 600;
+    font-weight: 500;
+    background: black;
+    border: 1px solid black;
+    color: white;
+}
+
+.action_buttons .btn:hover {
+    background: #8a1620;
+    border-color: #8a1620;
+    color: white;
 }
 
 /* My Subscription Page */
@@ -406,7 +1005,7 @@
 }
 
 .subscription_details_card .card-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: black;
     color: white;
     border-radius: 15px 15px 0 0 !important;
 }
@@ -593,7 +1192,7 @@ html {
 }
 
 .subscription-management-card .card-header {
-    background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+    background: black;
     color: white;
     border-radius: 15px 15px 0 0 !important;
     border: none;
@@ -676,9 +1275,9 @@ html {
 }
 
 .plan-card-current .card-header {
-    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    background: black;
     color: white;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .plan-card-disabled {

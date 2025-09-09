@@ -217,27 +217,26 @@
 
         <template id="subscription_success_page" name="Subscription Success">
             <t t-call="website.layout">
-                <div id="wrap">
-                    <div class="container mt-5 mb-5 text-center">
+                <div id="wrap" class="success-page-container">
+                    <div class="container mt-4 mb-4">
                         <div class="row justify-content-center">
-                            <div class="col-lg-6">
-                                <div class="mb-4">
-                                    <i class="fas fa-check-circle fa-5x text-success"></i>
-                                </div>
-                                <h1 class="text-success">Success!</h1>
-                                <t t-if="plan_type == 'premium'">
-                                    <p class="lead">Your Premium subscription has been activated
-                                        successfully!</p>
-                                </t>
-                                <t t-else="">
-                                    <p class="lead">Your Free subscription has been activated
-                                        successfully!</p>
-                                </t>
+                            <div class="col-lg-6 col-md-8">
+                                <div class="success-card">
+                                    <div class="success-icon-container">
+                                        <i class="fas fa-check-circle success-icon"></i>
+                                    </div>
+                                    <h2 class="success-title">Payment Successful!</h2>
+                                    <t t-if="plan_type == 'premium'">
+                                        <p class="success-message">Your Premium subscription is now active and ready to use.</p>
+                                    </t>
+                                    <t t-else="">
+                                        <p class="success-message">Your subscription is now active and ready to use.</p>
+                                    </t>
 
-                                <div class="mt-4">
-                                    <a href="/decks" class="btn btn-primary btn-lg me-3">Start Using</a>
-                                    <a href="/subscription/my"
-                                        class="btn btn-outline-primary btn-lg">My Subscription</a>
+                                    <div class="success-actions">
+                                        <a href="/decks" class="btn btn-success success-btn-primary">Start Using</a>
+                                        <a href="/subscription" class="btn btn-outline-secondary success-btn-secondary">View Plans</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -364,189 +363,146 @@
         <!-- Stripe Payment Page -->
         <template id="stripe_payment_page" name="Stripe Payment">
             <t t-call="website.layout">
-                <div id="wrap">
-                    <div class="container-fluid mt-5 mb-5">
+                <div id="wrap" class="checkout-container">
+                    <div class="checkout-wrapper">
                         <!-- Header -->
-                        <div class="row justify-content-center mb-4">
-                            <div class="col-12 text-center">
-                                <h2 class="text-primary">Complete Your Purchase</h2>
-                            </div>
+                        <div class="checkout-header">
+                            <h2>Complete Your Purchase</h2>
+                            <p>Secure and simple payment process</p>
                         </div>
 
-                        <!-- Main Content Flex Container -->
-                        <div class="row justify-content-center">
-                            <div class="col-lg-10">
-                                <div class="d-flex flex-column flex-lg-row gap-4">
+                        <!-- Main Content -->
+                        <div class="row g-4">
+                            <!-- Left Side - Subscription Details -->
+                            <div class="col-lg-6">
+                                <div class="subscription-details-card">
+                                    <div class="card-header">
+                                        <h4>Subscription Details</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <!-- Plan Name and Description -->
+                                        <h5 class="plan-name" t-field="plan.name" />
+                                        <p class="plan-description" t-field="plan.short_description" />
 
-                                    <!-- Left Side - Subscription Details -->
-                                    <div class="flex-fill p-4">
-                                        <div class="card shadow" style="height: 600px; margin:auto;">
-                                            <div class="card-header bg-info text-white">
-                                                <h4 class="mb-0">Subscription Details</h4>
+                                        <!-- Pricing Section -->
+                                        <div class="pricing-section">
+                                            <div class="price-display">
+                                                <span class="currency">$</span><span t-esc="plan.price" />
                                             </div>
-                                            <div class="card-body p-4">
-                                                <div class="mb-4">
-                                                    <h5 class="text-primary" t-field="plan.name" />
-                                                    <p class="text-muted"
-                                                        t-field="plan.short_description" />
-                                                </div>
+                                            <div class="price-period">per month</div>
+                                            <div class="billing-type">Monthly</div>
+                                        </div>
 
-                                                <div class="row mb-4">
-                                                    <div class="col-6">
-                                                        <div class="text-center">
-                                                            <h3 class="text-success">$<span
-                                                                    t-esc="plan.price" /></h3>
-                                                            <small class="text-muted">per month</small>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <div class="text-center">
-                                                            <h6 class="mb-1">Billing</h6>
-                                                            <small class="text-muted">Monthly</small>
-                                                        </div>
-                                                    </div>
+                                        <!-- Features Section -->
+                                        <div class="features-section">
+                                            <h6>What's Included:</h6>
+                                            <ul class="features-list">
+                                                <li>
+                                                    <i class="fa fa-check"></i>
+                                                    Full access to all features
+                                                </li>
+                                            
+                                                <li>
+                                                    <i class="fa fa-check"></i>
+                                                    Unlimited deck creation
+                                                </li>
+                                               
+                                            </ul>
+                                        </div>
 
-                                                    <div class="mb-2 mt-2">
-                                                        <h6 class="mb-2">What's Included:</h6>
-                                                        <ul class="list-unstyled">
-                                                            <li class="mb-1"><i
-                                                                    class="fa fa-check text-success me-2"></i>Full
-                                                                access to all features</li>
-                                                            <li class="mb-1"><i
-                                                                    class="fa fa-check text-success me-2"></i>Priority
-                                                                customer support</li>
-                                                            <li class="mb-1"><i
-                                                                    class="fa fa-check text-success me-2"></i>Regular
-                                                                updates and improvements</li>
-                                
-                                                        </ul>
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="border-top pt-3">
-                                                    <div class="d-flex justify-content-between">
-                                                        <span>Subtotal:</span>
-                                                        <span>$<span t-esc="plan.price" /></span>
-                                                    </div>
-                                                    <div class="d-flex justify-content-between">
-                                                        <span>Tax:</span>
-                                                        <span>$0.00</span>
-                                                    </div>
-                                                    <hr />
-                                                    <div class="d-flex justify-content-between">
-                                                        <strong>Total:</strong>
-                                                        <strong class="text-success">$<span
-                                                                t-esc="plan.price" /></strong>
-                                                    </div>
-                                                </div>
+                                        <!-- Price Breakdown -->
+                                        <div class="price-breakdown">
+                                            <div class="price-row">
+                                                <span>Subtotal:</span>
+                                                <span>$<span t-esc="plan.price" /></span>
+                                            </div>
+                                            <div class="price-row">
+                                                <span>Tax:</span>
+                                                <span>$0.00</span>
+                                            </div>
+                                            <div class="price-row total">
+                                                <span>Total:</span>
+                                                <span class="amount">$<span t-esc="plan.price" /></span>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
 
-                                    <!-- Right Side - Payment Form -->
-                                    <div class="flex-fill p-4">
-                                        <div class="card shadow" style="height: 600px;  margin:auto;">
-                                            <div class="card-header bg-primary text-white mb-0">
-                                                <h4 class="mb-0">Payment Information</h4>
-                                            </div>
-
-                                            <div class="card-body p-4">
-                                                <!-- Payment Status -->
-                                                <div id="payment-status" class="alert"
-                                                    style="display: none;"></div>
-
-                                                <!-- Payment Form -->
-                                                <form id="payment-form" class="p-3" onsubmit="return false;">
-
-                                                    <!-- Cardholder Name -->
-                                                    <div class="mb-2">
-                                                        <label for="cardholder-name"
-                                                            class="form-label">Cardholder Name *</label>
-                                                        <input type="text" class="form-control"
-                                                            id="cardholder-name"
-                                                            name="cardholder-name" required="" />
-                                                    </div>
-
-                                                    <!-- Card Number -->
-                                                    <div class="mb-2">
-                                                        <label for="card-number" class="form-label">Card
-                                                            Number *</label>
-                                                        <div id="card-number"
-                                                            class="p-1 border rounded"
-                                                            style="min-height: 40px; background-color: #fff;">
-                                                            <!-- Stripe Elements will create card
-                                                            number field here -->
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- Expiry and CVV Row -->
-                                                    <div class="row mb-2">
-                                                        <div class="col-md-6">
-                                                            <label for="card-expiry"
-                                                                class="form-label">Expiry Date *</label>
-                                                            <div id="card-expiry"
-                                                                class="p-3 border rounded"
-                                                                style="min-height: 50px; background-color: #fff;">
-                                                                <!-- Stripe Elements will create
-                                                                expiry field here -->
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label for="card-cvc" class="form-label">CVV
-                                                                *</label>
-                                                            <div id="card-cvc"
-                                                                class="p-3 border rounded"
-                                                                style="min-height: 50px; background-color: #fff;">
-                                                                <!-- Stripe Elements will create CVC
-                                                                field here -->
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- Card Errors -->
-                                                    <div id="card-errors" class="text-danger mb-3"></div>
-
-                                                    <!-- Terms -->
-                                                    <div class="mb-4">
-                                                        <div class="form-check">
-                                                            <input type="checkbox"
-                                                                class="form-check-input" id="terms"
-                                                                required="" />
-                                                            <label class="form-check-label"
-                                                                for="terms"> I agree to the <a
-                                                                    href="#">Terms of Service</a>
-                                                                and <a href="#">Privacy Policy</a> * </label>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- Submit Button -->
-                                                    <div class="d-grid gap-2 ">
-                                                        <button type="submit"
-                                                            id="submit-payment"
-                                                            class="btn btn-success btn-lg">
-                                                            <span id="button-text">
-                                                                <i class="fa fa-lock"></i> Pay $<span
-                                                                    t-esc="plan.price" /> Securely </span>
-                                                            <span id="spinner"
-                                                                class="spinner-border spinner-border-sm ms-2"
-                                                                style="display: none;"></span>
-                                                        </button>
-                                                    </div>
-
-
-                                                </form>
-
-                                                <!-- Back Link -->
-                                                <!-- <div class="text-center mt-4 pt-3 border-top">
-                                                    <a href="/subscription" class="btn btn-outline-secondary">
-                                                        <i class="fa fa-arrow-left me-2"></i>Back to Plans
-                                                    </a>
-                                                </div> -->
-                                            </div>
-                                        </div>
+                            <!-- Right Side - Payment Form -->
+                            <div class="col-lg-6">
+                                <div class="payment-info-card">
+                                    <div class="card-header">
+                                        <h4>Payment Information</h4>
                                     </div>
+                                    <div class="card-body">
+                                        <!-- Payment Status -->
+                                        <div id="payment-status" class="payment-status" style="display: none;"></div>
 
+                                        <!-- Payment Form -->
+                                        <form id="payment-form" class="payment-form" onsubmit="return false;">
+                                            <!-- Cardholder Name -->
+                                            <div class="form-group">
+                                                <label for="cardholder-name" class="form-label">Cardholder Name *</label>
+                                                <input type="text" class="form-control" id="cardholder-name" name="cardholder-name" placeholder="John Doe" required="" />
+                                            </div>
+
+                                            <!-- Card Number -->
+                                            <div class="form-group">
+                                                <label for="card-number" class="form-label">Card Number *</label>
+                                                <div id="card-number" class="stripe-element">
+                                                    <!-- Stripe Elements will create card number field here -->
+                                                </div>
+                                            </div>
+
+                                            <!-- Expiry and CVV Row -->
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="card-expiry" class="form-label">Expiry Date *</label>
+                                                        <div id="card-expiry" class="stripe-element">
+                                                            <!-- Stripe Elements will create expiry field here -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="card-cvc" class="form-label">CVV *</label>
+                                                        <div id="card-cvc" class="stripe-element">
+                                                            <!-- Stripe Elements will create CVC field here -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Card Errors -->
+                                            <div id="card-errors" class="card-errors"></div>
+
+                                            <!-- Terms -->
+                                            <div class="terms-section">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input" id="terms" required="" />
+                                                    <label class="form-check-label" for="terms">
+                                                        I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a> *
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <!-- Submit Button -->
+                                            <button type="submit" id="submit-payment" class="submit-payment-btn">
+                                                <span id="button-text">
+                                                    <i class="fa fa-lock"></i> Pay $<span t-esc="plan.price" /> Securely
+                                                </span>
+                                                <span id="spinner" class="spinner-border" style="display: none;"></span>
+                                            </button>
+
+                                            <!-- Security Notice -->
+                                            <div class="security-notice">
+                                                <i class="fa fa-shield-alt"></i>
+                                                Your payment information is secured with industry-standard SSL encryption
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1072,6 +1028,17 @@
                     </div>
                 </div>
             </t>
+        </template>
+
+        <!-- Portal My Home Subscription Entry -->
+        <template id="portal_my_home_subscription" name="Show Subscription" inherit_id="portal.portal_my_home" priority="15">
+            <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="title">My Subscription</t>
+                    <t t-set="url" t-value="'/my/subscription'"/>
+                    <t t-set="placeholder_count" t-value="'subscription_count'"/>
+                </t>
+            </xpath>
         </template>
 
     </data>
