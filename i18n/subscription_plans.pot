@@ -1,0 +1,600 @@
+# Translation template for subscription_plans module
+#. module: subscription_plans
+#: model:ir.model.fields,field_description:subscription_plans.field_subscription_plan__name
+msgid "Plan Name"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_page_new
+msgid "Subscription Plans"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_page_new
+msgid "Choose the perfect plan for your needs"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_page_new
+msgid "Your Current Plan:"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_page_new
+msgid "Premium Active"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_page_new
+msgid "You have access to all premium features!"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_page_new
+msgid "Free Plan"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_page_new
+msgid "Upgrade to premium for unlimited access!"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_page_new
+msgid "Trial"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_page_new
+msgid "Try out our features - upgrade for full access!"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_page_new
+msgid "Active since:"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_page_new
+msgid "Expires:"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_page_new
+msgid "View History"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_page_new
+msgid "Premium User"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_page_new
+msgid "Upgrade Plan"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_page_new
+msgid "Your Current Plan"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_page_new
+msgid "/month"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_page_new
+msgid "Free"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_page_new
+msgid "Up to"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_page_new
+msgid "private decks"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_page_new
+msgid "Unlimited private decks"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_page_new
+msgid "cards per deck"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_page_new
+msgid "Unlimited cards per deck"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_page_new
+msgid "Premium content access"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_page_new
+msgid "AI content generation"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_page_new
+msgid "Active Premium Plan"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_page_new
+msgid "Current Plan"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_page_new
+msgid "You already have premium features"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_page_new
+msgid "Select Plan"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_plans_page
+msgid "All Subscription Plans"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_plans_page
+msgid "Compare and choose your plan"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_success_page
+msgid "Payment Successful!"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_success_page
+msgid "Your Premium subscription is now active and ready to use."
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_success_page
+msgid "Your subscription is now active and ready to use."
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_success_page
+msgid "Start Using"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.subscription_success_page
+msgid "View Plans"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.payment_page
+msgid "Complete Your Subscription"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.payment_page
+msgid "Selected Plan:"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.payment_page
+msgid "Demo Mode:"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.payment_page
+msgid "This is a simulation. Click \"Complete Payment\" to activate your subscription."
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.payment_page
+msgid "Complete Payment"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.payment_page
+msgid "← Back to Plans"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.portal_my_subscription
+msgid "Subscription History"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.portal_my_subscription
+msgid "No subscriptions found!"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.portal_my_subscription
+msgid "It seems you don't have any subscription history yet."
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.portal_my_subscription
+msgid "Browse our plans"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.portal_my_subscription
+msgid "to get started."
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.portal_my_subscription
+msgid "Subscription"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.portal_my_subscription
+msgid "Plan"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.portal_my_subscription
+msgid "Status"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.portal_my_subscription
+msgid "Start Date"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.portal_my_subscription
+msgid "End Date"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.portal_my_subscription
+msgid "Amount Paid"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.portal_my_subscription
+msgid "Premium"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.stripe_payment_page
+msgid "Complete Your Purchase"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.stripe_payment_page
+msgid "Secure and simple payment process"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.stripe_payment_page
+msgid "Subscription Details"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.stripe_payment_page
+msgid "per month"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.stripe_payment_page
+msgid "Monthly"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.stripe_payment_page
+msgid "What's Included:"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.stripe_payment_page
+msgid "Full access to all features"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.stripe_payment_page
+msgid "Unlimited deck creation"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.stripe_payment_page
+msgid "Subtotal:"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.stripe_payment_page
+msgid "Tax:"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.stripe_payment_page
+msgid "Total:"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.stripe_payment_page
+msgid "Payment Information"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.stripe_payment_page
+msgid "Cardholder Name *"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.stripe_payment_page
+msgid "Card Number *"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.stripe_payment_page
+msgid "Expiry Date *"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.stripe_payment_page
+msgid "CVV *"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.stripe_payment_page
+msgid "I agree to the"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.stripe_payment_page
+msgid "Terms of Service"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.stripe_payment_page
+msgid "and"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.stripe_payment_page
+msgid "Privacy Policy"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.stripe_payment_page
+msgid "Pay"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.stripe_payment_page
+msgid "Securely"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.stripe_payment_page
+msgid "Your payment information is secured with industry-standard SSL encryption"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan,name:subscription_plans.plan_try_out
+msgid "Try Out"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan,short_description:subscription_plans.plan_try_out
+msgid "Test our platform without registration"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan,description:subscription_plans.plan_try_out
+msgid "Perfect for exploring our platform and seeing what we offer. No commitment required!"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,name:subscription_plans.feature_try_out_1
+msgid "Browse public decks"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,description:subscription_plans.feature_try_out_1
+msgid "View all publicly available card decks"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,name:subscription_plans.feature_try_out_2
+msgid "Play try-out decks"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,description:subscription_plans.feature_try_out_2
+msgid "Play specially marked trial decks"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,name:subscription_plans.feature_try_out_3
+msgid "No registration required"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,description:subscription_plans.feature_try_out_3
+msgid "Start playing immediately"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan,short_description:subscription_plans.plan_free
+msgid "Full access with registration"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan,description:subscription_plans.plan_free
+msgid "Get the full experience with your free account. Create decks, play games, and join our community!"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,name:subscription_plans.feature_free_1
+msgid "Access all free public decks"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,description:subscription_plans.feature_free_1
+msgid "Play unlimited free public card decks"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,name:subscription_plans.feature_free_2
+msgid "Create up to 3 private decks"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,description:subscription_plans.feature_free_2
+msgid "Build your own custom card decks"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,name:subscription_plans.feature_free_3
+msgid "54 cards per deck maximum"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,description:subscription_plans.feature_free_3
+msgid "Generous card limit for your creations"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,name:subscription_plans.feature_free_4
+msgid "Submit decks for approval"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,description:subscription_plans.feature_free_4
+msgid "Share your creations with the community"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,name:subscription_plans.feature_free_5
+msgid "View paid deck previews"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,description:subscription_plans.feature_free_5
+msgid "See what premium content is available"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan,short_description:subscription_plans.plan_premium
+msgid "Unlimited access + AI features"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan,description:subscription_plans.plan_premium
+msgid "Unlock the full potential with unlimited decks, AI-generated content, and exclusive premium features!"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,name:subscription_plans.feature_premium_1
+msgid "Everything in Free plan"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,description:subscription_plans.feature_premium_1
+msgid "All free features included"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,name:subscription_plans.feature_premium_2
+msgid "Unlimited private decks"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,description:subscription_plans.feature_premium_2
+msgid "Create as many decks as you want"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,name:subscription_plans.feature_premium_3
+msgid "Unlimited cards per deck"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,description:subscription_plans.feature_premium_3
+msgid "No limits on deck size"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,name:subscription_plans.feature_premium_4
+msgid "AI-powered card generation"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,description:subscription_plans.feature_premium_4
+msgid "Generate cards and decks using AI prompts"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,name:subscription_plans.feature_premium_5
+msgid "Access all premium content"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,description:subscription_plans.feature_premium_5
+msgid "Play exclusive premium decks"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,name:subscription_plans.feature_premium_6
+msgid "Priority support"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,description:subscription_plans.feature_premium_6
+msgid "Get help when you need it most"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,name:subscription_plans.feature_premium_7
+msgid "Smart card reuse"
+msgstr ""
+
+#. module: subscription_plans
+#: model:subscription.plan.feature,description:subscription_plans.feature_premium_7
+msgid "Reuse existing cards when prompts match"
+msgstr ""
+
+#. module: subscription_plans
+#: model:website.menu,name:subscription_plans.subscription_website_menu
+msgid "Subscription"
+msgstr ""
+
+#. module: subscription_plans
+#: model:website.menu,name:subscription_plans.decks_website_menu
+msgid "Check Decks"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.menu,name:subscription_plans.subscription_main_menu
+msgid "Subscriptions"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.menu,name:subscription_plans.subscription_config_menu
+msgid "Configuration"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.menu,name:subscription_plans.subscription_plan_menu
+msgid "Subscription Plans"
+msgstr ""
+
+#. module: subscription_plans
+#: model:ir.ui.menu,name:subscription_plans.user_subscription_menu
+msgid "User Subscriptions"
+msgstr ""

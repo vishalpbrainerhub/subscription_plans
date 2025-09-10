@@ -35,6 +35,7 @@
         * Testimonials section
         * Statistics display
         * Enhanced animations and user experience
+        * Multi-language support (Spanish, French, Portuguese)
     """,
     
     'author': 'Diago Team',
