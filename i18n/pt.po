@@ -213,7 +213,7 @@ msgstr "Modo Demo:"
 #. module: subscription_plans
 #: model:ir.ui.view,arch_db:subscription_plans.payment_page
 msgid "This is a simulation. Click \"Complete Payment\" to activate your subscription."
-msgstr "Esta é uma simulação. Clique em \"Completar Pagamento\" para ativar sua assinatura."
+msgstr "Esta é uma simulação. Clique em 'Completar Pagamento' para ativar sua assinatura."
 
 #. module: subscription_plans
 #: model:ir.ui.view,arch_db:subscription_plans.payment_page
