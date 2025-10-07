@@ -5,9 +5,9 @@
     <record id="subscription_website_menu" model="website.menu">
         <field name="name">Subscription</field>
         <field name="url">/subscription</field>
-        <field name="parent_id" eval="4"/>
-        <field name="sequence">4</field>
-        <field name="website_id" eval="1"/>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence">15</field>
+        <field name="website_id" ref="website.default_website"/>
     </record>
     
     <!-- Website Menu for Decks Page -->

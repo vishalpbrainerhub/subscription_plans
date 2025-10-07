@@ -68,6 +68,55 @@ class AuthSignupRecaptcha(AuthSignupHome):
         response.headers['Content-Security-Policy'] = "frame-ancestors 'self'"
         return response
 
+    @http.route('/web/reset_password', type='http', auth='public', website=True, sitemap=False)
+    def web_auth_reset_password(self, *args, **kw):
+        """Override reset password to add reCAPTCHA validation"""
+        qcontext = self.get_auth_signup_qcontext()
+
+        if not qcontext.get('token') and not qcontext.get('reset_password_enabled'):
+            raise werkzeug.exceptions.NotFound()
+
+        # Add reCAPTCHA site key to context
+        recaptcha_site_key = request.env['ir.config_parameter'].sudo().get_param(
+            'subscription_plans.recaptcha_v2_site_key'
+        )
+        qcontext['recaptcha_site_key'] = recaptcha_site_key
+
+        if 'error' not in qcontext and request.httprequest.method == 'POST':
+            # Validate reCAPTCHA first (only for initial email submission, not token-based reset)
+            if not qcontext.get('token') and not self._verify_recaptcha_v2():
+                qcontext['error'] = _('Please complete the verification and try again.')
+            else:
+                try:
+                    if qcontext.get('token'):
+                        self.do_signup(qcontext)
+                        return self.web_login(*args, **kw)
+                    else:
+                        login = qcontext.get('login')
+                        assert login, _("No login provided.")
+                        _logger.info(
+                            "Password reset attempt for <%s> by user <%s> from %s",
+                            login, request.env.user.login, request.httprequest.remote_addr)
+                        request.env['res.users'].sudo().reset_password(login)
+                        qcontext['message'] = _("Password reset instructions sent to your email")
+                except UserError as e:
+                    qcontext['error'] = e.args[0]
+                except SignupError:
+                    qcontext['error'] = _("Could not reset your password")
+                    _logger.exception('error when resetting password')
+                except Exception as e:
+                    qcontext['error'] = str(e)
+
+        elif 'signup_email' in qcontext:
+            user = request.env['res.users'].sudo().search([('email', '=', qcontext.get('signup_email')), ('state', '!=', 'new')], limit=1)
+            if user:
+                return request.redirect('/web/login?%s' % url_encode({'login': user.login, 'redirect': '/web'}))
+
+        response = request.render('subscription_plans.reset_password_with_recaptcha', qcontext)
+        response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+        response.headers['Content-Security-Policy'] = "frame-ancestors 'self'"
+        return response
+
     def _verify_recaptcha_v2(self):
         """Verify reCAPTCHA v2 response"""
         recaptcha_response = request.params.get('g-recaptcha-response')

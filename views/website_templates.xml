@@ -617,18 +617,18 @@
                     <div class="col-12">
                         <h1 class="mb-1">
                             <t t-if="user._is_public()">
-                                Welcome to Card Decks
+                                <t t-esc="_('Welcome to Card Decks')"/>
                             </t>
                             <t t-else="">
-                                Welcome back, <span t-esc="user_name"/>!
+                                <t t-esc="_('Welcome back,')"/> <span t-esc="user_name"/>!
                             </t>
                         </h1>
                         <p class="mb-0">
                             <t t-if="user._is_public()">
-                                Browse our collection of card decks. <a href="/web/signup">Sign up</a> for free to access more decks!
+                                <t t-esc="_('Browse our collection of card decks.')"/> <a href="/web/signup"><t t-esc="_('Sign up')"/></a> <t t-esc="_('for free to access more decks!')"/>
                             </t>
                             <t t-else="">
-                                Your subscription: <span t-esc="subscription_status"/> | Access Level: <span t-esc="plan_type.title()"/>
+                                <t t-esc="_('Your subscription:')"/> <span t-esc="subscription_status"/> | <t t-esc="_('Access Level:')"/> <span t-esc="plan_type.title()"/>
                             </t>
                         </p>
                     </div>
@@ -638,12 +638,14 @@
             <!-- Use Original Card Deck Game Styling -->
             <link rel='stylesheet' href='/carddecks_game/static/src/css/styles.css'/>
             <script type="module" src="/carddecks_game/static/src/js/index.js"></script>
+            <!-- Include deck translation script -->
+            <script type="text/javascript" src="/subscription_plans/static/src/js/deck_translation.js"></script>
             
             <div class="card-grid">
                 <!-- Combine all accessible decks for display -->
                 <t t-set="all_decks" t-value="try_out_decks + free_decks + premium_decks"/>
                 <t t-foreach="all_decks" t-as="deck">
-                    <div class="card">
+                    <div class="card" t-att-data-deck-id="deck.id">
                         <div class="card-header">
                             <span class="card-title"><t t-esc="deck.name"/></span>
                             <span class="card-counter"><t t-esc="deck.total_cards"/></span>
@@ -652,7 +654,7 @@
                             <t t-esc="deck.description"/>
                         </div>
                         <div class="card-footer">
-                            <a class="play-button" t-att-href="'/game/new?deck_id=%s' % deck.id"> Play </a>
+                            <a class="play-button" t-att-href="'/game/new?deck_id=%s' % deck.id"> <t t-esc="_('Play')"/> </a>
                         </div>
                     </div>
                 </t>
@@ -660,14 +662,14 @@
                 <!-- Show message if no decks available -->
                 <t t-if="not all_decks">
                     <div style="text-align: center; padding: 50px;">
-                        <h3>No decks available</h3>
+                        <h3><t t-esc="_('No decks available')"/></h3>
                         <t t-if="user._is_public()">
-                            <p>Sign up for free to access more decks!</p>
-                            <a href="/web/signup" style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px;">Sign Up Free</a>
+                            <p><t t-esc="_('Sign up for free to access more decks!')"/></p>
+                            <a href="/web/signup" style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px;"><t t-esc="_('Sign Up Free')"/></a>
                         </t>
                         <t t-else="">
-                            <p>Upgrade your subscription to access more decks.</p>
-                            <a href="/subscription" style="background: #ffc107; color: black; padding: 10px 20px; text-decoration: none; border-radius: 4px;">View Plans</a>
+                            <p><t t-esc="_('Upgrade your subscription to access more decks.')"/></p>
+                            <a href="/subscription" style="background: #ffc107; color: black; padding: 10px 20px; text-decoration: none; border-radius: 4px;"><t t-esc="_('View Plans')"/></a>
                         </t>
                     </div>
                 </t>
@@ -704,13 +706,13 @@
                                     <small class="text-muted d-block">
                                         <i class="fa fa-layer-group text-primary"></i>
                                     </small>
-                                    <small class="fw-bold"><span t-esc="deck.total_cards" /> cards</small>
+                                    <small class="fw-bold"><span t-esc="deck.total_cards" /> <t t-esc="_('cards')"/></small>
                                 </div>
                                 <div class="col-4">
                                     <small class="text-muted d-block">
                                         <i class="fa fa-play text-success"></i>
                                     </small>
-                                    <small class="fw-bold"><span t-esc="deck.play_count" /> plays</small>
+                                    <small class="fw-bold"><span t-esc="deck.play_count" /> <t t-esc="_('plays')"/></small>
                                 </div>
                                 <div class="col-4">
                                     <small class="text-muted d-block">
@@ -723,16 +725,16 @@
                             <div class="d-grid">
                                 <t t-if="deck.can_user_play(user)">
                                     <a t-attf-href="/deck/#{deck.id}/play" class="btn btn-success">
-                                        <i class="fa fa-play"></i> Play Now </a>
+                                        <i class="fa fa-play"></i> <t t-esc="_('Play Now')"/> </a>
                                 </t>
                                 <t t-else="">
                                     <t t-if="user._is_public()">
                                         <a href="/web/signup" class="btn btn-warning">
-                                            <i class="fa fa-user-plus"></i> Sign Up to Play </a>
+                                            <i class="fa fa-user-plus"></i> <t t-esc="_('Sign Up to Play')"/> </a>
                                     </t>
                                     <t t-else="">
                                         <a href="/subscription" class="btn btn-warning">
-                                            <i class="fa fa-upgrade"></i> Upgrade to Play </a>
+                                            <i class="fa fa-upgrade"></i> <t t-esc="_('Upgrade to Play')"/> </a>
                                     </t>
                                 </t>
                             </div>
@@ -985,7 +987,7 @@
                 <div id="captcha-overlay">
                     <div class="captcha-popup">
                         <h5 class="mb-3">Please verify you're human</h5>
-                        <div class="g-recaptcha" t-att-data-sitekey="'6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'" data-callback="hideCaptchaPopup"/>
+                        <div class="g-recaptcha" t-att-data-sitekey="recaptcha_site_key" data-callback="hideCaptchaPopup"/>
                     </div>
                 </div>
             </xpath>
@@ -1004,6 +1006,50 @@
                         document.body.classList.add('captcha-locked');
                     });
                 </script>
+            </xpath>
+        </template>
+
+        <!-- Extended Reset Password Template with reCAPTCHA v2 -->
+        <template id="reset_password_with_recaptcha" name="Reset Password with reCAPTCHA" key="subscription_plans.reset_password_with_recaptcha"
+            inherit_id="auth_signup.reset_password">
+            <xpath expr="//div[@class='clearfix oe_login_buttons d-grid mt-3']" position="before">
+                <!-- Full-screen reCAPTCHA overlay popup (only for initial email submission) -->
+                <div t-if="not token" id="captcha-overlay">
+                    <div class="captcha-popup">
+                        <h5 class="mb-3">Please verify you're human</h5>
+                        <div class="g-recaptcha" t-att-data-sitekey="recaptcha_site_key" data-callback="hideCaptchaPopup"/>
+                    </div>
+                </div>
+            </xpath>
+            <xpath expr="//form[@class='oe_reset_password_form']" position="after">
+                <!-- Load reCAPTCHA -->
+                <script src="https://www.google.com/recaptcha/api.js" async="true" defer="true"></script>
+                <script>
+                    function hideCaptchaPopup() {
+                        var overlay = document.getElementById('captcha-overlay');
+                        if (overlay) {
+                            overlay.style.display = 'none';
+                            document.body.classList.remove('captcha-locked');
+                        }
+                    }
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var overlay = document.getElementById('captcha-overlay');
+                        if (overlay) {
+                            document.body.classList.add('captcha-locked');
+                        }
+                    });
+                </script>
+            </xpath>
+        </template>
+
+        <!-- Extended User Dropdown with Subscriptions Menu -->
+        <template id="user_dropdown_with_subscriptions" name="User Dropdown with Subscriptions" 
+            inherit_id="portal.user_dropdown">
+            <xpath expr="//div[@class='dropdown-divider']" position="before">
+                <!-- Subscriptions Menu Item -->
+                <a href="/subscription" role="menuitem" class="dropdown-item ps-3">
+                    <i class="fa fa-fw fa-credit-card me-1 small text-muted"/> Subscriptions
+                </a>
             </xpath>
         </template>
 

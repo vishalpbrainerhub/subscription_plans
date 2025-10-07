@@ -614,3 +614,168 @@ msgstr "Plans d'Abonnement"
 #: model:ir.ui.menu,name:subscription_plans.user_subscription_menu
 msgid "User Subscriptions"
 msgstr "Abonnements Utilisateur"
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.deck_list_page
+msgid "Welcome to Card Decks"
+msgstr "Bienvenue aux Jeux de Cartes"
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.deck_list_page
+msgid "Welcome back,"
+msgstr "Bon retour,"
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.deck_list_page
+msgid "Browse our collection of card decks."
+msgstr "Parcourez notre collection de jeux de cartes."
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.deck_list_page
+msgid "Sign up"
+msgstr "S'inscrire"
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.deck_list_page
+msgid "for free to access more decks!"
+msgstr "gratuitement pour accéder à plus de jeux !"
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.deck_list_page
+msgid "Your subscription:"
+msgstr "Votre abonnement :"
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.deck_list_page
+msgid "Access Level:"
+msgstr "Niveau d'Accès :"
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.deck_list_page
+msgid "Play"
+msgstr "Jouer"
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.deck_list_page
+msgid "No decks available"
+msgstr "Aucun jeu disponible"
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.deck_list_page
+msgid "Sign up for free to access more decks!"
+msgstr "Inscrivez-vous gratuitement pour accéder à plus de jeux !"
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.deck_list_page
+msgid "Sign Up Free"
+msgstr "Inscription Gratuite"
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.deck_list_page
+msgid "Upgrade your subscription to access more decks."
+msgstr "Mettez à niveau votre abonnement pour accéder à plus de jeux."
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.deck_card
+msgid "cards"
+msgstr "cartes"
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.deck_card
+msgid "plays"
+msgstr "parties"
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.deck_card
+msgid "Play Now"
+msgstr "Jouer Maintenant"
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.deck_card
+msgid "Sign Up to Play"
+msgstr "S'inscrire pour Jouer"
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.deck_card
+msgid "Upgrade to Play"
+msgstr "Mettre à Niveau pour Jouer"
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.deck_detail_page
+msgid "Deck Statistics"
+msgstr "Statistiques du Jeu"
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.deck_detail_page
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.deck_detail_page
+msgid "Access Information"
+msgstr "Informations d'Accès"
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.deck_detail_page
+msgid "You have access to this deck"
+msgstr "Vous avez accès à ce jeu"
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.deck_detail_page
+msgid "Please register to access this deck"
+msgstr "Veuillez vous inscrire pour accéder à ce jeu"
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.deck_detail_page
+msgid "Upgrade your subscription to access this deck"
+msgstr "Mettez à niveau votre abonnement pour accéder à ce jeu"
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.deck_detail_page
+msgid "Play Deck"
+msgstr "Jouer au Jeu"
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.deck_detail_page
+msgid "Register to Play"
+msgstr "S'inscrire pour Jouer"
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.deck_detail_page
+msgid "Back to Decks"
+msgstr "Retour aux Jeux"
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.deck_detail_page
+msgid "Your Subscription"
+msgstr "Votre Abonnement"
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.deck_detail_page
+msgid "You can access decks based on your subscription level."
+msgstr "Vous pouvez accéder aux jeux selon votre niveau d'abonnement."
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.activation_message
+msgid "Welcome!"
+msgstr "Bienvenue !"
+
+#. module: subscription_plans
+#: model:ir.ui.view,arch_db:subscription_plans.activation_message
+msgid "Continue"
+msgstr "Continuer"
+
+#. module: subscription_plans
+#: controllers/deck_controller.py
+msgid "Translating decks..."
+msgstr "Traduction des jeux..."
+
+#. module: subscription_plans
+#: controllers/deck_controller.py
+msgid "Translation complete"
+msgstr "Traduction terminée"
+
+#. module: subscription_plans
+#: controllers/deck_controller.py
+msgid "Translation failed"
+msgstr "Traduction échouée"

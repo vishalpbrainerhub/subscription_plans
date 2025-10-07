@@ -49,7 +49,7 @@
     ],
     
     'external_dependencies': {
-        'python': ['stripe'],
+        'python': ['stripe', 'googletrans'],
     },
     
     'data': [
@@ -74,9 +74,8 @@
             'subscription_plans/static/src/css/recaptcha_v2.css',
             'subscription_plans/static/src/css/stripe_payment.css',
             'subscription_plans/static/src/js/subscription.js',
-            'subscription_plans/static/src/js/recaptcha_v2.js',
-            'subscription_plans/static/src/js/recaptcha_simple.js',
             'subscription_plans/static/src/js/stripe_payment.js',
+            'subscription_plans/static/src/js/deck_translation.js',
         ],
         'web.assets_backend': [
             'subscription_plans/static/src/css/subscription_backend.css',
