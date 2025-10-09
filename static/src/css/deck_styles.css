@@ -275,3 +275,57 @@
 .deck-limit-progress.danger .progress-bar {
     background: linear-gradient(90deg, #dc3545, #e74c3c);
 }
+
+/* Compact Subscription Status Styles */
+.subscription-status-compact {
+    text-align: right;
+}
+
+.subscription-status-compact .badge {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+}
+
+.subscription-status-compact .btn-sm {
+    padding: 4px 12px;
+    font-size: 0.875rem;
+    border-radius: 20px;
+}
+
+.subscription-status-compact .btn-warning {
+    background: linear-gradient(135deg, #ffc107 0%, #ff8f00 100%);
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.subscription-status-compact .btn-warning:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(255, 193, 7, 0.3);
+}
+
+.subscription-status-compact .btn-outline-primary {
+    border-radius: 20px;
+    transition: all 0.2s ease;
+}
+
+.subscription-status-compact .btn-success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border: none;
+    border-radius: 20px;
+}
+
+/* Responsive adjustments for compact status */
+@media (max-width: 768px) {
+    .subscription-status-compact {
+        text-align: center;
+        margin-top: 15px;
+    }
+    
+    .subscription-status-compact .d-flex {
+        justify-content: center !important;
+    }
+    
+    .subscription-status-compact .gap-2 {
+        gap: 8px !important;
+    }
+}

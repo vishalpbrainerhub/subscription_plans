@@ -613,24 +613,77 @@
         <template id="deck_list_page" name="Deck List">
             <!-- Simple Header matching the image -->
             <div class="container mt-4 mb-4">
-                <div class="row">
-                    <div class="col-12">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
                         <h1 class="mb-1">
                             <t t-if="user._is_public()">
-                                <t t-esc="_('Welcome to Card Decks')"/>
+                                Welcome to Card Decks
                             </t>
                             <t t-else="">
-                                <t t-esc="_('Welcome back,')"/> <span t-esc="user_name"/>!
+                                Welcome back, <span t-esc="user_name"/>!
                             </t>
                         </h1>
-                        <p class="mb-0">
+                        <p class="mb-0 text-muted">
                             <t t-if="user._is_public()">
-                                <t t-esc="_('Browse our collection of card decks.')"/> <a href="/web/signup"><t t-esc="_('Sign up')"/></a> <t t-esc="_('for free to access more decks!')"/>
+                                Browse our collection of card decks. <a href="/web/signup">Sign up</a> for free to access more decks!
                             </t>
                             <t t-else="">
-                                <t t-esc="_('Your subscription:')"/> <span t-esc="subscription_status"/> | <t t-esc="_('Access Level:')"/> <span t-esc="plan_type.title()"/>
+                                Your subscription: <span t-esc="subscription_status"/> | Access Level: <span t-esc="plan_type.title()"/>
                             </t>
                         </p>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <t t-if="user._is_public()">
+                            <!-- Guest User Actions -->
+                            <div class="d-flex gap-2 justify-content-md-end">
+                                <a href="/web/login" class="btn btn-outline-primary btn-sm">
+                                    <i class="fa fa-sign-in-alt me-1"></i>Sign In
+                                </a>
+                                <a href="/web/signup" class="btn btn-success btn-sm">
+                                    <i class="fa fa-user-plus me-1"></i>Sign Up Free
+                                </a>
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <!-- Subscription Status -->
+                            <div class="subscription-status-compact">
+                                <div class="d-flex align-items-center justify-content-md-end mb-2">
+                                    <t t-if="plan_type == 'premium'">
+                                        <span class="badge bg-warning text-dark me-2">
+                                            <i class="fa fa-crown me-1"></i>Premium
+                                        </span>
+                                        <small class="text-success fw-bold">All features unlocked!</small>
+                                    </t>
+                                    <t t-elif="plan_type == 'free'">
+                                        <span class="badge bg-primary me-2">
+                                            <i class="fa fa-gift me-1"></i>Free Plan
+                                        </span>
+                                        <small class="text-muted">Basic access</small>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="badge bg-info me-2">
+                                            <i class="fa fa-eye me-1"></i>Try Out
+                                        </span>
+                                        <small class="text-muted">Limited access</small>
+                                    </t>
+                                </div>
+                                <div class="d-flex justify-content-md-end">
+                                    <t t-if="plan_type != 'premium'">
+                                        <a href="/subscription" class="btn btn-warning btn-sm">
+                                            <i class="fa fa-arrow-up me-1"></i>Upgrade Plan
+                                        </a>
+                                    </t>
+                                    <t t-else="">
+                                        <small class="text-muted">
+                                            <i class="fa fa-calendar me-1"></i>
+                                            <t t-if="subscription">
+                                                Active since <span t-field="subscription.start_date" t-options="{'widget': 'date'}"/>
+                                            </t>
+                                        </small>
+                                    </t>
+                                </div>
+                            </div>
+                        </t>
                     </div>
                 </div>
             </div>
@@ -654,7 +707,7 @@
                             <t t-esc="deck.description"/>
                         </div>
                         <div class="card-footer">
-                            <a class="play-button" t-att-href="'/game/new?deck_id=%s' % deck.id"> <t t-esc="_('Play')"/> </a>
+                            <a class="play-button" t-att-href="'/game/new?deck_id=%s' % deck.id"> Play </a>
                         </div>
                     </div>
                 </t>
@@ -662,14 +715,14 @@
                 <!-- Show message if no decks available -->
                 <t t-if="not all_decks">
                     <div style="text-align: center; padding: 50px;">
-                        <h3><t t-esc="_('No decks available')"/></h3>
+                        <h3>No decks available</h3>
                         <t t-if="user._is_public()">
-                            <p><t t-esc="_('Sign up for free to access more decks!')"/></p>
-                            <a href="/web/signup" style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px;"><t t-esc="_('Sign Up Free')"/></a>
+                            <p>Sign up for free to access more decks!</p>
+                            <a href="/web/signup" style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px;">Sign Up Free</a>
                         </t>
                         <t t-else="">
-                            <p><t t-esc="_('Upgrade your subscription to access more decks.')"/></p>
-                            <a href="/subscription" style="background: #ffc107; color: black; padding: 10px 20px; text-decoration: none; border-radius: 4px;"><t t-esc="_('View Plans')"/></a>
+                            <p>Upgrade your subscription to access more decks.</p>
+                            <a href="/subscription" style="background: #ffc107; color: black; padding: 10px 20px; text-decoration: none; border-radius: 4px;">View Plans</a>
                         </t>
                     </div>
                 </t>
@@ -706,13 +759,13 @@
                                     <small class="text-muted d-block">
                                         <i class="fa fa-layer-group text-primary"></i>
                                     </small>
-                                    <small class="fw-bold"><span t-esc="deck.total_cards" /> <t t-esc="_('cards')"/></small>
+                                    <small class="fw-bold"><span t-esc="deck.total_cards" /> cards</small>
                                 </div>
                                 <div class="col-4">
                                     <small class="text-muted d-block">
                                         <i class="fa fa-play text-success"></i>
                                     </small>
-                                    <small class="fw-bold"><span t-esc="deck.play_count" /> <t t-esc="_('plays')"/></small>
+                                    <small class="fw-bold"><span t-esc="deck.play_count" /> plays</small>
                                 </div>
                                 <div class="col-4">
                                     <small class="text-muted d-block">
@@ -725,16 +778,16 @@
                             <div class="d-grid">
                                 <t t-if="deck.can_user_play(user)">
                                     <a t-attf-href="/deck/#{deck.id}/play" class="btn btn-success">
-                                        <i class="fa fa-play"></i> <t t-esc="_('Play Now')"/> </a>
+                                        <i class="fa fa-play"></i> Play Now </a>
                                 </t>
                                 <t t-else="">
                                     <t t-if="user._is_public()">
                                         <a href="/web/signup" class="btn btn-warning">
-                                            <i class="fa fa-user-plus"></i> <t t-esc="_('Sign Up to Play')"/> </a>
+                                            <i class="fa fa-user-plus"></i> Sign Up to Play </a>
                                     </t>
                                     <t t-else="">
                                         <a href="/subscription" class="btn btn-warning">
-                                            <i class="fa fa-upgrade"></i> <t t-esc="_('Upgrade to Play')"/> </a>
+                                            <i class="fa fa-upgrade"></i> Upgrade to Play </a>
                                     </t>
                                 </t>
                             </div>
