@@ -5,13 +5,6 @@
             <t t-call="website.layout">
                 <div id="wrap">
                     <div class="container mt-5 mb-5">
-                        <!-- Header Section -->
-                        <div class="row">
-                            <div class="col-12 text-center">
-                                <h1>Subscription Plans</h1>
-                                <p class="lead">Choose the perfect plan for your needs</p>
-                            </div>
-                        </div>
 
                         <!-- Current Subscription Section (Only for authenticated users) -->
                         <t t-if="current_subscription">
@@ -43,6 +36,9 @@
                                                     <t t-if="current_subscription.end_date">
                                                         | Expires: <span t-field="current_subscription.end_date" t-options="{'widget': 'date'}"/>
                                                     </t>
+                                                    <t t-if="current_subscription.billing_period">
+                                                        | Billing: <span t-field="current_subscription.billing_period" class="text-capitalize"/>
+                                                    </t>
                                                 </small>
                                             </div>
                                             <div class="col-md-4 text-md-end">
@@ -64,6 +60,36 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        
+                                        <!-- Billing Period Toggle inside current plan section -->
+                                        <div class="row mt-3">
+                                            <div class="col-12 text-center">
+                                                <div class="billing-toggle-container">
+                                                    <span class="billing-label">Monthly</span>
+                                                    <label class="billing-switch">
+                                                        <input type="checkbox" id="billing-toggle" />
+                                                        <span class="billing-slider"></span>
+                                                    </label>
+                                                    <span class="billing-label">Yearly</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                        
+                        <!-- Billing Period Toggle for non-authenticated users -->
+                        <t t-if="not current_subscription">
+                            <div class="row mt-4">
+                                <div class="col-12 text-center">
+                                    <div class="billing-toggle-container">
+                                        <span class="billing-label">Monthly</span>
+                                        <label class="billing-switch">
+                                            <input type="checkbox" id="billing-toggle" />
+                                            <span class="billing-slider"></span>
+                                        </label>
+                                        <span class="billing-label">Yearly</span>
                                     </div>
                                 </div>
                             </div>
@@ -86,12 +112,48 @@
                                                 <div class="card-body text-center d-flex flex-column">
                                                     <h5 class="card-title" t-field="plan.name" />
                                                     <p class="card-text" t-field="plan.short_description" />
-                                                    <div class="h3 text-primary">
-                                                        <t t-if="plan.price > 0"> $<span t-esc="plan.price" />
-                                                            <small class="text-muted">/month</small>
+                                                    
+                                                    <!-- Dynamic Pricing Display -->
+                                                    <div class="pricing-container" t-att-data-monthly-price="plan.price" t-att-data-yearly-price="plan.yearly_price">
+                                                        <!-- Show user's actual subscription price if this is their current plan -->
+                                                        <t t-if="current_subscription and current_subscription.plan_id.id == plan.id">
+                                                            <div class="h3 text-primary">
+                                                                <t t-if="current_subscription.actual_price > 0">
+                                                                    $<span t-esc="current_subscription.actual_price" />
+                                                                    <small class="text-muted">
+                                                                        <t t-if="current_subscription.billing_period == 'yearly'">/year</t>
+                                                                        <t t-else="">/month</t>
+                                                                    </small>
+                                                                </t>
+                                                                <t t-else="">
+                                                                    Free
+                                                                </t>
+                                                            </div>
                                                         </t>
+                                                        <!-- Show plan's standard pricing for other plans -->
                                                         <t t-else="">
-                                                            Free
+                                                            <div class="h3 text-primary monthly-price">
+                                                                <t t-if="plan.price > 0">
+                                                                    $<span t-esc="plan.price" />
+                                                                    <small class="text-muted">/month</small>
+                                                                </t>
+                                                                <t t-else="">
+                                                                    Free
+                                                                </t>
+                                                            </div>
+                                                            <div class="h3 text-primary yearly-price" style="display: none;">
+                                                                <t t-if="plan.yearly_price > 0">
+                                                                    $<span t-esc="plan.yearly_price" />
+                                                                    <small class="text-muted">/year</small>
+                                                                </t>
+                                                                <t t-elif="plan.price > 0">
+                                                                    $<span t-esc="plan.price * 12" />
+                                                                    <small class="text-muted">/year</small>
+                                                                </t>
+                                                                <t t-else="">
+                                                                    Free
+                                                                </t>
+                                                            </div>
                                                         </t>
                                                     </div>
                                                     
@@ -156,7 +218,7 @@
                                                             </div>
                                                         </t>
                                                         <t t-else="">
-                                                            <a t-attf-href="/subscription/select/#{plan.id}" class="btn btn-primary subscription-button">
+                                                            <a t-attf-href="/subscription/select/#{plan.id}" class="btn btn-primary subscription-button" t-att-data-plan-id="plan.id">
                                                                 <t t-if="plan.price > 0">
                                                                     <i class="fa fa-credit-card me-2"></i>Select Plan
                                                                 </t>
@@ -175,6 +237,56 @@
                         </div>
                     </div>
                 </div>
+                
+                <!-- JavaScript for billing toggle -->
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const billingToggle = document.getElementById('billing-toggle');
+                        const monthlyPrices = document.querySelectorAll('.monthly-price');
+                        const yearlyPrices = document.querySelectorAll('.yearly-price');
+                        const subscriptionButtons = document.querySelectorAll('.subscription-button');
+                        
+                        function updatePricing() {
+                            const isYearly = billingToggle.checked;
+                            console.log('Updating pricing, isYearly:', isYearly);
+                            console.log('Monthly prices found:', monthlyPrices.length);
+                            console.log('Yearly prices found:', yearlyPrices.length);
+                            
+                            monthlyPrices.forEach((price, index) => {
+                                price.style.display = isYearly ? 'none' : 'block';
+                                console.log(`Monthly price ${index} display:`, price.style.display);
+                            });
+                            
+                            yearlyPrices.forEach((price, index) => {
+                                price.style.display = isYearly ? 'block' : 'none';
+                                console.log(`Yearly price ${index} display:`, price.style.display);
+                                console.log(`Yearly price ${index} content:`, price.innerHTML);
+                                
+                                // Check if this price container has data attributes
+                                const container = price.closest('.pricing-container');
+                                if (container) {
+                                    console.log(`Container ${index} monthly price:`, container.getAttribute('data-monthly-price'));
+                                    console.log(`Container ${index} yearly price:`, container.getAttribute('data-yearly-price'));
+                                }
+                            });
+                            
+                            // Update subscription button URLs
+                            subscriptionButtons.forEach(button => {
+                                const planId = button.getAttribute('data-plan-id');
+                                if (planId) {
+                                    const billingPeriod = isYearly ? 'yearly' : 'monthly';
+                                    const baseUrl = `/subscription/select/${planId}`;
+                                    button.href = `${baseUrl}?billing_period=${billingPeriod}`;
+                                }
+                            });
+                        }
+                        
+                        if (billingToggle) {
+                            billingToggle.addEventListener('change', updatePricing);
+                            updatePricing(); // Initialize
+                        }
+                    });
+                </script>
             </t>
         </template>
 
@@ -317,6 +429,7 @@
                         <tr class="active">
                             <th>Subscription</th>
                             <th>Plan</th>
+                            <th>Billing Period</th>
                             <th>Status</th>
                             <th>Start Date</th>
                             <th>End Date</th>
@@ -340,6 +453,9 @@
                                     <t t-elif="subscription.plan_type == 'try_out'">
                                         <span class="badge bg-warning ms-1">Trial</span>
                                     </t>
+                                </td>
+                                <td>
+                                    <span t-field="subscription.billing_period" class="text-capitalize"/>
                                 </td>
                                 <td>
                                     <span t-att-class="'badge ' + ('bg-success' if subscription.state == 'active' else 'bg-secondary')" t-field="subscription.state"/>
@@ -387,10 +503,16 @@
                                         <!-- Pricing Section -->
                                         <div class="pricing-section">
                                             <div class="price-display">
-                                                <span class="currency">$</span><span t-esc="plan.price" />
+                                                <span class="currency">$</span><span t-esc="actual_price" />
                                             </div>
-                                            <div class="price-period">per month</div>
-                                            <div class="billing-type">Monthly</div>
+                                            <div class="price-period">
+                                                <t t-if="billing_period == 'yearly'">per year</t>
+                                                <t t-else="">per month</t>
+                                            </div>
+                                            <div class="billing-type">
+                                                <t t-if="billing_period == 'yearly'">Yearly</t>
+                                                <t t-else="">Monthly</t>
+                                            </div>
                                         </div>
 
                                         <!-- Features Section -->
@@ -414,7 +536,7 @@
                                         <div class="price-breakdown">
                                             <div class="price-row">
                                                 <span>Subtotal:</span>
-                                                <span>$<span t-esc="plan.price" /></span>
+                                                <span>$<span t-esc="actual_price" /></span>
                                             </div>
                                             <div class="price-row">
                                                 <span>Tax:</span>
@@ -422,7 +544,7 @@
                                             </div>
                                             <div class="price-row total">
                                                 <span>Total:</span>
-                                                <span class="amount">$<span t-esc="plan.price" /></span>
+                                                <span class="amount">$<span t-esc="actual_price" /></span>
                                             </div>
                                         </div>
                                     </div>
@@ -491,7 +613,7 @@
                                             <!-- Submit Button -->
                                             <button type="submit" id="submit-payment" class="submit-payment-btn">
                                                 <span id="button-text">
-                                                    <i class="fa fa-lock"></i> Pay $<span t-esc="plan.price" /> Securely
+                                                    <i class="fa fa-lock"></i> Pay $<span t-esc="actual_price" /> Securely
                                                 </span>
                                                 <span id="spinner" class="spinner-border" style="display: none;"></span>
                                             </button>
@@ -513,6 +635,8 @@
                 <input type="hidden" id="stripe-publishable-key"
                     t-att-value="stripe_publishable_key" />
                 <input type="hidden" id="plan-id" t-att-value="plan.id" />
+                <input type="hidden" id="billing-period" t-att-value="billing_period" />
+                <input type="hidden" id="actual-price" t-att-value="actual_price" />
 
                 <!-- Stripe JS Library -->
                 <script src="https://js.stripe.com/v3/"></script>

@@ -11,11 +11,13 @@
                 <field name="user_id"/>
                 <field name="plan_id"/>
                 <field name="plan_type"/>
+                <field name="billing_period"/>
                 <field name="state" decoration-success="state == 'active'" decoration-muted="state == 'expired'"/>
                 <field name="start_date"/>
                 <field name="end_date"/>
                 <field name="duration_months" string="Duration (Months)"/>
                 <field name="payment_status" decoration-success="payment_status == 'paid'"/>
+                <field name="actual_price" widget="monetary" string="Price Paid"/>
                 <field name="amount_paid" widget="monetary"/>
                 <field name="currency_id" invisible="1"/>
             </tree>
@@ -43,6 +45,7 @@
                             <field name="user_id"/>
                             <field name="plan_id"/>
                             <field name="plan_type"/>
+                            <field name="billing_period"/>
                             <field name="is_trial"/>
                         </group>
                         <group name="dates">
@@ -57,6 +60,7 @@
                         <group>
                             <field name="payment_status"/>
                             <field name="currency_id" invisible="1"/>
+                            <field name="actual_price" widget="monetary" string="Price for Period"/>
                             <field name="amount_paid" widget="monetary"/>
                         </group>
                     </group>
@@ -88,9 +92,13 @@
                 <filter string="Premium" name="premium" domain="[('plan_type', '=', 'premium')]"/>
                 <filter string="Free" name="free" domain="[('plan_type', '=', 'free')]"/>
                 <separator/>
+                <filter string="Monthly" name="monthly" domain="[('billing_period', '=', 'monthly')]"/>
+                <filter string="Yearly" name="yearly" domain="[('billing_period', '=', 'yearly')]"/>
+                <separator/>
                 <group expand="0" string="Group By">
                     <filter string="Plan" name="group_plan" context="{'group_by': 'plan_id'}"/>
                     <filter string="Plan Type" name="group_plan_type" context="{'group_by': 'plan_type'}"/>
+                    <filter string="Billing Period" name="group_billing" context="{'group_by': 'billing_period'}"/>
                     <filter string="State" name="group_state" context="{'group_by': 'state'}"/>
                     <filter string="Payment Status" name="group_payment" context="{'group_by': 'payment_status'}"/>
                 </group>
@@ -114,5 +122,15 @@
             </p>
         </field>
     </record>
+
+    <!-- Server Action to Fix Billing Periods -->
+        <record id="action_fix_billing_periods" model="ir.actions.server">
+            <field name="name">Fix Subscription Billing Periods</field>
+            <field name="model_id" ref="model_user_subscription"/>
+            <field name="state">code</field>
+            <field name="code">
+result = model.fix_existing_subscriptions_billing_period()
+            </field>
+        </record>
 
 </odoo>

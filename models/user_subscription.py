@@ -26,6 +26,14 @@ class UserSubscription(models.Model):
     duration_months = fields.Integer(string='Duration (Months)', default=1, help='Subscription duration in months')
     is_trial = fields.Boolean(string='Is Trial', default=False)
     
+    # Billing Information
+    billing_period = fields.Selection([
+        ('monthly', 'Monthly'),
+        ('yearly', 'Yearly')
+    ], string='Billing Period', default='monthly', help='Billing period for this subscription')
+    actual_price = fields.Float(string='Actual Price Paid', digits='Product Price', 
+                               help='The actual price paid for this subscription period')
+    
     # Payment Information (for future integration)
     payment_status = fields.Selection([
         ('pending', 'Pending'),
@@ -80,7 +88,7 @@ class UserSubscription(models.Model):
         return subscription
     
     @api.model
-    def create_subscription(self, user_id, plan_id, payment_success=False):
+    def create_subscription(self, user_id, plan_id, payment_success=False, billing_period='monthly'):
         """Create a new subscription for a user"""
         plan = self.env['subscription.plan'].browse(plan_id)
         
@@ -119,18 +127,30 @@ class UserSubscription(models.Model):
             'plan_id': plan_id,
             'state': 'active',
             'start_date': fields.Datetime.now(),
+            'billing_period': billing_period,
         }
         
         # Set payment status based on plan type
         if plan.plan_type == 'premium':
             vals['payment_status'] = 'paid' if payment_success else 'pending'
-            vals['amount_paid'] = plan.price if payment_success else 0
-            vals['duration_months'] = 1  # Default to 1 month
-            # Set end date for premium plans (1 month from now)
-            vals['end_date'] = fields.Datetime.now() + timedelta(days=30)
+            
+            # Calculate price and duration based on billing period
+            if billing_period == 'yearly':
+                vals['actual_price'] = plan.yearly_price if plan.yearly_price > 0 else (plan.price * 12)
+                vals['amount_paid'] = vals['actual_price'] if payment_success else 0
+                vals['duration_months'] = 12
+                # Set end date for yearly plans (12 months from now)
+                vals['end_date'] = fields.Datetime.now() + timedelta(days=365)
+            else:  # monthly
+                vals['actual_price'] = plan.price
+                vals['amount_paid'] = plan.price if payment_success else 0
+                vals['duration_months'] = 1
+                # Set end date for monthly plans (1 month from now)
+                vals['end_date'] = fields.Datetime.now() + timedelta(days=30)
         else:
             vals['payment_status'] = 'paid'  # Free plans are always "paid"
             vals['amount_paid'] = 0
+            vals['actual_price'] = 0
             vals['duration_months'] = 0  # Free plans don't expire
         
         return self.create(vals)
@@ -143,9 +163,13 @@ class UserSubscription(models.Model):
         
         # Set end date based on duration for premium plans
         if self.plan_id.plan_type == 'premium':
-            # Calculate end date based on duration_months (default 1 month = 30 days)
-            days_to_add = self.duration_months * 30
-            self.end_date = fields.Datetime.now() + timedelta(days=days_to_add)
+            # Calculate end date based on billing period
+            if self.billing_period == 'yearly':
+                self.end_date = fields.Datetime.now() + timedelta(days=365)
+                self.duration_months = 12
+            else:  # monthly
+                self.end_date = fields.Datetime.now() + timedelta(days=30)
+                self.duration_months = 1
     
     def can_create_private_deck(self):
         """Check if user can create another private deck"""
@@ -193,6 +217,45 @@ class UserSubscription(models.Model):
             pass
         
         return len(expired_subscriptions)
+    
+    @api.model
+    def fix_existing_subscriptions_billing_period(self):
+        """Fix existing subscriptions that should be yearly based on amount paid"""
+        # Find subscriptions where the amount paid suggests yearly billing
+        subscriptions = self.search([
+            ('plan_id.plan_type', '=', 'premium'),
+            ('billing_period', '=', 'monthly'),  # Currently set as monthly
+            ('state', '=', 'active')
+        ])
+        
+        fixed_count = 0
+        for subscription in subscriptions:
+            plan = subscription.plan_id
+            
+            # Check if amount paid suggests yearly billing
+            should_be_yearly = False
+            
+            # If amount paid is >= 1000, assume it's yearly (covers custom pricing)
+            if subscription.amount_paid >= 1000:
+                should_be_yearly = True
+            # Or if amount paid is closer to yearly price than monthly price
+            elif plan.yearly_price > 0 and subscription.amount_paid > 0:
+                yearly_diff = abs(subscription.amount_paid - plan.yearly_price)
+                monthly_diff = abs(subscription.amount_paid - plan.price)
+                if yearly_diff < monthly_diff:
+                    should_be_yearly = True
+            
+            if should_be_yearly:
+                # This should be a yearly subscription
+                subscription.write({
+                    'billing_period': 'yearly',
+                    'actual_price': subscription.amount_paid,  # Keep the actual amount paid
+                    'duration_months': 12,
+                    'end_date': subscription.start_date + timedelta(days=365) if subscription.start_date else fields.Datetime.now() + timedelta(days=365)
+                })
+                fixed_count += 1
+                    
+        return fixed_count
 
 
 class ResUsers(models.Model):

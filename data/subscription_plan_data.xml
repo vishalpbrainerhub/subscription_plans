@@ -124,6 +124,7 @@
             <field name="short_description">Unlimited access + AI features</field>
             <field name="description">Unlock the full potential with unlimited decks, AI-generated content, and exclusive premium features!</field>
             <field name="price">29.99</field>
+            <field name="yearly_price">299.99</field>
             <field name="max_private_decks">0</field>
             <field name="max_cards_per_deck">0</field>
             <field name="can_create_decks">True</field>

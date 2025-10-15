@@ -64,7 +64,7 @@ class SubscriptionController(http.Controller):
         return request.render('subscription_plans.subscription_plans_page', values)
 
     @http.route('/subscription/select/<int:plan_id>', type='http', auth='public', website=True)
-    def select_plan(self, plan_id, **kwargs):
+    def select_plan(self, plan_id, billing_period='monthly', **kwargs):
         """Handle plan selection"""
         plan = request.env['subscription.plan'].sudo().browse(plan_id)
         
@@ -79,20 +79,22 @@ class SubscriptionController(http.Controller):
         
         # For other plans, check if user is logged in
         if not request.env.user or request.env.user._is_public():
+            # Store billing period in session for after registration
+            request.session['selected_billing_period'] = billing_period
             # Redirect to custom signup route with reCAPTCHA v2
             return request.redirect(f'/subscription/signup/{plan_id}')
         
         # User is logged in, proceed with plan selection
-        return self._process_plan_selection(plan)
+        return self._process_plan_selection(plan, billing_period)
 
-    def _process_plan_selection(self, plan):
+    def _process_plan_selection(self, plan, billing_period='monthly'):
         """Process the plan selection for logged in users"""
         user = request.env.user
         
         if plan.plan_type == 'free':
             # Create free subscription immediately
             subscription = request.env['user.subscription'].sudo().create_subscription(
-                user.id, plan.id, payment_success=True
+                user.id, plan.id, payment_success=True, billing_period=billing_period
             )
             
             # Check if this is an existing subscription (duplicate prevention)
@@ -112,13 +114,13 @@ class SubscriptionController(http.Controller):
             return request.redirect('/subscription/error?plan=free')
             
         elif plan.plan_type == 'premium':
-            # Redirect to payment page (simulate payment for now)
-            return request.redirect(f'/subscription/payment/{plan.id}')
+            # Redirect to payment page with billing period
+            return request.redirect(f'/subscription/payment/{plan.id}?billing_period={billing_period}')
         
         return request.redirect('/subscription/plans')
 
     @http.route('/subscription/payment/<int:plan_id>', type='http', auth='user', website=True)
-    def payment_page(self, plan_id, **kwargs):
+    def payment_page(self, plan_id, billing_period='monthly', **kwargs):
         """Display Stripe payment page for premium plans"""
         plan = request.env['subscription.plan'].sudo().browse(plan_id)
         
@@ -131,11 +133,20 @@ class SubscriptionController(http.Controller):
         except UserError as e:
             return request.render('subscription_plans.stripe_config_error', {
                 'error_message': str(e),
-                'plan': plan
+                'plan': plan,
+                'billing_period': billing_period
             })
+        
+        # Calculate the actual price based on billing period
+        if billing_period == 'yearly':
+            actual_price = plan.yearly_price if plan.yearly_price > 0 else (plan.price * 12)
+        else:
+            actual_price = plan.price
         
         values = {
             'plan': plan,
+            'billing_period': billing_period,
+            'actual_price': actual_price,
             'page_name': 'payment',
             'stripe_publishable_key': stripe_config['publishable_key'],
             'test_mode': stripe_config['test_mode']
@@ -144,7 +155,7 @@ class SubscriptionController(http.Controller):
         return request.render('subscription_plans.stripe_payment_page', values)
 
     @http.route('/subscription/payment/create-intent', type='json', auth='user', methods=['POST'])
-    def create_payment_intent(self, plan_id, **kwargs):
+    def create_payment_intent(self, plan_id, billing_period='monthly', **kwargs):
         """Create Stripe Payment Intent"""
         try:
             plan = request.env['subscription.plan'].sudo().browse(int(plan_id))
@@ -153,9 +164,15 @@ class SubscriptionController(http.Controller):
             if not plan.exists() or plan.plan_type != 'premium':
                 return {'error': 'Invalid plan'}
             
+            # Calculate the actual price based on billing period
+            if billing_period == 'yearly':
+                actual_price = plan.yearly_price if plan.yearly_price > 0 else (plan.price * 12)
+            else:
+                actual_price = plan.price
+            
             # Create payment intent
             result = request.env['stripe.payment'].sudo().create_payment_intent(
-                user.id, plan.id, plan.price
+                user.id, plan.id, actual_price, billing_period=billing_period
             )
             
             return {
@@ -284,16 +301,18 @@ class SubscriptionController(http.Controller):
         """Activate plan after user registration"""
         plan_id = request.session.get('selected_plan_id')
         plan_name = request.session.get('selected_plan_name', 'your selected plan')
+        billing_period = request.session.get('selected_billing_period', 'monthly')
         
         if plan_id:
             # Clear the session variables
             request.session.pop('selected_plan_id', None)
             request.session.pop('selected_plan_name', None)
+            request.session.pop('selected_billing_period', None)
             
             # Get the plan and process selection
             plan = request.env['subscription.plan'].sudo().browse(int(plan_id))
             if plan.exists():
-                return self._process_plan_selection(plan)
+                return self._process_plan_selection(plan, billing_period)
         
         # If no plan in session, show message and redirect to plans page
         return request.render('subscription_plans.activation_message', {

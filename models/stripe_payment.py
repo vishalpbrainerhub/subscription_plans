@@ -27,6 +27,10 @@ class StripePayment(models.Model):
     amount = fields.Float(string='Amount', digits='Product Price', required=True)
     currency_id = fields.Many2one('res.currency', string='Currency', 
                                   default=lambda self: self.env.company.currency_id)
+    billing_period = fields.Selection([
+        ('monthly', 'Monthly'),
+        ('yearly', 'Yearly')
+    ], string='Billing Period', default='monthly')
     
     # Status
     state = fields.Selection([
@@ -72,7 +76,7 @@ class StripePayment(models.Model):
         }
     
     @api.model
-    def create_payment_intent(self, user_id, plan_id, amount):
+    def create_payment_intent(self, user_id, plan_id, amount, billing_period='monthly'):
         """Create a Stripe Payment Intent"""
         config = self.get_stripe_config()
         stripe.api_key = config['secret_key']
@@ -93,6 +97,7 @@ class StripePayment(models.Model):
                     'user_id': user_id,
                     'plan_id': plan_id,
                     'plan_name': plan.name,
+                    'billing_period': billing_period,
                     'odoo_env': self.env.cr.dbname
                 },
                 automatic_payment_methods={
@@ -107,6 +112,7 @@ class StripePayment(models.Model):
                 'stripe_payment_intent_id': intent.id,
                 'stripe_customer_id': customer.id,
                 'amount': amount,
+                'billing_period': billing_period,
                 'state': 'processing',
                 'stripe_metadata': str(intent.metadata)
             })
@@ -160,7 +166,8 @@ class StripePayment(models.Model):
             subscription = self.env['user.subscription'].sudo().create_subscription(
                 self.user_id.id, 
                 self.plan_id.id, 
-                payment_success=True
+                payment_success=True,
+                billing_period=self.billing_period
             )
             self.subscription_id = subscription.id
         
@@ -168,7 +175,8 @@ class StripePayment(models.Model):
         self.subscription_id.activate_subscription()
         self.subscription_id.write({
             'payment_status': 'paid',
-            'amount_paid': self.amount
+            'amount_paid': self.amount,
+            'actual_price': self.amount  # Ensure actual_price matches amount paid
         })
         
         return True

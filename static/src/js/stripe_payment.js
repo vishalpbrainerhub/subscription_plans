@@ -358,9 +358,11 @@ function initializeStripePayment() {
         if (spinner) spinner.style.display = 'inline-block';
         
         try {
-            // Get plan ID
+            // Get plan ID and billing period
             const currentPlanId = document.getElementById('plan-id').value;
+            const billingPeriod = document.getElementById('billing-period').value || 'monthly';
             console.log('Processing payment for plan ID:', currentPlanId);
+            console.log('Billing period:', billingPeriod);
             
             if (!currentPlanId) {
                 throw new Error('Plan ID not found');
@@ -369,7 +371,7 @@ function initializeStripePayment() {
             // Create payment intent
             console.log('Creating payment intent...');
             showPaymentStatus('processing', 'Creating payment session...');
-            const intentResponse = await createPaymentIntent(currentPlanId);
+            const intentResponse = await createPaymentIntent(currentPlanId, billingPeriod);
             console.log('Payment intent response:', intentResponse);
             
             if (intentResponse.error) {
@@ -543,16 +545,18 @@ function getBillingDetails() {
     };
 }
 
-async function createPaymentIntent(planId) {
+async function createPaymentIntent(planId, billingPeriod = 'monthly') {
     console.log('=== CREATE PAYMENT INTENT ===');
     console.log('Plan ID:', planId);
+    console.log('Billing Period:', billingPeriod);
     
     try {
         const requestBody = {
             jsonrpc: "2.0",
             method: "call",
             params: {
-                plan_id: planId
+                plan_id: planId,
+                billing_period: billingPeriod
             }
         };
         

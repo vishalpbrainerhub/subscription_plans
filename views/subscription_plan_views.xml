@@ -11,6 +11,7 @@
                 <field name="name"/>
                 <field name="plan_type"/>
                 <field name="price" widget="monetary" string="Monthly Price"/>
+                <field name="yearly_price" widget="monetary" string="Yearly Price"/>
                 <field name="billing_period"/>
                 <field name="currency_id" invisible="1"/>
                 <field name="max_private_decks"/>

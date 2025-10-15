@@ -58,6 +58,7 @@
         'data/subscription_plan_data.xml',
         'data/recaptcha_data.xml',
         'data/cron_jobs.xml',
+        'data/fix_subscription_data.xml',
         'views/subscription_plan_views.xml',
         'views/user_subscription_views.xml',
         'views/subscription_menu.xml',
