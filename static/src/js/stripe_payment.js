@@ -358,11 +358,41 @@ function initializeStripePayment() {
         if (spinner) spinner.style.display = 'inline-block';
         
         try {
-            // Get plan ID and billing period
-            const currentPlanId = document.getElementById('plan-id').value;
-            const billingPeriod = document.getElementById('billing-period').value || 'monthly';
-            console.log('Processing payment for plan ID:', currentPlanId);
-            console.log('Billing period:', billingPeriod);
+            // Get plan ID and billing period from ODOO global variables (MOST RELIABLE)
+            let currentPlanId = window.ODOO_PLAN_ID || document.getElementById('plan-id').value;
+            let billingPeriod = 'monthly'; // default fallback
+            
+            // 1. PRIORITY: Try ODOO global variable (set INLINE in template)
+            if (window.ODOO_BILLING_PERIOD) {
+                billingPeriod = window.ODOO_BILLING_PERIOD;
+                console.log('✅ Using billing_period from window.ODOO_BILLING_PERIOD:', billingPeriod);
+            }
+            // 2. Try form data attribute
+            else {
+                const form = document.getElementById('payment-form');
+                if (form && form.dataset.billingPeriod) {
+                    billingPeriod = form.dataset.billingPeriod;
+                    console.log('✅ Using billing_period from form data-billing-period:', billingPeriod);
+                }
+                // 3. Try hidden input element
+                else {
+                    const billingPeriodElement = document.getElementById('billing-period');
+                    if (billingPeriodElement && billingPeriodElement.value) {
+                        billingPeriod = billingPeriodElement.value;
+                        console.log('✅ Using billing_period from hidden input:', billingPeriod);
+                    }
+                    // 4. Default to monthly
+                    else {
+                        console.warn('⚠️ No billing_period found, defaulting to monthly');
+                    }
+                }
+            }
+            
+            console.log('🔍 DEBUG: window.ODOO_BILLING_PERIOD:', window.ODOO_BILLING_PERIOD);
+            console.log('🔍 DEBUG: window.ODOO_ACTUAL_PRICE:', window.ODOO_ACTUAL_PRICE);
+            console.log('🔍 DEBUG: window.ODOO_PLAN_ID:', window.ODOO_PLAN_ID);
+            console.log('🎯 FINAL: Processing payment for plan ID:', currentPlanId);
+            console.log('🎯 FINAL: Billing period:', billingPeriod);
             
             if (!currentPlanId) {
                 throw new Error('Plan ID not found');

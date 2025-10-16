@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
+import logging
 from odoo import models, fields, api
 from datetime import datetime, timedelta
+
+_logger = logging.getLogger(__name__)
 
 
 class UserSubscription(models.Model):
@@ -91,6 +94,9 @@ class UserSubscription(models.Model):
     def create_subscription(self, user_id, plan_id, payment_success=False, billing_period='monthly'):
         """Create a new subscription for a user"""
         plan = self.env['subscription.plan'].browse(plan_id)
+        user = self.env['res.users'].browse(user_id)
+        
+        _logger.info(f"🔄 CREATING SUBSCRIPTION: {user.name} -> {plan.name} ({billing_period}) - Payment: {payment_success}")
         
         # Check for existing active subscription with the same plan
         existing_same_plan = self.search([
@@ -101,6 +107,7 @@ class UserSubscription(models.Model):
         
         # If user already has the same plan active, return existing subscription
         if existing_same_plan:
+            _logger.info(f"♻️ EXISTING SUBSCRIPTION: {user.name} already has {plan.name} - returning existing")
             return existing_same_plan
         
         # Check for existing active subscription with the same plan type (prevent duplicates)
@@ -119,7 +126,9 @@ class UserSubscription(models.Model):
             ('user_id', '=', user_id),
             ('state', '=', 'active')
         ])
-        existing_subscriptions.write({'state': 'expired'})
+        if existing_subscriptions:
+            _logger.info(f"🔄 DEACTIVATING OLD SUBSCRIPTIONS: {len(existing_subscriptions)} for {user.name}")
+            existing_subscriptions.write({'state': 'expired'})
         
         # Create new subscription
         vals = {
@@ -153,7 +162,10 @@ class UserSubscription(models.Model):
             vals['actual_price'] = 0
             vals['duration_months'] = 0  # Free plans don't expire
         
-        return self.create(vals)
+        new_subscription = self.create(vals)
+        _logger.info(f"✨ NEW SUBSCRIPTION CREATED: ID={new_subscription.id}, {user.name} -> {plan.name} (${vals.get('amount_paid', 0)} {billing_period})")
+        
+        return new_subscription
     
     def activate_subscription(self):
         """Activate the subscription"""
@@ -167,7 +179,7 @@ class UserSubscription(models.Model):
             if self.billing_period == 'yearly':
                 self.end_date = fields.Datetime.now() + timedelta(days=365)
                 self.duration_months = 12
-            else:  # monthly
+            else:  # monthly (default)
                 self.end_date = fields.Datetime.now() + timedelta(days=30)
                 self.duration_months = 1
     
@@ -228,6 +240,8 @@ class UserSubscription(models.Model):
             ('state', '=', 'active')
         ])
         
+        _logger.info(f"Found {len(subscriptions)} premium subscriptions with monthly billing to check")
+        
         fixed_count = 0
         for subscription in subscriptions:
             plan = subscription.plan_id
@@ -238,15 +252,18 @@ class UserSubscription(models.Model):
             # If amount paid is >= 1000, assume it's yearly (covers custom pricing)
             if subscription.amount_paid >= 1000:
                 should_be_yearly = True
+                _logger.info(f"Subscription {subscription.id}: amount_paid {subscription.amount_paid} >= 1000, marking as yearly")
             # Or if amount paid is closer to yearly price than monthly price
             elif plan.yearly_price > 0 and subscription.amount_paid > 0:
                 yearly_diff = abs(subscription.amount_paid - plan.yearly_price)
                 monthly_diff = abs(subscription.amount_paid - plan.price)
                 if yearly_diff < monthly_diff:
                     should_be_yearly = True
+                    _logger.info(f"Subscription {subscription.id}: amount_paid {subscription.amount_paid} closer to yearly {plan.yearly_price} than monthly {plan.price}")
             
             if should_be_yearly:
                 # This should be a yearly subscription
+                _logger.info(f"Fixing subscription {subscription.id} for user {subscription.user_id.name}")
                 subscription.write({
                     'billing_period': 'yearly',
                     'actual_price': subscription.amount_paid,  # Keep the actual amount paid
@@ -254,7 +271,8 @@ class UserSubscription(models.Model):
                     'end_date': subscription.start_date + timedelta(days=365) if subscription.start_date else fields.Datetime.now() + timedelta(days=365)
                 })
                 fixed_count += 1
-                    
+        
+        _logger.info(f"Fixed {fixed_count} subscriptions")        
         return fixed_count
 
 

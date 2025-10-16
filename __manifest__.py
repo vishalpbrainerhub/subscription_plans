@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Subscription Plans',
-    'version': '16.0.1.0.0',
+    'version': '16.0.1.0.2',
     'category': 'Website',
     'summary': 'Enhanced subscription plans management with comparison features and dedicated website page',
     'description': """

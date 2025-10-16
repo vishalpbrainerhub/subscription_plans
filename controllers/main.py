@@ -71,10 +71,13 @@ class SubscriptionController(http.Controller):
         if not plan.exists():
             return request.not_found()
         
+        _logger.info(f"🎯 PLAN SELECTED: {plan.name} ({billing_period}) by user: {request.env.user.name if not request.env.user._is_public() else 'Anonymous'}")
+        
         # Handle Try Out plan (no registration required)
         if plan.plan_type == 'try_out':
             # Set session variable for try out mode
             request.session['try_out_mode'] = True
+            _logger.info(f"🆓 TRY OUT MODE: User accessing try out plan")
             return request.redirect('/decks')
         
         # For other plans, check if user is logged in
@@ -127,6 +130,8 @@ class SubscriptionController(http.Controller):
         if not plan.exists() or plan.plan_type != 'premium':
             return request.not_found()
         
+        _logger.info(f"💰 PAYMENT PAGE: {request.env.user.name} accessing payment for {plan.name} - billing_period={billing_period}")
+        
         # Check if Stripe is configured
         try:
             stripe_config = request.env['stripe.payment'].sudo().get_stripe_config()
@@ -143,6 +148,8 @@ class SubscriptionController(http.Controller):
         else:
             actual_price = plan.price
         
+        _logger.info(f"💰 PAYMENT CALCULATION: {plan.name} - {billing_period} = ${actual_price}")
+        
         values = {
             'plan': plan,
             'billing_period': billing_period,
@@ -152,11 +159,15 @@ class SubscriptionController(http.Controller):
             'test_mode': stripe_config['test_mode']
         }
         
+        _logger.info(f"💰 TEMPLATE VALUES: billing_period={billing_period}, actual_price={actual_price}")
+        
         return request.render('subscription_plans.stripe_payment_page', values)
 
     @http.route('/subscription/payment/create-intent', type='json', auth='user', methods=['POST'])
     def create_payment_intent(self, plan_id, billing_period='monthly', **kwargs):
         """Create Stripe Payment Intent"""
+        _logger.info(f"🔧 CREATE INTENT REQUEST: plan_id={plan_id}, billing_period={billing_period}, kwargs={kwargs}")
+        
         try:
             plan = request.env['subscription.plan'].sudo().browse(int(plan_id))
             user = request.env.user
@@ -169,6 +180,8 @@ class SubscriptionController(http.Controller):
                 actual_price = plan.yearly_price if plan.yearly_price > 0 else (plan.price * 12)
             else:
                 actual_price = plan.price
+            
+            _logger.info(f"🔧 INTENT CALCULATION: {plan.name} {billing_period} = ${actual_price}")
             
             # Create payment intent
             result = request.env['stripe.payment'].sudo().create_payment_intent(

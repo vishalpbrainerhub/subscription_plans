@@ -562,7 +562,7 @@
                                         <div id="payment-status" class="payment-status" style="display: none;"></div>
 
                                         <!-- Payment Form -->
-                                        <form id="payment-form" class="payment-form" onsubmit="return false;">
+                                        <form id="payment-form" class="payment-form" onsubmit="return false;" t-att-data-billing-period="billing_period" t-att-data-actual-price="actual_price">
                                             <!-- Cardholder Name -->
                                             <div class="form-group">
                                                 <label for="cardholder-name" class="form-label">Cardholder Name *</label>
@@ -638,11 +638,16 @@
                 <input type="hidden" id="billing-period" t-att-value="billing_period" />
                 <input type="hidden" id="actual-price" t-att-value="actual_price" />
 
+                <!-- Set billing period BEFORE any scripts load -->
+                <script type="text/javascript">
+                    window.ODOO_BILLING_PERIOD = '<t t-esc="billing_period"/>';
+                    window.ODOO_ACTUAL_PRICE = <t t-esc="actual_price"/>;
+                    window.ODOO_PLAN_ID = <t t-esc="plan.id"/>;
+                    console.log('✅ ODOO VARIABLES SET: billing_period =', window.ODOO_BILLING_PERIOD, 'price =', window.ODOO_ACTUAL_PRICE);
+                </script>
+                
                 <!-- Stripe JS Library -->
                 <script src="https://js.stripe.com/v3/"></script>
-                <!-- Custom Stripe Payment Script -->
-                <script type="text/javascript"
-                    src="/subscription_plans/static/src/js/stripe_payment.js"></script>
             </t>
         </template>
 

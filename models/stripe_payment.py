@@ -84,6 +84,8 @@ class StripePayment(models.Model):
         user = self.env['res.users'].browse(user_id)
         plan = self.env['subscription.plan'].browse(plan_id)
         
+        _logger.info(f"🛒 USER PURCHASE: {user.name} ({user.email}) buying {plan.name} - ${amount} {billing_period}")
+        
         try:
             # Create or get Stripe customer
             customer = self._get_or_create_stripe_customer(user, config)
@@ -116,6 +118,8 @@ class StripePayment(models.Model):
                 'state': 'processing',
                 'stripe_metadata': str(intent.metadata)
             })
+            
+            _logger.info(f"💳 PAYMENT INTENT CREATED: ID={intent.id}, Amount=${amount}, Period={billing_period}")
             
             return {
                 'payment_id': payment.id,
@@ -161,6 +165,8 @@ class StripePayment(models.Model):
         if self.state != 'succeeded':
             raise UserError(_("Cannot confirm payment that is not successful"))
         
+        _logger.info(f"✅ PAYMENT SUCCESS: {self.user_id.name} paid ${self.amount} for {self.plan_id.name} ({self.billing_period})")
+        
         # Create or update subscription
         if not self.subscription_id:
             subscription = self.env['user.subscription'].sudo().create_subscription(
@@ -170,14 +176,18 @@ class StripePayment(models.Model):
                 billing_period=self.billing_period
             )
             self.subscription_id = subscription.id
+            _logger.info(f"📋 SUBSCRIPTION CREATED: ID={subscription.id} for {self.user_id.name}")
         
-        # Activate subscription
+        # Activate subscription and update with payment details
         self.subscription_id.activate_subscription()
         self.subscription_id.write({
             'payment_status': 'paid',
             'amount_paid': self.amount,
-            'actual_price': self.amount  # Ensure actual_price matches amount paid
+            'actual_price': self.amount,  # Ensure actual_price matches amount paid
+            'billing_period': self.billing_period  # Ensure billing_period is correctly set
         })
+        
+        _logger.info(f"🎯 SUBSCRIPTION ACTIVATED: {self.user_id.name} - {self.plan_id.name} - ${self.amount} {self.billing_period}")
         
         return True
     
@@ -200,6 +210,7 @@ class StripePayment(models.Model):
                 'payment_date': fields.Datetime.now(),
                 'stripe_payment_method_id': payment_intent.get('payment_method')
             })
+            # confirm_payment will now properly set billing_period
             payment.confirm_payment()
             
         elif event_type == 'payment_intent.payment_failed':
