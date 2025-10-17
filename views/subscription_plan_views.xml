@@ -13,7 +13,7 @@
                 <field name="price" widget="monetary" string="Monthly Price"/>
                 <field name="yearly_price" widget="monetary" string="Yearly Price"/>
                 <field name="billing_period"/>
-                <field name="currency_id" invisible="1"/>
+                <field name="currency_id"/>
                 <field name="max_private_decks"/>
                 <field name="max_cards_per_deck"/>
                 <field name="is_active"/>
@@ -55,7 +55,7 @@
                             <field name="is_popular"/>
                         </group>
                         <group name="pricing">
-                            <field name="currency_id" invisible="1"/>
+                            <field name="currency_id" domain="[('name', 'in', ['EUR', 'USD'])]" options="{'no_create': True, 'no_edit': True}"/>
                             <field name="price" widget="monetary" string="Monthly Price"/>
                             <field name="yearly_price" widget="monetary"/>
                             <field name="billing_period"/>

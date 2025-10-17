@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Ensure EUR currency exists -->
+        <record id="base.EUR" model="res.currency">
+            <field name="name">EUR</field>
+            <field name="symbol">€</field>
+            <field name="position">after</field>
+            <field name="rounding">0.01</field>
+            <field name="active">True</field>
+        </record>
+        
+        <!-- Ensure USD currency exists -->
+        <record id="base.USD" model="res.currency">
+            <field name="name">USD</field>
+            <field name="symbol">$</field>
+            <field name="position">before</field>
+            <field name="rounding">0.01</field>
+            <field name="active">True</field>
+        </record>
+        
+    </data>
+</odoo>

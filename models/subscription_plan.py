@@ -31,7 +31,16 @@ class SubscriptionPlan(models.Model):
         ('yearly', 'Yearly')
     ], string='Billing Period', default='monthly', help='Default billing period for this plan')
     currency_id = fields.Many2one('res.currency', string='Currency', 
-                                  default=lambda self: self.env.company.currency_id)
+                                  default=lambda self: self._get_default_currency())
+    
+    @api.model
+    def _get_default_currency(self):
+        """Get default currency (EUR)"""
+        eur_currency = self.env['res.currency'].search([('name', '=', 'EUR')], limit=1)
+        if eur_currency:
+            return eur_currency
+        # Fallback to company currency if EUR not found
+        return self.env.company.currency_id
     
     # Features and Limitations
     max_private_decks = fields.Integer(string='Max Private Decks', default=0,

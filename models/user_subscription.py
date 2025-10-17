@@ -47,7 +47,16 @@ class UserSubscription(models.Model):
     
     amount_paid = fields.Float(string='Amount Paid', digits='Product Price')
     currency_id = fields.Many2one('res.currency', string='Currency',
-                                  default=lambda self: self.env.company.currency_id)
+                                  default=lambda self: self._get_default_currency())
+    
+    @api.model
+    def _get_default_currency(self):
+        """Get default currency (EUR)"""
+        eur_currency = self.env['res.currency'].search([('name', '=', 'EUR')], limit=1)
+        if eur_currency:
+            return eur_currency
+        # Fallback to company currency if EUR not found
+        return self.env.company.currency_id
     
     # Usage Tracking
     private_decks_count = fields.Integer(string='Private Decks Created', default=0)

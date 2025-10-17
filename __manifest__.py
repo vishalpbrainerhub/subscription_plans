@@ -55,6 +55,7 @@
     'data': [
         'security/ir.model.access.csv',
         'security/carddecks_access.xml',
+        'data/currency_data.xml',
         'data/subscription_plan_data.xml',
         'data/recaptcha_data.xml',
         'data/cron_jobs.xml',

@@ -1,0 +1,251 @@
+/* Simple and Normal CSS Styles */
+
+/* Reset complex animations and effects */
+* {
+    transition: none !important;
+    animation: none !important;
+}
+
+/* Simple button styles */
+.btn {
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-weight: normal;
+    transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Simple card styles */
+.card {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: 1px solid #dee2e6;
+}
+
+.card:hover {
+    transform: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Simple subscription cards */
+.subscription-card {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: 1px solid #dee2e6;
+    transition: box-shadow 0.2s ease;
+}
+
+.subscription-card:hover {
+    transform: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Simple buttons */
+.subscription-button {
+    background: #A2AA11;
+    border: 1px solid #A2AA11;
+    border-radius: 4px;
+    color: white;
+    font-weight: normal;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.subscription-button:hover {
+    background: #8a920f;
+    border-color: #8a920f;
+    color: white;
+    text-decoration: none;
+    transform: none;
+}
+
+/* Simple header */
+.subscription_page_header {
+    background: #A2AA11;
+    color: white;
+    padding: 40px 0;
+}
+
+.subscription_page_header h1 {
+    color: white;
+    font-weight: normal;
+    margin-bottom: 16px;
+}
+
+.subscription_page_header .lead {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
+}
+
+/* Simple badges */
+.badge {
+    border-radius: 4px;
+    font-size: 12px;
+    padding: 4px 8px;
+    font-weight: normal;
+}
+
+.bg-warning {
+    background-color: #ffc107 !important;
+    color: #212529 !important;
+}
+
+.bg-success {
+    background-color: #28a745 !important;
+    color: white !important;
+}
+
+.bg-info {
+    background-color: black !important;
+    color: white !important;
+}
+
+.bg-primary {
+    background-color: #007bff !important;
+    color: white !important;
+}
+
+/* Simple pricing display */
+.h3 {
+    font-size: 24px;
+    font-weight: normal;
+    margin-bottom: 16px;
+}
+
+/* Simple form elements */
+.form-control {
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    padding: 8px 12px;
+    font-size: 14px;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+/* Simple layout spacing */
+.mt-5 {
+    margin-top: 48px !important;
+}
+
+.mb-5 {
+    margin-bottom: 48px !important;
+}
+
+.py-5 {
+    padding-top: 48px !important;
+    padding-bottom: 48px !important;
+}
+
+/* Remove complex gradients */
+.premium-user-badge,
+.deck-type-premium,
+.deck-type-free,
+.deck-type-try-out {
+    background: #ffc107 !important;
+    color: #212529 !important;
+}
+
+.deck-type-free {
+    background: #28a745 !important;
+    color: white !important;
+}
+
+.deck-type-try-out {
+    background: #17a2b8 !important;
+    color: white !important;
+}
+
+/* Simple responsive design */
+@media (max-width: 768px) {
+    .subscription_page_header {
+        padding: 24px 0;
+        text-align: center;
+    }
+    
+    .subscription_page_header h1 {
+        font-size: 28px;
+    }
+    
+    .card {
+        margin-bottom: 16px;
+    }
+}
+
+/* Ensure no complex animations on hover */
+.subscription-plan-card,
+.deck-card,
+.testimonial-card {
+    transition: box-shadow 0.2s ease !important;
+}
+
+.subscription-plan-card:hover,
+.deck-card:hover,
+.testimonial-card:hover {
+    transform: none !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+}
+
+/* Simple text styles */
+.text-primary {
+    color: #007bff !important;
+}
+
+.text-success {
+    color: #28a745 !important;
+}
+
+.text-warning {
+    color: #ffc107 !important;
+}
+
+.text-muted {
+    color: #6c757d !important;
+}
+
+/* Simple container spacing */
+.container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Simple grid system */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+}
+
+.col-md-4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+    padding: 0 15px;
+}
+
+.col-md-8 {
+    flex: 0 0 66.666667%;
+    max-width: 66.666667%;
+    padding: 0 15px;
+}
+
+.col-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    padding: 0 15px;
+}
+
+@media (max-width: 768px) {
+    .col-md-4,
+    .col-md-8 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
