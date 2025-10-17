@@ -759,7 +759,7 @@
                                     </h1>
                                     <p class="lead mb-0">
                                         <t t-if="user._is_public()">
-                                            Browse our collection of card decks. <a href="/web/signup" class="text-warning">Sign up</a> for free to access more decks!
+                                            Browse our collection of card decks. <a href="/subscription" class="text-warning">Check out our plans</a> for more.
                                         </t>
                                         <t t-else="">
                                             Your subscription: <span t-esc="subscription_status"/> | Access Level: <span t-esc="plan_type.title()"/>
@@ -773,8 +773,8 @@
                                             <a href="/web/login" class="btn btn-outline-light">
                                                 <i class="fa fa-sign-in-alt me-1"></i>Sign In
                                             </a>
-                                            <a href="/web/signup" class="btn btn-dark">
-                                                <i class="fa fa-user-plus me-1"></i>Sign Up Free
+                                            <a href="/subscription" class="btn btn-dark">
+                                                <i class="fa fa-eye me-1"></i>View Plans
                                             </a>
                                         </div>
                                     </t>
@@ -870,7 +870,7 @@
                                                 </div>
                                                 
                                                 <div class="d-grid">
-                                                    <a class="btn btn-primary subscription-button" t-att-href="'/game/new?deck_id=%s' % deck.id">
+                                                    <a class="btn btn-primary subscription-button" t-att-href="'/deck/%s/play' % deck.id">
                                                         <i class="fa fa-play me-2"></i>Play Now
                                                     </a>
                                                 </div>
@@ -887,9 +887,9 @@
                                         <div class="subscription-card p-5">
                                             <h3 class="mb-3">No decks available</h3>
                                             <t t-if="user._is_public()">
-                                                <p class="lead mb-4">Sign up for free to access more decks!</p>
-                                                <a href="/web/signup" class="btn btn-primary subscription-button">
-                                                    <i class="fa fa-user-plus me-2"></i>Sign Up Free
+                                                <p class="lead mb-4">Check out our plans to access more decks!</p>
+                                                <a href="/subscription" class="btn btn-primary subscription-button">
+                                                    <i class="fa fa-eye me-2"></i>View Plans
                                                 </a>
                                             </t>
                                             <t t-else="">

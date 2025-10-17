@@ -282,7 +282,7 @@ class DeckController(http.Controller):
         deck.increment_play_count()
         
         # Redirect to game controller (assuming carddecks_game module has this)
-        return request.redirect('/game/deck/%s' % deck_id)
+        return request.redirect('/game/new?deck_id=%s' % deck_id)
 
 
 
