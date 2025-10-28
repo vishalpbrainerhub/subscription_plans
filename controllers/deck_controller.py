@@ -278,8 +278,12 @@ class DeckController(http.Controller):
                 # Show upgrade message for registered users
                 return request.redirect('/subscription?upgrade=true&deck_id=%s' % deck_id)
         
-        # Increment play count
-        deck.increment_play_count()
+        # Increment play count (use sudo to allow public users to increment)
+        try:
+            deck.sudo().increment_play_count()
+        except Exception as e:
+            # Log the error but don't block the user from playing
+            _logger.warning(f"Failed to increment play count for deck {deck_id}: {str(e)}")
         
         # Redirect to game controller (assuming carddecks_game module has this)
         return request.redirect('/game/new?deck_id=%s' % deck_id)
